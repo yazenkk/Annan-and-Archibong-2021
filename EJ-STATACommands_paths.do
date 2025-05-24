@@ -1,5 +1,4 @@
-*cd "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_"
-cd "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts"
+*cd "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts"
 
 ls
 set more off
@@ -18,7 +17,7 @@ keep if interviewn_result==1
 
 **bring in base GLSS7
 gen caseidX=caseidx
-merge m:1 caseidX using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/COVID ZERO STEP/Stata/select1396Final_sample.dta"
+merge m:1 caseidX using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/covid19 paper/DATA/COVID ZERO STEP/Stata/select1396Final_sample.dta"
 drop if _merge==2
 
 
@@ -456,13 +455,13 @@ tab end
 keep if interviewn_result==1
 
 **bring in Interventions - verify
-merge m:1 caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/MobileCredit40GHS_376list"
+merge m:1 caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list"
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/MobileCredit20GHS_371list_Wave1"
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -481,7 +480,7 @@ sum tmt_all tmt01 tmt02 tmt if round==3
 sum tmt_all tmt01 tmt02 tmt if round==4
 
 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/TrtList00" //bring in round 1 = base
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList00" //bring in round 1 = base
 bys caseidx round: keep if _n==1  
 drop _merge
 */
@@ -772,7 +771,7 @@ keep(Lumpsum Installment) swapnames ///
 level(90) xline(0, lp(dash) lw(vthin) lc(black)) ///
 mlabel format(%9.02f) mlabposition(12) mlabgap(*4.5) mlabsize(tiny) ciopts(lwidth(*25) lcolor(*.6))
 coeflabels(tmt01="Trt program: lumpsum" tmt02="Trt program: installment")
-*gr export /Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results/_metateffects_outcomes.eps, replace
+*gr export /Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results/_metateffects_outcomes.eps, replace
 
 	coefplot ///
 	(threatenPartner1_meta, aseq(threatened partner: 1-4) ///
@@ -1711,12 +1710,12 @@ use "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/DA
 '/impact_covid_roundFINAL.dta'
 gen round=2
 tab round
-merge m:1 caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
+merge m:1 caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -1737,7 +1736,7 @@ replace tmt=2 if tmt02==1
 sum tmt_all tmt_all2 tmt01 tmt02 tmt
 
 *add dsitrrictX
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList00" //bring in round 1 = base & X's
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList00" //bring in round 1 = base & X's
 
 **balance?
 gen digitborrow0=(bd1==1) if !missing(bd1) 
@@ -1758,12 +1757,12 @@ gen wave =1
 keep if interviewn_result==1
 bys caseidx wave: keep if _n==1  //tot subjects = 1130
 
-merge m:1 caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
+merge m:1 caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -1779,7 +1778,7 @@ tab MobileCredit_attrition
 *bys caseidx: keep if _n==1  
 keep caseidx MobileCredit_attrition
 tab MobileCredit_attrition
-saveold "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit_attrition", replace
+saveold "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit_attrition", replace
 
 
 
@@ -1804,7 +1803,7 @@ replace round=4 if missing(round)
 tab round
 *keep if interviewn_result==1
 
-append using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/COVID ZERO STEP/Stata/ZeroScoreData_26_09_p1.dta"
+append using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/covid19 paper/DATA/COVID ZERO STEP/Stata/ZeroScoreData_26_09_p1.dta"
 replace round=0 if missing(round)
 tab round
 replace date_of_interview=12092020 if (date_of_interview==1609 | date_of_interview==1709 | date_of_interview==1809 | date_of_interview==2009 | date_of_interview==2109 | date_of_interview==2209 | date_of_interview==1609202)
@@ -1835,7 +1834,7 @@ hist edates, ///
  *title("")
  *frequency discrete  xla(`levels', valuelabel angle(50) labsize(vsmall)) ytitle("Number of subjects") xtitle("Date of phone survey") fcolor(green) lcolor(black) ///
  *title("")
-*gr export "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/paper/results/datacollection.eps", replace
+*gr export "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results/datacollection.eps", replace
 gr export "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results/datacollectionr.eps", replace
 
 /* no round 0
@@ -2066,12 +2065,12 @@ mprobit tmt female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 in
 use "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/DATA/Round_4/round4_data_13.12.dta", clear
 gen round = 4
 
-merge m:1 caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
+merge m:1 caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -2081,7 +2080,7 @@ gen MobileCredit = MobileCredit40
 replace MobileCredit = MobileCredit20 if !missing(MobileCredit20)
 
 drop Trt
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/TrtList00" //bring in round 1 = base & X's
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList00" //bring in round 1 = base & X's
 *drop _merge 
 
 *keep if interviewn_result==1
@@ -2262,7 +2261,7 @@ replace round=4 if missing(round)
 tab round
 *keep if interviewn_result==1
 
-append using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/COVID ZERO STEP/Stata/ZeroScoreData_26_09_p1.dta"
+append using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/covid19 paper/DATA/COVID ZERO STEP/Stata/ZeroScoreData_26_09_p1.dta"
 replace round=0 if missing(round)
 tab round
 replace date_of_interview=12092020 if (date_of_interview==1609 | date_of_interview==1709 | date_of_interview==1809 | date_of_interview==2009 | date_of_interview==2109 | date_of_interview==2209 | date_of_interview==1609202)
@@ -2270,13 +2269,13 @@ replace dateinterviewend = date_of_interview if round==0
 *keep if (interviewn_result==1 | q2==1)
 tab round
 
-merge m:1 caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/MobileCredit40GHS_376list"
+merge m:1 caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit40GHS_376list"
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/MobileCredit20GHS_371list_Wave1"
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -2286,7 +2285,7 @@ gen MobileCredit = MobileCredit40
 replace MobileCredit = MobileCredit20 if !missing(MobileCredit20)
 
 
-merge m:m caseidx using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/TrtList0" //bring in round 1 = base
+merge m:m caseidx using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList0" //bring in round 1 = base
 drop _merge 
 
 
@@ -2324,7 +2323,7 @@ sum tmt_all tmt01 tmt02 tmt if round==4
 
 
 **get results?
-cd "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_/paper/results"
+cd "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results"
 ls
 
 **mitigate "unexpected" comm probl?

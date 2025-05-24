@@ -1,0 +1,29 @@
+*-------------------------------------------------------------------------------
+/*	
+	This .do file is the master script for the replication of Annan and Archibong (2023)
+	
+	
+*	Author: Yazen Kashlan
+*	Last edited: 5/24/2025
+*/	 
+*-------------------------------------------------------------------------------
+
+
+
+** initialize directory 
+if c(username) == "yazenkashlan" {
+	global project_dir "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper"
+	global data_dir "${project_dir}/IMPACT_COVID19 DATA"
+	global sample_dir "${project_dir}/covid19 paper/DATA/COVID ZERO STEP/Stata"
+	
+// 																 data_dir/
+"/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts"
+"/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results"
+"/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/DATA/Round_1/impact10.102020Final.dta"
+"/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/DATA/Round_2/impact_covid_roundFINAL.dta"
+
+"/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/covid19 paper/DATA/COVID ZERO STEP/Stata/select1396Final_sample.dta"
+"/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/covid19 paper/DATA/COVID ZERO STEP/Stata/ZeroScoreData_26_09_p1.dta"
+
+}
+
