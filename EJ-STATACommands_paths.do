@@ -510,6 +510,8 @@ gen tiredCOVID1 =(i8==1) if !missing(cr1)
 **regressions?
 **get results?
 cd "${data_dir}/_Francis_Impacts/paper/results"
+cd "${replication_dir}/Output/Figures", replace
+
 
 ls
 
