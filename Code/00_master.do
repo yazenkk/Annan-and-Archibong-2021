@@ -8,6 +8,11 @@
 */	 
 *-------------------------------------------------------------------------------
 
+** Initialize parameters
+clear all
+set more off
+
+
 
 
 ** initialize directory 
