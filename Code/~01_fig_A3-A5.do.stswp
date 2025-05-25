@@ -42,6 +42,10 @@ egen k101 =rowtotal(m1-m10), missing
 gen logk101 =log(k101)
 gen severe_distress1 =(k101>=30) if !missing(k101)
 
+** save data (to be moved upstream later)
+save "${replication_dir}/Data/clean/end1_end2.dta", replace
+
+
 
 ** Figure A3
 **K10 and cons
@@ -53,6 +57,7 @@ gen k10 = exp(logk10)
 hist k10 if end==1, percent xline(30, lp(dash)) xtitle("K10 score at baseline") lcolor(none) fcolor(gray) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)
 gr export "${replication_dir}/Output/Figures/subjects_k10_base.eps", replace
 sum severe_distress if end==1 // 11.5% rate of severe distress
+
 
 ** Figure A4
 hist totExp7days if end==1, percent xline(500, lp(dash)) xtitle("Total consumption expenditure - weekly (GHS)") lcolor(none) fcolor(gray) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)

@@ -1,0 +1,16 @@
+	(1)
+VARIABLES	unableCall7days1
+	
+tmt_all	-0.371***
+	(0.0238)
+Constant	0.499***
+	(0.0220)
+	
+Observations	2,045
+R-squared	0.163
+District FE	No
+Date FE	No
+Controls	None
+Mean of dep. variable	.4985029940119761
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

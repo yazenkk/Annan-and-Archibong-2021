@@ -42,6 +42,10 @@ egen k101 =rowtotal(m1-m10), missing
 gen logk101 =log(k101)
 gen severe_distress1 =(k101>=30) if !missing(k101)
 
+** save data (to be moved upstream later)
+save "${data_dir}/_Francis_Impacts/clean_end1_end2.dta", replace
+
+
 
 ** Figure A3
 **K10 and cons
