@@ -9,7 +9,6 @@ Input (Data/01_raw):
 
 Merge (Data/01_raw):
 	select1396Final_sample.dta
-	MobileCredit_attrition.dta
 
 Output (Data/02_intermediate):
 	TrtList00
@@ -17,11 +16,13 @@ Output (Data/02_intermediate):
 	MobileCredit40GHS_376list.xls
 	MobileCredit20GHS_371list_Wave1.xls
 	MobileCredit20GHS_371list_Wave2.xls
+	MobileCredit_attrition.dta
 	End1_MobileCredit_attrition.dta
 	End2_MobileCredit_attrition.dta
 	
 */
 
+set graphics off
 
 
 **round 1
@@ -178,7 +179,7 @@ keep caseidx phone_number_of_respondent Trt
 rename phone_number_of_respondent PhoneNumber
 keep if Trt==1
 gen MobileCredit="40GHS"
-saveold MobileCredit40GHS_376list, replace
+saveold "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.dta", replace
 outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.xls", replace
 restore
 
@@ -188,7 +189,7 @@ rename phone_number_of_respondent PhoneNumber
 keep if Trt==2
 gen MobileCredit="20GHS"
 gen Wave=1
-saveold MobileCredit20GHS_371list_Wave1, replace
+saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.dta", replace
 outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.xls", replace
 restore
 
@@ -198,7 +199,7 @@ rename phone_number_of_respondent PhoneNumber
 keep if Trt==2
 gen MobileCredit="20GHS"
 gen Wave=2
-saveold MobileCredit20GHS_371list_Wave2, replace
+saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.dta", replace
 outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.xls", replace
 restore
 
@@ -216,7 +217,7 @@ reg logk10 i.Trt
 reg severe_distress i.Trt
 reg tiredCOVID i.Trt
 
-** YK *?* come
+** Yazen *?* come back here
 // reg bd1 i.Trt
 // reg bd2 i.Trt
 // reg bd3 i.Trt
@@ -314,12 +315,44 @@ gen unif2=_n/24 if _n<=24
 
 distplot pvalLR unif unif2
 
-
 stack pvalLR unif, into(kstest) clear
 ksmirnov kstest, by(_stack) //1-sided test of pvals-LR test stochastically dominate unif, p=0.96
 
 
 
+
+**Attrition: stats?
+use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
+gen wave =1
+keep if interviewn_result==1
+bys caseidx wave: keep if _n==1  //tot subjects = 1130
+
+merge m:1 caseidx using "${data_dir}/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
+drop _merge
+gen MobileCredit40=MobileCredit
+drop MobileCredit
+tab MobileCredit40 
+merge m:m caseidx using "${data_dir}/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
+drop _merge
+gen MobileCredit20=MobileCredit
+drop MobileCredit
+tab MobileCredit20
+gen MobileCredit = MobileCredit40 
+replace MobileCredit = MobileCredit20 if !missing(MobileCredit20)
+
+replace MobileCredit = "0GHS" if missing(MobileCredit)
+gen MobileCredit_attrition = MobileCredit
+tab MobileCredit 
+tab MobileCredit_attrition
+
+*bys caseidx: keep if _n==1  
+keep caseidx MobileCredit_attrition
+tab MobileCredit_attrition
+saveold "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replace
+
+
+
+** Analyze Baseline
 use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
 keep if interviewn_result==1
 bys caseidx: keep if _n==1  //only subjects + dropouts
@@ -347,6 +380,7 @@ tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
 *tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
 
 
+** Analyze Endline
 *end 1
 use "${data_dir}/DATA/Round_3/round3_data_21.11.dta", clear
 keep if interviewn_result==1
