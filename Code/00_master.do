@@ -16,6 +16,10 @@ if c(username) == "yazenkashlan" {
 	global data_dir "${project_dir}/IMPACT_COVID19 DATA"
 	global sample_dir "${project_dir}/covid19 paper/DATA/COVID ZERO STEP/Stata"
 	
+	** Replication globals
+	global replication_dir "/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021"
+	
+	
 // // 																data_dir/
 // "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts"
 // "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/paper/results"

@@ -5,6 +5,10 @@ set more off
 /*
 
 
+*---------------------------------------------*
+* SECTION: Data Preparation - Round 1 & 2     *
+* Used to build baseline and endline datasets *
+*---------------------------------------------*
 **round 1
 use "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/DATA/Round_1/impact10.102020Final.dta", clear
 gen round =1
@@ -15,15 +19,20 @@ tab round
 
 keep if interviewn_result==1
 
+*--- Merge with Baseline Sampling Frame (GLSS7) ---*
 **bring in base GLSS7
 gen caseidX=caseidx
 merge m:1 caseidX using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/COVID ZERO STEP/Stata/select1396Final_sample.dta"
 drop if _merge==2
 
 
+*--- Create Key Outcome Variables for Table 1 (Communication Constraints) ---*
 **i) communication?
+* Proxy for increased need to connect due to COVID-19 (used in heterogeneity)
 gen needToCOVID=(i9==1) if !missing(i9)
+* Key Dependent Variable: Unable to Call due to COVID (Table 1, col 2)
 gen unableToCOVID=(i10==1) if !missing(i10)
+* Key Dependent Variable: Unable to Call in Last 7 Days (Table 1, col 1)
 gen unableCall7days =(cr1==1) if !missing(cr1)
 gen unableTrans7days =(cr2==1) if !missing(cr2)
 gen ct1a0 =ct1a
@@ -198,25 +207,32 @@ reg tiredCOVID i.Trt
 
 reg bd1 i.Trt
 reg bd2 i.Trt
+
 reg bd3 i.Trt
 
 
 *x-s
+* Balance check on gender (female dummy)
 reg female0 i.Trt
 reg akan0 i.Trt
+* Balance check on marital status
 reg married0 i.Trt
+* Balance check on age
 reg ageYrs0 i.Trt
 reg jhs0 i.Trt
 reg hhsize0 i.Trt
 reg selfEmploy0 i.Trt
+* Balance check on informal sector employment (used in heterogeneity)
 reg informal0 i.Trt
 reg incomegrp0 i.Trt
 **more x-s: step 0?
 reg pov_likelihood i.Trt 
 reg motherTogether i.Trt  
 reg noReligion i.Trt  
+* Balance check on gender (female dummy)
 reg female i.Trt  
 reg spouseTogether i.Trt  
+* Balance check on age
 reg ageMarried i.Trt  
 
 
@@ -398,6 +414,7 @@ drop _merge
 **bring-In baseline data-
 merge m:m caseidx using "/Users/fannan/Dropbox/Annan Archibong et al./belinda_main/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList00.dta" //bring in round 1 = base
 bys caseidx end: keep if _n==1  
+
 drop _merge
 
 
@@ -514,6 +531,7 @@ cd "/Users/fannan/Dropbox/Annan Archibong et al./belinda_main/covid19 paper/IMPA
 ls
 
 distplot number_of_calls //no of time called b/4 picking up
+* Outcome Analysis: Hitting Partner — Table 2, Column 3
 hist number_of_calls, gap(10) percent xtitle("Number of phone call times before answering survey") lcolor(none) fcolor(gray) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)
 gr export "subjects_calltimeS.eps", replace
 
@@ -523,10 +541,13 @@ gr export "subjects_calltimeS.eps", replace
 *high (scores of 22-29)
 *Very high/ severe (scores of 30-50)
 gen k10 = exp(logk10)
+* Outcome Analysis: Mental Health (log K10 score) — Table 2, Column 4
+* Outcome Analysis: Hitting Partner — Table 2, Column 3
 hist k10 if end==1, percent xline(30, lp(dash)) xtitle("K10 score at baseline") lcolor(none) fcolor(gray) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)
 gr export "subjects_k10_base.eps", replace
 sum severe_distress if end==1 // 11.5% rate of severe distress
 
+* Outcome Analysis: Hitting Partner — Table 2, Column 3
 hist totExp7days if end==1, percent xline(500, lp(dash)) xtitle("Total consumption expenditure - weekly (GHS)") lcolor(none) fcolor(gray) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)
 gr export "subjects_totconsump_base.eps", replace
 gen poor_consump = totExp7days<=500 if end==1 
@@ -598,6 +619,7 @@ pdslasso EmotSoc_Tired tmt_all (i.districtX i.dateinterviewend female0 akan0 mar
     cluster(caseidx) ///
     rlasso
 sum EmotSoc_Tired if tmt_all==0
+
 outreg2 using "ejMetaEffectsXChannels.doc", keep(tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *very robust evidence improved soc inclusion
 
@@ -798,6 +820,7 @@ rwolf unableCall7days1 unableToCOVID1 digitborrow1 digitloan1, indepvar(tmt_all)
 rwolf totExp7days1 c1 c2 e1 e2 e3 e4 e5, indepvar(tmt_all) seed(124) reps(499) //fam 2 (second stage real impact outcomes)
 rwolf threatenPartner1 hitPartner1 logk101 severe_distress1, indepvar(tmt_all) seed(124) //fam 3 (second stage real impact outcomes)
 *(ii) SEparate?
+
 rwolf unableCall7days1 unableToCOVID1 digitborrow1 digitloan1, indepvar(tmt01 tmt02) seed(124) //fam 1 (fist stage outcomes)
 rwolf totExp7days1 c1 c2 e1 e2 e3 e4 e5, indepvar(tmt01 tmt02) seed(124) //fam 2 (second stage real impact outcomes - consumption)
 rwolf threatenPartner1 hitPartner1 logk101 severe_distress1, indepvar(tmt01 tmt02) seed(124) //fam 3 (second stage real impact outcomes - mental health)
@@ -807,6 +830,7 @@ rwolf threatenPartner1 hitPartner1 logk101 severe_distress1, indepvar(tmt01 tmt0
 **meta Effects
 **mitigate "unexpected" comm probl?
 	leebounds unableCall7days1 tmt_all, level(90) cieffect tight() 
+* Communication Constraint Outcome: Unable to Call — Table 1 or A1
 reg unableCall7days1 tmt_all, r cluster(districtX)
 sum unableCall7days1 if tmt_all==0
 outreg2 using "metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace
@@ -833,6 +857,7 @@ pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7day
 	
 	
 	leebounds unableToCOVID1 tmt_all, level(90) cieffect tight() 
+* Communication Constraint Outcome: Unable to Call — Table 1 or A1
 reg unableToCOVID1 tmt_all, r cluster(districtX)
 sum unableToCOVID1 if tmt_all==0
 outreg2 using "metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
@@ -998,6 +1023,7 @@ outreg2 using "metaEffects_dv_mhealth.tex", keep(c.tmt_all) addtext(District FE,
 pdslasso threatenPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
+
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: threatened partner 1-4")
@@ -1198,6 +1224,7 @@ pdslasso digitborrow1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
+
 coefplot, keep(c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(60) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt01#c.round1="Endline (round 1): lumpsum" c.tmt02#c.round1="Endline (round 1): Installments" c.tmt01#c.round2="Endline (round 2): lumpsum" c.tmt02#c.round2="Endline (round 2): Installments") title("Survey-level: seek or borrow mobile credit 0-1")
 gr export "sep_digitborrow.eps", replace
@@ -1333,6 +1360,7 @@ gr export "sep_severe_distress.eps", replace
 
 	
 **Heterogeneity: ?
+* Robustness Check: Romano-Wolf Multiple Testing Correction
 **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction
 *(i) MEta?
 *rwolf unableCall7days1 unableToCOVID1 digitborrow1 digitloan1, indepvar(tmt_all) seed(124) //fam 1 (fist stage outcomes)
@@ -1398,6 +1426,7 @@ pdslasso totExp7days1 c.tmt_all##c.threatenPartner_high (i.districtX i.dateinter
 pdslasso threatenPartner1 c.tmt_all##c.threatenPartner_high (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
+
     rlasso
 pdslasso hitPartner1 c.tmt_all##c.threatenPartner_high (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -1598,6 +1627,7 @@ outreg2 using "metaEffects_Xlockeddown.tex", keep(c.tmt_all c.previouslock c.tmt
 **self employed? evidence: none
 pdslasso totExp7days1 c.tmt_all##c.selfEmploy0 (i.districtX i.dateinterviewend totExp7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 informal0 incomegrp0), ///
     partial(i.districtX) ///
+
     cluster(districtX) ///
     rlasso
 pdslasso threatenPartner1 c.tmt_all##c.selfEmploy0 (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 informal0 incomegrp0), ///
@@ -1681,7 +1711,9 @@ probit tmt_all female0 akan0 married0 jhs0 hhsize0 selfEmploy0 informal0 incomeg
 
 
 *y0-best correlates
+* Main Outcome: Unable to Call (7 Days or COVID-related) — Table 1 or A1
 reg unableCall7days tmt01 tmt02 if round==3, r cluster(districtX)
+* Main Outcome: Unable to Call (7 Days or COVID-related) — Table 1 or A1
 reg unableToCOVID tmt01 tmt02 if round==3, r cluster(districtX)
 reg totExp7days tmt01 tmt02 if round==3, r cluster(districtX)
 reg c1 tmt01 tmt02 if round==3, r cluster(districtX)
@@ -1693,6 +1725,7 @@ reg e4 tmt01 tmt02 if round==3, r cluster(districtX)
 reg e5 tmt01 tmt02 if round==3, r cluster(districtX)
 reg threatenPartner tmt01 tmt02 if round==3, r cluster(districtX)
 reg hitPartner tmt01 tmt02 if round==3, r cluster(districtX)
+* Mental Health Outcome: log K10 or Severe Distress — Table 2
 reg logk10 tmt01 tmt02 if round==3, r cluster(districtX)
 reg severe_distress tmt01 tmt02 if round==3, r cluster(districtX)
 reg tiredCOVID tmt01 tmt02 if round==3, r cluster(districtX)
@@ -1742,7 +1775,9 @@ gen digitloan0=(bd2==1) if !missing(bd1)
 gen relocated0=(bd3==1) if !missing(bd1) 
 
 sum digitborrow0 digitloan0 relocated0 
+* Main Outcome: Borrowed SOS Airtime — Table 1
 reg digitborrow0 tmt01 tmt02, r cluster(districtX) // borrowed airtime?
+* Main Outcome: Borrowed SOS Airtime — Table 1
 reg digitloan0 tmt01 tmt02, r cluster(districtX) // seek or borrowed digital loan?
 reg relocated0 tmt01 tmt02, r cluster(districtX) // has related?
 
@@ -1798,6 +1833,7 @@ tab round
 ** add-round 4
 append using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/DATA/Round_4/round4_data_19.12.dta"
 replace round=4 if missing(round)
+
 tab round
 *keep if interviewn_result==1
 
@@ -1827,6 +1863,7 @@ hist edates, ///
  text(383 `=d(18sep2020)' "Data:  " "step 0" 185 `=d(04oct2020)' "Data  " "wave I" 255 `=d(23oct2020)' "Data  " "wave II" 185 `=d(06nov2020)' "Data  " "wave III" 185 `=d(05dec2020)' "Data " "wave IV") ///
  text(20 `=d(19sep2020)' "N=1,993" 20 `=d(04oct2020)' "n=1,131" 20 `=d(24oct2020)' "N=1,1043" 20 `=d(06nov2020)' "N=1,048" 20 `=d(03dec2020)' "N=0997", size(small) color(blue)) ///
  frequency discrete  xla(`=d(13sep2020)' `=d(25sep2020)' `=d(29sep2020)' `=d(10oct2020)' `=d(20oct2020)' `=d(29oct2020)' `=d(01nov2020)' `=d(11nov2020)' `=d(28nov2020)' `=d(09dec2020)', valuelabel angle(50) labsize(small)) ytitle("Number of subjects") xtitle("Date of phone survey") fcolor(green) lcolor(black) ///
+* Domestic Violence Outcomes: Threaten/Hit Partner — Table 2
  title("") graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)
  *frequency discrete  xla(#10, valuelabel angle(50) labsize(vsmall)) ytitle("Number of subjects") xtitle("Date of phone survey") fcolor(green) lcolor(black) ///
  *title("")
@@ -1979,11 +2016,15 @@ reg totExp7days1 i.districtX totExp7days female0 akan0 married0 ageYrs0 jhs0 hhs
 test tmt01 tmt02
 
 **domestic voilence reduced=yes, but n.s
+* Domestic Violence Outcomes: Threaten/Hit Partner — Table 2
 reg threatenPartner1 i.districtX threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 c.tmt_all, r cluster(districtX)
+* Domestic Violence Outcomes: Threaten/Hit Partner — Table 2
 reg threatenPartner1 i.districtX threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 
+* Domestic Violence Outcomes: Threaten/Hit Partner — Table 2
 reg hitPartner1 i.districtX hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 c.tmt_all, r cluster(districtX)
+* Domestic Violence Outcomes: Threaten/Hit Partner — Table 2
 reg hitPartner1 i.districtX hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02 , r cluster(districtX)
 test tmt01 tmt02
 
@@ -1992,12 +2033,15 @@ reg logk101 i.districtX logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfE
 reg logk101 i.districtX logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 
+* Binary Severe Distress Indicator (K10 > 30) — Table 2, Column 5
 reg severe_distress1 i.districtX severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.districtX tmt_all, r cluster(districtX)
+* Binary Severe Distress Indicator (K10 > 30) — Table 2, Column 5
 reg severe_distress1 i.districtX severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.districtX tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 
 reg tiredCOVID1 i.districtX tiredCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt_all, r cluster(districtX)
 reg tiredCOVID1 i.districtX tiredCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
+
 test tmt01 tmt02
 
 **alternative measures of mental health - consistent
@@ -2023,8 +2067,11 @@ reg bd3 i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 info
 
 *balanced-yes? redo again to verify
 reg needToCOVID tmt01 tmt02 if round !=3
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableToCOVID tmt01 tmt02 if round !=3
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableCall7days tmt01 tmt02 if round !=3
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableTrans7days tmt01 tmt02 if round !=3
 reg totExp7days tmt01 tmt02 if round !=3
 reg threatenPartner tmt01 tmt02 if round !=3
@@ -2124,11 +2171,15 @@ tw kdensity k101 if tmt==0, xline(30, lp(dash)) xtitle("K10 Score") lp("solid") 
 
 
 **y-stage 1
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableToCOVID1 i.districtX unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 c.tmt_all , r cluster(districtX)
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableToCOVID1 i.districtX i.unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableCall7days1 i.districtX unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 c.tmt_all , r cluster(districtX)
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableCall7days1 i.districtX unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 
@@ -2139,7 +2190,9 @@ reg valueCalls i.districtX ct1b0 female0 akan0 married0 ageYrs0 jhs0 hhsize0 sel
 reg valueCalls i.districtX ct1b0 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02 if valueCalls>0, r cluster(districtX)
 
 
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableTrans7days1 i.districtX unableTrans7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 c.tmt_all, r cluster(districtX)
+* Table A1: Unable to Call Outcomes — COVID-specific and 7-day
 reg unableTrans7days1 i.districtX unableTrans7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 *any leaks in transfer, no
@@ -2198,6 +2251,7 @@ test tmt01 tmt02
 **alternative measures of mental health - consistent
 *i'm depressed(-)?
 reg m11 i.districtX m110 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt_all, r cluster(districtX)
+
 reg m11 i.districtX m110 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 tmt01 tmt02, r cluster(districtX)
 test tmt01 tmt02
 
@@ -2335,6 +2389,7 @@ gr export "meta_unableCall7days.eps", replace
 
 reg unableCall7days i.districtX  i.caseidx i.dateinterviewend i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 test c.post#c.tmt01 == c.post#c.tmt02
+* Cost-effectiveness: Calculating Marginal Value of Public Funds (MVPF) — Section III.3.3
 outreg2 using "sepEffects_mitigate.doc", addstat("p-value (c.post#c.tmt01 = c.post#c.tmt02)", `r(p)') keep(c.post#c.tmt01 c.post#c.tmt02) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) replace
 reg unableCall7days i.districtX i.caseidx i.dateinterviewend i.round tmt01 tmt02 c.tmt01#i.round c.tmt02#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt01 ?.round#c.tmt02) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
@@ -2352,6 +2407,7 @@ gr export "meta_unableToCOVID.eps", replace
 
 reg unableToCOVID i.districtX  i.caseidx i.dateinterviewend i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 test c.post#c.tmt01 == c.post#c.tmt02
+* Cost-effectiveness: Calculating Marginal Value of Public Funds (MVPF) — Section III.3.3
 outreg2 using "sepEffects_mitigate.doc", addstat("p-value (c.post#c.tmt01 = c.post#c.tmt02)", `r(p)') keep(c.post#c.tmt01 c.post#c.tmt02) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
 reg unableToCOVID i.districtX i.caseidx i.dateinterviewend i.round tmt01 tmt02 c.tmt01#i.round c.tmt02#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt01 ?.round#c.tmt02) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
@@ -2369,6 +2425,7 @@ gr export "meta_digitborrow.eps", replace
 
 reg digitborrow i.districtX  i.caseidx i.dateinterviewend i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 test c.post#c.tmt01 == c.post#c.tmt02
+* Cost-effectiveness: Calculating Marginal Value of Public Funds (MVPF) — Section III.3.3
 outreg2 using "sepEffects_mitigate.doc", addstat("p-value (c.post#c.tmt01 = c.post#c.tmt02)", `r(p)') keep(c.post#c.tmt01 c.post#c.tmt02) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
 reg digitborrow i.districtX i.caseidx i.dateinterviewend i.round tmt01 tmt02 c.tmt01#i.round c.tmt02#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt01 ?.round#c.tmt02) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
@@ -2386,6 +2443,7 @@ gr export "meta_digitloan.eps", replace
 
 reg digitloan i.districtX  i.caseidx i.dateinterviewend i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 test c.post#c.tmt01 == c.post#c.tmt02
+* Cost-effectiveness: Calculating Marginal Value of Public Funds (MVPF) — Section III.3.3
 outreg2 using "sepEffects_mitigate.doc", addstat("p-value (c.post#c.tmt01 = c.post#c.tmt02)", `r(p)') keep(c.post#c.tmt01 c.post#c.tmt02) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
 reg digitloan i.districtX i.caseidx i.dateinterviewend i.round tmt01 tmt02 c.tmt01#i.round c.tmt02#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt01 ?.round#c.tmt02) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
@@ -2398,6 +2456,7 @@ gr export "sep_digitloan.eps", replace
  
 **expenditure Shifts [resource reallocation effect]?
 reg totExp7days i.districtX i.caseidx i.dateinterviewend i.post tmt_all c.post#c.tmt_all, r cluster(districtX)
+
 outreg2 using "metaEffects_wellbeing.doc", keep(c.post#c.tmt_all) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) replace
 reg totExp7days i.districtX i.caseidx i.dateinterviewend i.round tmt_all c.tmt_all#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt_all) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
@@ -2451,16 +2510,20 @@ gr export "sep_hitPartner.eps", replace
 
 
 **mH
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg logk10 i.districtX i.caseidx i.dateinterviewend i.post tmt_all c.post#c.tmt_all, r cluster(districtX)
 outreg2 using "metaEffects_wellbeing.doc", keep(c.post#c.tmt_all) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg logk10 i.districtX i.caseidx i.dateinterviewend i.round tmt_all c.tmt_all#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt_all) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
 coeflabels(2.round#c.tmt_all="Pre: Assignment" 3.round#c.tmt_all="Post (round 1): Assignment" 4.round#c.tmt_all="Post (round 2): Assignment") title("Survey-level: logK10")
 gr export "meta_logk10.eps", replace
 
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg logk10 i.districtX i.caseidx i.dateinterviewend i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 test c.post#c.tmt01 == c.post#c.tmt02
 outreg2 using "sepEffects_wellbeing.doc", addstat("p-value (c.post#c.tmt01 = c.post#c.tmt02)", `r(p)') keep(c.post#c.tmt01 c.post#c.tmt02) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg logk10 i.districtX i.caseidx i.dateinterviewend i.round tmt01 tmt02 c.tmt01#i.round c.tmt02#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt01 ?.round#c.tmt02) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
 order(2.round#c.tmt01 2.round#c.tmt02 3.round#c.tmt01 3.round#c.tmt02 4.round#c.tmt01 4.round#c.tmt02) ///
@@ -2468,16 +2531,20 @@ coeflabels(2.round#c.tmt01="Pre: lumpsum" 2.round#c.tmt02="Pre: Tranche" 3.round
 gr export "sep_logk10.eps", replace
 
 sum severe_distress if round==2
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX i.caseidx i.dateinterviewend i.post tmt_all c.post#c.tmt_all, r cluster(districtX)
 outreg2 using "metaEffects_wellbeing.doc", keep(c.post#c.tmt_all) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX i.caseidx i.dateinterviewend i.round tmt_all c.tmt_all#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt_all) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
 coeflabels(2.round#c.tmt_all="Pre: Assignment" 3.round#c.tmt_all="Post (round 1): Assignment" 4.round#c.tmt_all="Post (round 2): Assignment") title("Survey-level: severe distress 0-1")
 gr export "meta_severe_distress.eps", replace
 
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX i.caseidx i.dateinterviewend i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 test c.post#c.tmt01 == c.post#c.tmt02
 outreg2 using "sepEffects_wellbeing.doc", addstat("p-value (c.post#c.tmt01 = c.post#c.tmt02)", `r(p)') keep(c.post#c.tmt01 c.post#c.tmt02) addtext(District FE, Yes, Subject FE, Yes, Date FE, Yes) append
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX i.caseidx i.dateinterviewend i.round tmt01 tmt02 c.tmt01#i.round c.tmt02#i.round, r cluster(districtX)
 coefplot, keep(?.round#c.tmt01 ?.round#c.tmt02) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(30) labsize(vsmall)) level(90) ///
 order(2.round#c.tmt01 2.round#c.tmt02 3.round#c.tmt01 3.round#c.tmt02 4.round#c.tmt01 4.round#c.tmt02) ///
@@ -2488,7 +2555,9 @@ gr export "sep_severe_distress.eps", replace
 ?
 sum  pov_likelihood, d
 gen highPov=(pov_likelihood>19.6)
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX i.caseidx i.dateinterviewend i.post tmt_all c.post#c.tmt_all#c.highPov, r cluster(districtX)
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX i.caseidx i.dateinterviewend i.post tmt_all c.post#c.tmt_all#c.pov_likelihood, r cluster(districtX)
 
 
@@ -2579,14 +2648,19 @@ reg threatenPartner i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 self
 reg hitPartner i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post i.tmt_all c.post#c.tmt_all, r cluster(districtX)
 reg hitPartner i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg logk10 i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post i.tmt_all c.post#c.tmt_all, r cluster(districtX)
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg logk10 i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post i.tmt_all c.post#c.tmt_all, r cluster(districtX)
+* Final Mental Health Analysis or Robustness — K10 / Severe Distress
 reg severe_distress i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
 
 reg tiredCOVID i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post i.tmt_all c.post#c.tmt_all, r cluster(districtX)
 reg tiredCOVID i.districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 i.post tmt01 tmt02 c.post#c.tmt01 c.post#c.tmt02, r cluster(districtX)
+
 
 
 
