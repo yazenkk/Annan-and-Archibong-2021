@@ -4,9 +4,7 @@ Figures A3-A5
 
 
 
-use "${replication_dir}/Data/clean/end1_end2.dta", clear
-
-
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear
 
 ** Figure A3
 **K10 and cons

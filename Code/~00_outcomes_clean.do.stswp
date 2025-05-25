@@ -1,8 +1,27 @@
 /*
-Construct data
+Construct data, balance, and attrition
+
+Input (Data/01_raw): 
+	Round_1/impact10.102020Final.dta
+	Round_2/impact_covid_roundFINAL.dta
+	Round_3/round3_data_21.11.dta
+	Round_4/round4_data_14.12.dta
+
+Merge (Data/01_raw):
+	select1396Final_sample.dta
+	MobileCredit_attrition.dta
+
+Output (Data/02_intermediate):
+	TrtList00
+	TrtList0
+	MobileCredit40GHS_376list.xls
+	MobileCredit20GHS_371list_Wave1.xls
+	MobileCredit20GHS_371list_Wave2.xls
+	End1_MobileCredit_attrition.dta
+	End2_MobileCredit_attrition.dta
+	
 */
 
-/*
 
 
 **round 1
@@ -137,18 +156,22 @@ tab Trt, miss
 
 tab round
 
-/*
-keep caseidx caseidX Trt districtX regionX needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0 ct2b0 totExp7days threatenPartner hitPartner logk10 severe_distress tiredCOVID awareofCOVID0 trustgovtCOVIDNos0 m110 m120 m130 m140 bd10 bd20 bd30 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried self_hseWork0 i11
-saveold "TrtList00", replace
 
-keep caseidx caseidX Trt districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried
-saveold "TrtList0", replace
-*/
+preserve
+	keep caseidx caseidX Trt districtX regionX needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0 ct2b0 totExp7days threatenPartner hitPartner logk10 severe_distress tiredCOVID awareofCOVID0 trustgovtCOVIDNos0 m110 m120 m130 m140 bd10 bd20 bd30 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried self_hseWork0 i11
+	saveold "${replication_dir}/Data/02_intermediate/TrtList00", replace
+restore
 
-?
+preserve
+	keep caseidx caseidX Trt districtX female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried
+	saveold "${replication_dir}/Data/02_intermediate/TrtList0", replace
+restore
 
 
-/*
+
+
+
+
 **sammy/ vodafone: delivering "Mobile Credit Invervention"
 preserve
 keep caseidx phone_number_of_respondent Trt
@@ -156,7 +179,7 @@ rename phone_number_of_respondent PhoneNumber
 keep if Trt==1
 gen MobileCredit="40GHS"
 saveold MobileCredit40GHS_376list, replace
-outsheet using "MobileCredit40GHS_376list.xls", replace
+outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.xls", replace
 restore
 
 preserve
@@ -166,7 +189,7 @@ keep if Trt==2
 gen MobileCredit="20GHS"
 gen Wave=1
 saveold MobileCredit20GHS_371list_Wave1, replace
-outsheet using "MobileCredit20GHS_371list_Wave1.xls", replace
+outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.xls", replace
 restore
 
 preserve
@@ -176,12 +199,9 @@ keep if Trt==2
 gen MobileCredit="20GHS"
 gen Wave=2
 saveold MobileCredit20GHS_371list_Wave2, replace
-outsheet using "MobileCredit20GHS_371list_Wave2.xls", replace
+outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.xls", replace
 restore
-*/
 
-*tab regionX
-*tab regionX Trt
 
 
 *y-s
@@ -196,9 +216,10 @@ reg logk10 i.Trt
 reg severe_distress i.Trt
 reg tiredCOVID i.Trt
 
-reg bd1 i.Trt
-reg bd2 i.Trt
-reg bd3 i.Trt
+** YK *?* come
+// reg bd1 i.Trt
+// reg bd2 i.Trt
+// reg bd3 i.Trt
 
 
 *x-s
@@ -296,15 +317,9 @@ distplot pvalLR unif unif2
 
 stack pvalLR unif, into(kstest) clear
 ksmirnov kstest, by(_stack) //1-sided test of pvals-LR test stochastically dominate unif, p=0.96
-?
 
 
-*/
 
-
-/*
-**Attrition Estimates?
-*base 1
 use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
 keep if interviewn_result==1
 bys caseidx: keep if _n==1  //only subjects + dropouts
@@ -315,6 +330,7 @@ gen dropouts = (_merge==2)
 gen ins=(dropouts==0)
 tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
 *tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
+
 
 *base 2
 use "${data_dir}/DATA/Round_2/impact_covid_roundFINAL.dta", clear
@@ -343,7 +359,7 @@ tab MobileCredit_attrition if dropouts==0
 gen ins=(dropouts==0)
 tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
 tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-saveold "${data_dir}/_Francis_Impacts/End1_MobileCredit_attrition", replace
+saveold "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", replace
 
 
 *end 2
@@ -359,17 +375,16 @@ gen ins=(dropouts==0)
 tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
 tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
 **estimation with attrition adjustments
-saveold "${data_dir}/_Francis_Impacts/End2_MobileCredit_attrition", replace
+saveold "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", replace
 
 
 
 **overall rate differential?
-use "${data_dir}/_Francis_Impacts/End1_MobileCredit_attrition", clear
-append using "${data_dir}/_Francis_Impacts/End2_MobileCredit_attrition"
+use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
+append using "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition"
 tab MobileCredit_attrition, gen(TMT)
 reg dropouts TMT2 TMT3
 ttest dropouts if TMT3 !=1, by(TMT2) 
 ttest dropouts if TMT2 !=1, by(TMT3) 
 
-*/
 

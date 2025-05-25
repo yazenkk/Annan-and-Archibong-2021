@@ -10,10 +10,10 @@ Merge data
 
 ***********************************
 clear all
-use "${data_dir}/_Francis_Impacts/End1_MobileCredit_attrition.dta", clear
+use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition.dta", clear
 gen end=1
 gen round=3
-append using "${data_dir}/_Francis_Impacts/End2_MobileCredit_attrition.dta"
+append using "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition.dta"
 replace end=2 if missing(end)
 replace round=4 if missing(round)
 tab end
@@ -28,7 +28,7 @@ tab _merge // Attritors
 drop _merge
 
 **bring-In baseline data-
-merge m:m caseidx using "${data_dir}/_Francis_Impacts/TrtList00.dta" //bring in round 1 = base
+merge m:m caseidx using "${replication_dir}/Data/02_intermediate/TrtList00.dta" //bring in round 1 = base
 bys caseidx end: keep if _n==1  
 drop _merge
 
@@ -48,5 +48,5 @@ gen severe_distress1 =(k101>=30) if !missing(k101)
 
 
 
-** save data (to be moved upstream later)
-save "${replication_dir}/Data/clean/end1_end2.dta", replace
+** save data
+save "${replication_dir}/Data/03_clean/end1_end2.dta", replace
