@@ -1,0 +1,20 @@
+of communication credit on wellbeing - saturated					
+	(1)	(2)	(3)	(4)	(5)
+VARIABLES	totExp7days1	threatenPartner1	hitPartner1	logk101	severe_distress1
+					
+tmt01	10.60	-0.0432	-0.0195	-0.0584***	0.0121
+	(11.35)	(0.0374)	(0.0372)	(0.0144)	(0.00843)
+tmt02	17.76	-0.121***	-0.0793**	-0.141***	-0.0227***
+	(11.82)	(0.0399)	(0.0383)	(0.0142)	(0.00609)
+Constant	40.10	1.050***	1.028***	1.641***	-0.00580
+	(61.09)	(0.0323)	(0.0313)	(0.0800)	(0.00806)
+					
+Observations	2,019	2,019	2,019	2,019	2,019
+Number of groups	0	0	0	0	0
+District FE	Yes	Yes	Yes	Yes	Yes
+Date FE	Yes	Yes	Yes	Yes	Yes
+Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
+Mean of dep. variable	XX	XX	XX	XX	XX
+p-value-jointtest	.3142560934922817	.0096096516916686	.1007064883585729	6.45259234114e-23	1.96779268392e-07
+Robust standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					

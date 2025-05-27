@@ -3,8 +3,8 @@ VARIABLES	i1	i2	EmotSoc_Tired	stayedHomelast5wks	xgrowth
 					
 tmt01	0.837	9.701*	-0.160***	0.116***	-20.26***
 	(0.561)	(5.143)	(0.0283)	(0.0331)	(6.583)
-previouslock					130.3***
-					(30.26)
+previouslock					-84.73***
+					(32.27)
 c.tmt01#c.previouslock					-6.482
 					(16.08)
 tmt02	-0.290	8.368*	-0.265***	0.273***	7.381

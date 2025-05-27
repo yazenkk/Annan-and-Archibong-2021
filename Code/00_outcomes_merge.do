@@ -19,6 +19,8 @@ replace round=4 if missing(round)
 tab end
 tab round
 tab MobileCredit_attrition
+
+
 gen tmt_all= (MobileCredit_attrition !="0GHS") 
 gen tmt01= (MobileCredit_attrition=="40GHS") 
 gen tmt02= (MobileCredit_attrition=="20GHS")
@@ -29,6 +31,13 @@ drop _merge
 
 **bring-In baseline data-
 merge m:m caseidx using "${replication_dir}/Data/02_intermediate/TrtList00.dta" //bring in round 1 = base
+
+	** Yazen examine m:m merge
+	egen tag=tag(caseidx end)
+	byso caseidx end : egen dup = min(tag)
+	order caseidx end tag dup 
+	list caseidx end Trt if tag == 0 
+	
 bys caseidx end: keep if _n==1  
 drop _merge
 
@@ -50,6 +59,33 @@ gen severe_distress1 =(k101>=30) if !missing(k101)
 tab round
 tab round, gen(round)
 
+
+** Consumption growth (used in Tables 3 and A10-A13 and Figure A10)
+bys caseidx: gen xdif=totExp7days1[_n]-totExp7days1[_n-1]
+bys caseidx: gen xgrowth=(xdif/totExp7days1[_n])*100
+tab regionX
+tab regionX, nolab
+gen  previouslock =(regionX==3 | regionX==6)
+sum xgrowth if xgrowth, d
+bys previouslock: sum xgrowth if (xgrowth>-300 & xgrowth<100), d //worst cgrowth in locked areas! so truly a shock [trimmed at 95%?]
+
+** Trust variable
+gen Trust = (trustgovtCOVIDNos0>=3) if !missing(trustgovtCOVIDNos0)
+
+** Label variables
+label var female0  "Female 0-1"
+label var akan0 "Akan ethnic 0-1"
+label var married0 "Married 0-1"
+label var ageYrs0
+label var jhs0 "Attained Junior High School (JHS) 0-1"
+label var hhsize0 "Household size (number)"
+label var selfEmploy0 "Self employed 0-1"
+label var informal0 "Operates in informal sector 0-1"
+label var incomegrp0 "Personal income (1 to 5 scale) (monthly)"
+label var motherTogether "Staying together with mother 0-1 (Wave 0"
+label var noReligion "Has no religion 0-1 (Wave 0)"
+label var spouseTogether "Staying together with spouse 0-1 (Wave 0)"
+label var ageMarried "Age at marriage (Years) (Wave 0)"
 
 ** save data
 save "${replication_dir}/Data/03_clean/end1_end2.dta", replace

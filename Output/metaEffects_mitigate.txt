@@ -1,0 +1,17 @@
+	(1)	(2)
+VARIABLES	unableCall7days1	unableCall7days1
+		
+tmt_all	-0.371***	-0.356***
+	(0.0238)	(0.0215)
+Constant	0.499***	0.269***
+	(0.0220)	(0.0908)
+		
+Observations	2,045	2,019
+R-squared	0.163	
+District FE	No	Yes
+Date FE	No	Yes
+Controls	None	Post-Double LASSO
+Mean of dep. variable	.4985029940119761	.4985029940119761
+Number of groups		0
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

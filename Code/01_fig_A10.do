@@ -8,16 +8,10 @@ clear all
 use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 
 ** Figure A10
-*3. social networks #2-risk sharing: cc improves or ejunivates perishing informal insurance arrangs? we measure: c.consumption taking adv of our indiv panel on consumption?
+*3. social networks #2-risk sharing: cc improves or ejunivates perishing informal insurance arrangs? 
+* we measure: c.consumption taking adv of our indiv panel on consumption?
 *see: https://www.jstor.org/stable/2937654?seq=16 
-*totExp7days
-bys caseidx: gen xdif=totExp7days1[_n]-totExp7days1[_n-1]
-bys caseidx: gen xgrowth=(xdif/totExp7days1[_n])*100
-tab regionX
-tab regionX, nolab
-gen  previouslock =(regionX==3 | regionX==6)
-sum xgrowth if xgrowth, d
-bys previouslock: sum xgrowth if (xgrowth>-300 & xgrowth<100), d //worst cgrowth in locked areas! so truly a shock [trimmed at 95%?]
+
 /*
 cdfplot xgrowth if (xgrowth>-650 & xgrowth<100), ///
   xline(-23.6, lp(dash) lw(vthin)) text(0.97 -100 "Shock: Median [-24%]", size(vsmall)) ///

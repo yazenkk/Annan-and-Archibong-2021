@@ -175,38 +175,39 @@ restore
 
 **sammy/ vodafone: delivering "Mobile Credit Invervention"
 preserve
-keep caseidx phone_number_of_respondent Trt
-rename phone_number_of_respondent PhoneNumber
-keep if Trt==1
-gen MobileCredit="40GHS"
-saveold "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.dta", replace
-outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.xls", replace
+	keep caseidx phone_number_of_respondent Trt
+	rename phone_number_of_respondent PhoneNumber
+	keep if Trt==1
+	gen MobileCredit="40GHS"
+	saveold "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.dta", replace
+	outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.xls", replace
 restore
 
 preserve
-keep caseidx phone_number_of_respondent Trt
-rename phone_number_of_respondent PhoneNumber
-keep if Trt==2
-gen MobileCredit="20GHS"
-gen Wave=1
-saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.dta", replace
-outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.xls", replace
+	keep caseidx phone_number_of_respondent Trt
+	rename phone_number_of_respondent PhoneNumber
+	keep if Trt==2
+	gen MobileCredit="20GHS"
+	gen Wave=1
+	saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.dta", replace
+	outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.xls", replace
 restore
 
 preserve
-keep caseidx phone_number_of_respondent Trt
-rename phone_number_of_respondent PhoneNumber
-keep if Trt==2
-gen MobileCredit="20GHS"
-gen Wave=2
-saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.dta", replace
-outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.xls", replace
+	keep caseidx phone_number_of_respondent Trt
+	rename phone_number_of_respondent PhoneNumber
+	keep if Trt==2
+	gen MobileCredit="20GHS"
+	gen Wave=2
+	saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.dta", replace
+	outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.xls", replace
 restore
 
 
 
 *y-s
 reg needToCOVID i.Trt
+e
 reg unableToCOVID i.Trt
 reg unableCall7days i.Trt
 reg unableTrans7days i.Trt
@@ -321,7 +322,7 @@ ksmirnov kstest, by(_stack) //1-sided test of pvals-LR test stochastically domin
 
 
 
-**Attrition: stats?
+**Attrition: Prepare stats
 use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
 gen wave =1
 keep if interviewn_result==1
@@ -349,76 +350,3 @@ tab MobileCredit_attrition
 keep caseidx MobileCredit_attrition
 tab MobileCredit_attrition
 saveold "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replace
-
-
-
-** Analyze Baseline
-use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
-keep if interviewn_result==1
-bys caseidx: keep if _n==1  //only subjects + dropouts
-merge 1:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-tab _merge //0 no reachable
-gen dropouts = (_merge==2)
-gen ins=(dropouts==0)
-tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
-*tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-
-
-*base 2
-use "${data_dir}/DATA/Round_2/impact_covid_roundFINAL.dta", clear
-keep if interviewn_result==1
-bys caseidx: keep if _n==1  //only subjects + dropouts
-*drop _merge
-merge 1:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-tab _merge //88 no reachable
-gen dropouts = (_merge==2)
-tab MobileCredit_attrition if dropouts==0
-gen ins=(dropouts==0)
-tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
-*tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-
-
-** Analyze Endline
-*end 1
-use "${data_dir}/DATA/Round_3/round3_data_21.11.dta", clear
-keep if interviewn_result==1
-bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-tab _merge //83 no reachable
-gen dropouts = (_merge==2)
-tab MobileCredit_attrition if dropouts==0
-gen ins=(dropouts==0)
-tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
-tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-saveold "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", replace
-
-
-*end 2
-use "${data_dir}/DATA/Round_4/round4_data_14.12.dta", clear
-keep if interviewn_result==1
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-tab _merge //134 no reachable
-gen dropouts = (_merge==2)
-tab MobileCredit_attrition if dropouts==0
-gen ins=(dropouts==0)
-tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
-tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-**estimation with attrition adjustments
-saveold "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", replace
-
-
-
-**overall rate differential?
-use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
-append using "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition"
-tab MobileCredit_attrition, gen(TMT)
-reg dropouts TMT2 TMT3
-ttest dropouts if TMT3 !=1, by(TMT2) 
-ttest dropouts if TMT2 !=1, by(TMT3) 
-
-

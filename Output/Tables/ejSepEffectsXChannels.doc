@@ -8,8 +8,8 @@
 \ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
 \ql tmt01\cell\qc 0.837\cell\qc 9.701*\cell\qc -0.160***\cell\qc 0.116***\cell\qc -20.26***\cell\row
 \ql \cell\qc (0.561)\cell\qc (5.143)\cell\qc (0.0283)\cell\qc (0.0331)\cell\qc (6.583)\cell\row
-\ql previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc 130.3***\cell\row
-\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (30.26)\cell\row
+\ql previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -84.73***\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (32.27)\cell\row
 \ql c.tmt01#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -6.482\cell\row
 \ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (16.08)\cell\row
 \ql tmt02\cell\qc -0.290\cell\qc 8.368*\cell\qc -0.265***\cell\qc 0.273***\cell\qc 7.381\cell\row
