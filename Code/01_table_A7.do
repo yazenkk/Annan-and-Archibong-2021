@@ -23,19 +23,19 @@ use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 
 
 
-** Table A7
+** Table A7 (metaEffects_mitigate)
 **meta Effects
 **mitigate "unexpected" comm probl?
 	leebounds unableCall7days1 tmt_all, level(90) cieffect tight() 
 reg unableCall7days1 tmt_all, r cluster(districtX)
 sum unableCall7days1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace
 pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum unableCall7days1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso unableCall7days1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -43,7 +43,7 @@ pdslasso unableCall7days1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.d
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: unable to communicate or call in past 7 days 0-1", size(med))
-gr export "${replication_dir}/Output/Figures/meta_unableCall7days.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a6_1.eps", replace // meta_unableCall7days
 
 *robust-indivi-level clustering?
 pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -55,13 +55,13 @@ pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7day
 	leebounds unableToCOVID1 tmt_all, level(90) cieffect tight() 
 reg unableToCOVID1 tmt_all, r cluster(districtX)
 sum unableToCOVID1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum unableToCOVID1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso unableToCOVID1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -69,7 +69,7 @@ pdslasso unableToCOVID1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dat
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: unable to communicate or call due to COVID19 0-1", size(med))
-gr export "${replication_dir}/Output/Figures/meta_unableToCOVID.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a6_2.eps", replace // meta_unableToCOVID
 	
 *robust-indivi-level clustering?
 pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -81,13 +81,13 @@ pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID fe
 	leebounds digitborrow1 tmt_all, level(90) cieffect tight() 
 reg digitborrow1 tmt_all, r cluster(districtX)
 sum digitborrow1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum digitborrow1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso digitborrow1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -95,7 +95,7 @@ pdslasso digitborrow1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.datei
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: seek or borrow mobile credit 0-1")
-gr export "${replication_dir}/Output/Figures/meta_digitborrow.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a6_3.eps", replace // meta_digitborrow
 
 *robust-indivi-level clustering?
 pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -107,13 +107,13 @@ pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 marr
 	leebounds digitloan1 tmt_all, level(90) cieffect tight() 
 reg digitloan1 tmt_all, r cluster(districtX)
 sum digitloan1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum digitloan1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_mitigate.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title("Mitigation of communication constraints - unsaturated")
+outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title("Mitigation of communication constraints - unsaturated")
 *dyna fig
 pdslasso digitloan1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -121,7 +121,7 @@ pdslasso digitloan1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateint
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: seek digital loan 0-1")
-gr export "${replication_dir}/Output/Figures/meta_digitloan.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a6_4.eps", replace // meta_digitloan
 	
 *robust-indivi-level clustering?
 pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///

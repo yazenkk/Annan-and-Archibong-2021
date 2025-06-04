@@ -12,7 +12,8 @@
 ** Initialize parameters
 clear all
 set more off
-
+timer clear
+timer on 1
 
 ** initialize directory 
 if c(username) == "yazenkashlan" {
@@ -21,22 +22,25 @@ if c(username) == "yazenkashlan" {
 }
 
 ** clean data
-do "${replication_dir}/00_outcomes_clean.do"
-do "${replication_dir}/00_outcomes_merge.do"
+do "${replication_dir}/Code/00_outcomes_clean.do"
+do "${replication_dir}/Code/00_outcomes_merge.do"
 
 ** Run analysis
-do "${replication_dir}/01_fig_1.do"
-do "${replication_dir}/01_fig_A3-A5.do"
-do "${replication_dir}/01_fig_A10.do"
-do "${replication_dir}/01_table_1.do" // + Figure A8
-do "${replication_dir}/01_table_2.do" // + Figure A9
-do "${replication_dir}/01_table_3.do"
-do "${replication_dir}/01_table_A3.do"
-do "${replication_dir}/01_table_A4-A5.do"
-do "${replication_dir}/01_table_A6.do"
-do "${replication_dir}/01_table_A7.do" // + Figure A6
-do "${replication_dir}/01_table_A8.do" // + Figure A7
-do "${replication_dir}/01_table_A9.do" // + Figure A7
-do "${replication_dir}/01_table_A10-A13.do"
+do "${replication_dir}/Code/01_fig_1.do"
+do "${replication_dir}/Code/01_fig_A3-A5.do"
+do "${replication_dir}/Code/01_fig_A10.do"
+do "${replication_dir}/Code/01_table_1.do" // + Figure A8
+do "${replication_dir}/Code/01_table_2.do" // + Figure A9
+do "${replication_dir}/Code/01_table_3.do"
+do "${replication_dir}/Code/01_table_A3.do"
+do "${replication_dir}/Code/01_table_A4-A5.do"
+do "${replication_dir}/Code/01_table_A6.do"
+do "${replication_dir}/Code/01_table_A7.do" // + Figure A6
+do "${replication_dir}/Code/01_table_A8.do" // + Figure A7
+do "${replication_dir}/Code/01_table_A9.do" // + Figure A7
+do "${replication_dir}/Code/01_table_A10-A13.do"
 
+
+timer off 1
+timer list 1
 

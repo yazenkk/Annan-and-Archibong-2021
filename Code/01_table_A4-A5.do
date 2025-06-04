@@ -234,7 +234,7 @@ foreach list in `master_list' {
 
 ** print table
 cap file close fh 
-file open fh using "${replication_dir}/Output/Tables/Table_A4_A5_Balance.tex", replace write
+file open fh using "${replication_dir}/Output/Tables/Table_a4_a5_Balance.tex", replace write
 	file write fh "\begin{ThreePartTable}" _n
 	file write fh "\begin{table}[tbp]\centering"_n
 	file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n

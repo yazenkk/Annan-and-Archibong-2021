@@ -71,7 +71,7 @@ foreach list in `master_list' {
 
 ** print table A3
 cap file close fh 
-file open fh using "${replication_dir}/Output/Tables/Table_A3_Summary_stats.tex", replace write
+file open fh using "${replication_dir}/Output/Tables/Table_a3_Summary_stats.tex", replace write
 	file write fh "\begin{ThreePartTable}" _n
 	file write fh "\begin{table}[tbp]\centering"_n
 	file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n

@@ -18,7 +18,7 @@ append using "${replication_dir}/Data/01_raw/round3_data_21.11.dta"
 replace round=3 if missing(round)
 tab round
 ** add-round 4
-append using "${replication_dir}/Data/01_raw/round4_data_19.12.dta"
+append using "${replication_dir}/Data/01_raw/round4_data_14.12.dta"
 replace round=4 if missing(round)
 tab round
 
@@ -47,5 +47,5 @@ hist edates, ///
  text(20 `=d(19sep2020)' "N=1,993" 20 `=d(04oct2020)' "n=1,131" 20 `=d(24oct2020)' "N=1,1043" 20 `=d(06nov2020)' "N=1,048" 20 `=d(03dec2020)' "N=0997", size(small) color(blue)) ///
  frequency discrete  xla(`=d(13sep2020)' `=d(25sep2020)' `=d(29sep2020)' `=d(10oct2020)' `=d(20oct2020)' `=d(29oct2020)' `=d(01nov2020)' `=d(11nov2020)' `=d(28nov2020)' `=d(09dec2020)', valuelabel angle(50) labsize(small)) ytitle("Number of subjects") xtitle("Date of phone survey") fcolor(green) lcolor(black) ///
  title("") graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid)
-gr export "${replication_dir}/Output/Figures/datacollectionr.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_1.eps", replace // datacollectionr
 

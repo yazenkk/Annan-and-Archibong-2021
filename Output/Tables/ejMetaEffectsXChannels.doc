@@ -6,22 +6,22 @@
 \ql VARIABLES\cell\qc i1\cell\qc i2\cell\qc EmotSoc_Tired\cell\qc stayedHomelast5wks\cell\qc xgrowth\cell\row
 \trowd\trgaph75\trleft-75\trqc\cellx3600\cellx6192\cellx8784\cellx11376\cellx14112\cellx16848
 \ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
-\ql tmt_all\cell\qc 0.278\cell\qc 8.454**\cell\qc -0.213***\cell\qc 0.178***\cell\qc -9.143\cell\row
-\ql \cell\qc (0.508)\cell\qc (4.305)\cell\qc (0.0254)\cell\qc (0.0304)\cell\qc (5.815)\cell\row
-\ql previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc 73.20**\cell\row
-\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (29.59)\cell\row
-\ql c.tmt_all#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -6.144\cell\row
-\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (13.26)\cell\row
-\ql Constant\cell\qc 0.565\cell\qc 43.71\cell\qc 0.494***\cell\qc 0.408**\cell\qc -49.04*\cell\row
-\ql \cell\qc (1.313)\cell\qc (38.63)\cell\qc (0.139)\cell\qc (0.193)\cell\qc (29.59)\cell\row
+\ql tmt_all\cell\qc 0.564\cell\qc -5.693\cell\qc 0.00197\cell\qc 0.00332\cell\qc -2.766\cell\row
+\ql \cell\qc (0.497)\cell\qc (4.395)\cell\qc (0.0247)\cell\qc (0.0311)\cell\qc (5.874)\cell\row
+\ql previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc 73.40**\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (31.65)\cell\row
+\ql c.tmt_all#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc 26.19*\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (14.49)\cell\row
+\ql Constant\cell\qc 0.384\cell\qc 56.26\cell\qc 0.342**\cell\qc 0.426**\cell\qc -54.52*\cell\row
+\ql \cell\qc (1.278)\cell\qc (39.64)\cell\qc (0.145)\cell\qc (0.191)\cell\qc (28.68)\cell\row
 \ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
-\ql Observations\cell\qc 2,019\cell\qc 2,019\cell\qc 2,019\cell\qc 986\cell\qc 906\cell\row
+\ql Observations\cell\qc 2,018\cell\qc 2,018\cell\qc 2,018\cell\qc 986\cell\qc 906\cell\row
 \ql Number of groups\cell\qc 0\cell\qc 0\cell\qc 0\cell\qc 0\cell\qc 0\cell\row
 \ql District FE\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\row
 \ql Date FE\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\row
 \ql Controls\cell\qc Post-Double LASSO\cell\qc Post-Double LASSO\cell\qc Post-Double LASSO\cell\qc Post-Double LASSO\cell\qc Post-Double LASSO\cell\row
 \trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx3600\clbrdrb\brdrs\cellx6192\clbrdrb\brdrs\cellx8784\clbrdrb\brdrs\cellx11376\clbrdrb\brdrs\cellx14112\clbrdrb\brdrs\cellx16848
-\ql Mean of dep. variable\cell\qc 18.12574850299401\cell\qc 59.11676646706587\cell\qc .5194610778443114\cell\qc .2570532915360502\cell\qc -29.74069612327208\cell\row
+\ql Mean of dep. variable\cell\qc 17.49130434782609\cell\qc 66.23913043478261\cell\qc .3695652173913043\cell\qc .3663663663663664\cell\qc -71.51837290292282\cell\row
 \pard\qc
 Robust standard errors in parentheses\par
 *** p<0.01, ** p<0.05, * p<0.1\par

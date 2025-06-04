@@ -8,15 +8,18 @@ Figure A7, graphs 2-5
 use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
 
 	
-** Table A9
+** Table A9 (metaEffects_dv_mhealth)
 **dV
 	leebounds threatenPartner1 tmt_all, level(90) cieffect tight() 
+reg threatenPartner1 tmt_all, r cluster(districtX)
+sum threatenPartner1 if tmt_all==0
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace 
 pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum threatenPartner1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_dv_mhealth.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') replace
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title(" of communication credit on domestic voilence and mental meaalth - unsaturated")
 *dyna fig
 pdslasso threatenPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -24,7 +27,7 @@ pdslasso threatenPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.d
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: threatened partner 1-4")
-gr export "${replication_dir}/Output/Figures/meta_threatenPartner.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a7_2.eps", replace // meta_threatenPartner
 
 *robust-indivi-level clustering?
 pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -34,12 +37,15 @@ pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartne
 	
 	
 	leebounds hitPartner1 tmt_all, level(90) cieffect tight() 
+reg hitPartner1 tmt_all, r cluster(districtX)
+sum hitPartner1 if tmt_all==0 
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum hitPartner1 if tmt_all==0 
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_dv_mhealth.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso hitPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -47,7 +53,7 @@ pdslasso hitPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.datein
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: hit partner 1-4")
-gr export "${replication_dir}/Output/Figures/meta_hitPartner.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a7_3.eps", replace // meta_hitPartner
 	
 *robust-indivi-level clustering?
 pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -58,12 +64,15 @@ pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 
 	
 **mH
 	leebounds logk101 tmt_all, level(90) cieffect tight() 
+reg logk101 tmt_all, r cluster(districtX)
+sum logk101 if tmt_all==0
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum logk101 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_dv_mhealth.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso logk101 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -71,7 +80,7 @@ pdslasso logk101 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterv
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: logK10")
-gr export "${replication_dir}/Output/Figures/meta_logk10.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a7_4.eps", replace // meta_logk10
 
 *robust-indivi-level clustering?
 pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -80,12 +89,15 @@ pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 ma
     rlasso	
 
 	leebounds severe_distress1 tmt_all, level(90) cieffect tight() 	
+reg severe_distress1 tmt_all, r cluster(districtX)
+sum severe_distress if tmt_all==0
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) , ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum severe_distress if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/metaEffects_dv_mhealth.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title(" of communication credit on domestic voilence and mental meaalth - unsaturated")
+outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 *dyna fig
 pdslasso severe_distress1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -94,7 +106,7 @@ pdslasso severe_distress1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.d
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: severe distress 0-1")
-gr export "${replication_dir}/Output/Figures/meta_severe_distress.eps", replace
+gr export "${replication_dir}/Output/Figures/figure_a7_5.eps", replace // meta_severe_distress
 
 *robust-indivi-level clustering?
 pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -102,12 +114,6 @@ pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distres
     cluster(caseidx) ///
     rlasso	
 	
-**Reviewer #4, request to report DV+MH results for w/out LASSO spec - MANUALLY ADD
-reg threatenPartner1 tmt_all, r cluster(districtX)
-reg hitPartner1 tmt_all, r cluster(districtX)
-reg logk101 tmt_all, r cluster(districtX)
-reg severe_distress1 tmt_all, r cluster(districtX)
-
 **Reviewer #4 (robustness of log consump) + #3 (robustness of util/durables consump):
 *Try log (consumption), log(e1, e5), results still there?
 *try drop outliers -- To account for outliers, 
