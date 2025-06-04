@@ -4,6 +4,9 @@ Merge data
 	Input: 
 		- End1_MobileCredit_attrition
 		- End2_MobileCredit_attrition
+		
+	Output:
+		- end1_end2
 */
 
 
@@ -29,17 +32,22 @@ sum tmt_all tmt01 tmt02
 tab _merge // Attritors
 drop _merge
 
-**bring-In baseline data-
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/TrtList00.dta" //bring in round 1 = base
-
-	** Yazen examine m:m merge
-	egen tag=tag(caseidx end)
-	byso caseidx end : egen dup = min(tag)
-	order caseidx end tag dup 
-	list caseidx end Trt if tag == 0 
-	
+**bring-In baseline data- (wave 1, round 1)
+merge m:m caseidx using "${replication_dir}/Data/02_intermediate/TrtList00.dta" //bring in round 1 = base	
 bys caseidx end: keep if _n==1  
 drop _merge
+
+**bring-In baseline data- (wave 2, round 2)
+preserve
+	use "${replication_dir}/Data/02_intermediate/round1_round2.dta", clear
+	keep if round == 2
+	isid caseidx
+	tempfile wave2
+	save	`wave2'
+restore
+isid caseidx round
+merge m:1 caseidx using `wave2', keepusing(relocated0 digitborrow0 digitloan0)
+
 
 
 **main outcomes
@@ -68,9 +76,6 @@ tab regionX, nolab
 gen  previouslock =(regionX==3 | regionX==6)
 sum xgrowth if xgrowth, d
 bys previouslock: sum xgrowth if (xgrowth>-300 & xgrowth<100), d //worst cgrowth in locked areas! so truly a shock [trimmed at 95%?]
-
-** Trust variable
-gen Trust = (trustgovtCOVIDNos0>=3) if !missing(trustgovtCOVIDNos0)
 
 ** Label variables
 label var female0  "Female 0-1"

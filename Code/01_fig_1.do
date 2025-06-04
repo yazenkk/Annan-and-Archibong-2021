@@ -7,22 +7,22 @@ set graphics off
 **Data Collection- Plot Data Days - round 0, 1, 2, 3, 4
 ********************************************************
 ********************************************************
-use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
+use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
 gen round =1
 ** add-round 2
-append using "${data_dir}/DATA/Round_2/impact_covid_roundFINAL.dta"
+append using "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta"
 replace round=2 if missing(round)
 tab round
 ** add-round 3
-append using "${data_dir}/DATA/Round_3/round3_data_21.11.dta"
+append using "${replication_dir}/Data/01_raw/round3_data_21.11.dta"
 replace round=3 if missing(round)
 tab round
 ** add-round 4
-append using "${data_dir}/DATA/Round_4/round4_data_19.12.dta"
+append using "${replication_dir}/Data/01_raw/round4_data_19.12.dta"
 replace round=4 if missing(round)
 tab round
 
-append using "${sample_dir}/ZeroScoreData_26_09_p1.dta"
+append using "${replication_dir}/Data/01_raw/ZeroScoreData_26_09_p1.dta"
 replace round=0 if missing(round)
 tab round
 replace date_of_interview=12092020 if (date_of_interview==1609 | date_of_interview==1709 | date_of_interview==1809 | date_of_interview==2009 | date_of_interview==2109 | date_of_interview==2209 | date_of_interview==1609202)

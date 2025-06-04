@@ -2,6 +2,7 @@
 
 	
 	
+use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
 
 
 *x-s (from main step 1)

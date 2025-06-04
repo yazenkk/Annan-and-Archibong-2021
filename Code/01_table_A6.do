@@ -5,7 +5,7 @@ Table A6: Attrition
 
 
 ** Analyze Baseline
-use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
+use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
 keep if interviewn_result==1
 bys caseidx: keep if _n==1  //only subjects + dropouts
 merge 1:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
@@ -46,7 +46,7 @@ foreach lev in `levs' {
 }
 
 *base 2
-use "${data_dir}/DATA/Round_2/impact_covid_roundFINAL.dta", clear
+use "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta", clear
 keep if interviewn_result==1
 bys caseidx: keep if _n==1  //only subjects + dropouts
 *drop _merge
@@ -91,18 +91,8 @@ foreach lev in `levs' {
 
 ** Analyze Endline
 *end 1
-use "${data_dir}/DATA/Round_3/round3_data_21.11.dta", clear
-keep if interviewn_result==1
-bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-tab _merge //83 no reachable
-gen dropouts = (_merge==2)
-tab MobileCredit_attrition if dropouts==0
-gen ins=(dropouts==0)
-tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
-tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-saveold "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", replace
+use  "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
+
 levelsof MobileCredit_attrition, local(levs)
 foreach lev in `levs' {
 	
@@ -135,19 +125,8 @@ foreach lev in `levs' {
 
 
 *end 2
-use "${data_dir}/DATA/Round_4/round4_data_14.12.dta", clear
-keep if interviewn_result==1
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-tab _merge //134 no reachable
-gen dropouts = (_merge==2)
-tab MobileCredit_attrition if dropouts==0
-gen ins=(dropouts==0)
-tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
-tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-**estimation with attrition adjustments
-saveold "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", replace
+use "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", clear
+
 levelsof MobileCredit_attrition, local(levs)
 foreach lev in `levs' {
 	
@@ -185,14 +164,13 @@ use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
 append using "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition"
 tab MobileCredit_attrition, gen(TMT)
 reg dropouts TMT2 TMT3
-ttest dropouts if TMT3 !=1, by(TMT2) 
-ttest dropouts if TMT2 !=1, by(TMT3) 
-
+ttest dropouts if TMT3 !=1, by(TMT2)
+ttest dropouts if TMT2 !=1, by(TMT3)
 
 
 ** print table A6
 cap file close fh 
-file open fh using "${replication_dir}/Output/Tables/Attrition.tex", replace write
+file open fh using "${replication_dir}/Output/Tables/Table_A6_Attrition.tex", replace write
 	file write fh "\begin{ThreePartTable}" _n
 	file write fh "\begin{table}[tbp]\centering"_n
 	file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n

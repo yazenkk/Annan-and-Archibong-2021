@@ -15,6 +15,6 @@ District FE	Yes	Yes	Yes	Yes	Yes
 Date FE	Yes	Yes	Yes	Yes	Yes
 Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
 Mean of dep. variable	XX	XX	XX	XX	XX
-p-value-jointtest	.3142560934922817	.0096096516916686	.1007064883585729	6.45259234114e-23	1.96779268392e-07
+p-value-jointtest	.3142560934922846	.0096096516916678	.1007064883585668	6.45259234115e-23	1.96779268392e-07
 Robust standard errors in parentheses					
 *** p<0.01, ** p<0.05, * p<0.1					

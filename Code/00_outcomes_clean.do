@@ -11,14 +11,15 @@ Merge (Data/01_raw):
 	select1396Final_sample.dta
 
 Output (Data/02_intermediate):
+	round1_round2 (baseline: waves 1 + 2)
 	TrtList00
 	TrtList0
 	MobileCredit40GHS_376list.xls
 	MobileCredit20GHS_371list_Wave1.xls
 	MobileCredit20GHS_371list_Wave2.xls
 	MobileCredit_attrition.dta
-	End1_MobileCredit_attrition.dta
-	End2_MobileCredit_attrition.dta
+	End1_MobileCredit_attrition.dta (wave 3)
+	End2_MobileCredit_attrition.dta (wave 4)
 	
 */
 
@@ -26,10 +27,10 @@ set graphics off
 
 
 **round 1
-use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
+use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
 gen round =1
 ** add-round 2
-append using "${data_dir}/DATA/Round_2/impact_covid_roundFINAL.dta"
+append using "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta"
 replace round=2 if missing(round)
 tab round
 
@@ -37,7 +38,8 @@ keep if interviewn_result==1
 
 **bring in base GLSS7
 gen caseidX=caseidx
-merge m:1 caseidX using "${sample_dir}/select1396Final_sample.dta"
+merge m:1 caseidX using "${replication_dir}/Data/01_raw/select1396Final_sample.dta", ///
+	keepusing(districtX regionX pov_likelihood motherTogether noReligion spouseTogether ageMarried)
 drop if _merge==2
 
 
@@ -46,16 +48,16 @@ gen needToCOVID=(i9==1) if !missing(i9)
 gen unableToCOVID=(i10==1) if !missing(i10)
 gen unableCall7days =(cr1==1) if !missing(cr1)
 gen unableTrans7days =(cr2==1) if !missing(cr2)
-gen ct1a0 =ct1a
-gen ct1b0 =ct1b
-gen ct2a0 =ct2a
-gen ct2b0 =ct2b
+gen ct1a0 = ct1a
+gen ct1b0 = ct1b
+gen ct2a0 = ct2a
+gen ct2b0 = ct2b
 **ii) cons expenditure?
 egen totExp7days= rowtotal(c1-e5), missing
 
 **iii) gender relations?
 gen threatenPartner=g1
-gen hitPartner=g1
+gen hitPartner=g2
 
 *number of districts?
 egen nDistricts=group(districtX)
@@ -108,7 +110,17 @@ gen self_hseWork0=(i0==1) if !missing(i0)
 
 sum needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0 ct2b0 totExp7days threatenPartner hitPartner logk10 severe_distress tiredCOVID awareofCOVID0 trustgovtCOVIDNos0 m110 m120 m130 m140 bd10 bd20 bd30 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 
 
+gen digitborrow0=(bd1==1) if !missing(bd1) 
+gen digitloan0=(bd2==1) if !missing(bd1) 
+gen relocated0=(bd3==1) if !missing(bd1) 
+count if round == 2 & !mi(digitborrow0)
 
+gen previouslock =(regionX==3 | regionX==6)
+gen Trust = (trustgovtCOVIDNos0>=3) if !missing(trustgovtCOVIDNos0)
+
+
+** Save data for balance table
+saveold "${replication_dir}/Data/02_intermediate/round1_round2", replace
 
 
 /*
@@ -157,9 +169,8 @@ tab Trt, miss
 
 tab round
 
-
 preserve
-	keep caseidx caseidX Trt districtX regionX needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0 ct2b0 totExp7days threatenPartner hitPartner logk10 severe_distress tiredCOVID awareofCOVID0 trustgovtCOVIDNos0 m110 m120 m130 m140 bd10 bd20 bd30 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried self_hseWork0 i11
+	keep caseidx caseidX Trt districtX regionX needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0 ct2b0 totExp7days threatenPartner hitPartner logk10 severe_distress tiredCOVID awareofCOVID0 trustgovtCOVIDNos0 m110 m120 m130 m140 bd10 bd20 bd30 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried self_hseWork0 i11 Trust
 	saveold "${replication_dir}/Data/02_intermediate/TrtList00", replace
 restore
 
@@ -202,53 +213,6 @@ preserve
 	saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.dta", replace
 	outsheet using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave2.xls", replace
 restore
-
-
-
-*y-s
-reg needToCOVID i.Trt
-e
-reg unableToCOVID i.Trt
-reg unableCall7days i.Trt
-reg unableTrans7days i.Trt
-reg totExp7days i.Trt
-reg threatenPartner i.Trt
-reg hitPartner i.Trt
-reg logk10 i.Trt
-reg severe_distress i.Trt
-reg tiredCOVID i.Trt
-
-** Yazen *?* come back here
-// reg bd1 i.Trt
-// reg bd2 i.Trt
-// reg bd3 i.Trt
-
-
-*x-s
-reg female0 i.Trt
-reg akan0 i.Trt
-reg married0 i.Trt
-reg ageYrs0 i.Trt
-reg jhs0 i.Trt
-reg hhsize0 i.Trt
-reg selfEmploy0 i.Trt
-reg informal0 i.Trt
-reg incomegrp0 i.Trt
-**more x-s: step 0?
-reg pov_likelihood i.Trt 
-reg motherTogether i.Trt  
-reg noReligion i.Trt  
-reg female i.Trt  
-reg spouseTogether i.Trt  
-reg ageMarried i.Trt  
-
-
-**joint tests (exclude y-s)
-reg Trt female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried if (Trt==0 | Trt==1) //ctr vs trt1
-reg Trt female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried if (Trt==0 | Trt==2) //ctr vs trt2
-probit Trt female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried if (Trt==0 | Trt==1) 
-probit Trt female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried if (Trt==0 | Trt==2)
-mprobit Trt female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried
 
 
 **3-step test for successful randomization?
@@ -323,17 +287,17 @@ ksmirnov kstest, by(_stack) //1-sided test of pvals-LR test stochastically domin
 
 
 **Attrition: Prepare stats
-use "${data_dir}/DATA/Round_1/impact10.102020Final.dta", clear
+use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
 gen wave =1
 keep if interviewn_result==1
-bys caseidx wave: keep if _n==1  //tot subjects = 1130
+bys caseidx wave: keep if _n==1  // tot subjects = 1130
 
-merge m:1 caseidx using "${data_dir}/_Francis_Impacts/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
+merge m:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list.dta" //(but 1:1 for 12/6)
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
-merge m:m caseidx using "${data_dir}/_Francis_Impacts/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
+merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1.dta"  //(but 1:m for 12/6)
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -350,3 +314,33 @@ tab MobileCredit_attrition
 keep caseidx MobileCredit_attrition
 tab MobileCredit_attrition
 saveold "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replace
+
+** Wave 3, end 1
+use "${replication_dir}/Data/01_raw/round3_data_21.11.dta", clear
+keep if interviewn_result==1
+bys caseidx: keep if _n==1  //only subjects + dropouts
+merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+*bys caseidx: keep if _n==1  //only subjects + dropouts
+tab _merge //83 no reachable
+gen dropouts = (_merge==2)
+tab MobileCredit_attrition if dropouts==0
+gen ins=(dropouts==0)
+tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
+tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
+saveold "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", replace
+
+
+** Wave 4, end 2
+use "${replication_dir}/Data/01_raw/round4_data_14.12.dta", clear
+keep if interviewn_result==1
+*bys caseidx: keep if _n==1  //only subjects + dropouts
+merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+*bys caseidx: keep if _n==1  //only subjects + dropouts
+tab _merge //134 no reachable
+gen dropouts = (_merge==2)
+tab MobileCredit_attrition if dropouts==0
+gen ins=(dropouts==0)
+tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
+tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
+**estimation with attrition adjustments
+saveold "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", replace

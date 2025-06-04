@@ -7,7 +7,6 @@ Table 3
 
 ***********************************
 clear all
-// use "${data_dir}/_Francis_Impacts/End1_MobileCredit_attrition.dta", clear
 use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 
 
@@ -16,7 +15,7 @@ use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 sum tmt01 tmt02 tmt_all
 set more off
 
-** Table 3 columns 1-2
+** Table 3 column 1
 *1. professional networks: cc improved business-related services? we measure: use c.wages and c.income?
 sum i1 //hrs worked for income (last 7days)
 sum i2 //amt received from business income-related activites (last 7days)
@@ -29,6 +28,7 @@ test tmt01 tmt02
 sum i1 if tmt_all==0
 outreg2 using "${replication_dir}/Output/Tables/ejSepEffectsXChannels.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') replace
 
+** Table 3 column 2
 pdslasso i2 tmt01 tmt02 (i.districtX i.dateinterviewend i2c female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
@@ -37,8 +37,6 @@ test tmt01 tmt02
 sum i2 if tmt_all==0
 outreg2 using "${replication_dir}/Output/Tables/ejSepEffectsXChannels.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
-** not shown
-*pooled?
 pdslasso i1 tmt_all (i.districtX i.dateinterviewend i1b female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
@@ -55,7 +53,7 @@ outreg2 using "${replication_dir}/Output/Tables/ejMetaEffectsXChannels.doc", kee
 *some evidence only on amt received from bus income-related activities
 
 
-** Table 3 columns 3
+** Table 3 column 3
 *2. social networks #1-inclusion: cc help indivs stay in touch with friends-related (social inclusion)? we measure: c.emotion and c. socinclusion?
 tab i8 //emotionally + socially tired of staying home q= Are you tired (emotionally or socially) of staying home due to COVID19, its lockdown restrictions and other personal avoidance steps you have taken??
 gen EmotSoc_Tired = (i8==1) if !missing(i8)
@@ -70,7 +68,6 @@ test tmt01 tmt02
 sum EmotSoc_Tired if tmt_all==0
 outreg2 using "${replication_dir}/Output/Tables/ejSepEffectsXChannels.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
-** Not shown
 *pooled?
 pdslasso EmotSoc_Tired tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -92,7 +89,6 @@ test tmt01 tmt02
 sum stayedHomelast5wks if tmt_all==0
 outreg2 using "${replication_dir}/Output/Tables/ejSepEffectsXChannels.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
-** not shown
 *pooled?
 pdslasso stayedHomelast5wks tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -103,7 +99,7 @@ outreg2 using "${replication_dir}/Output/Tables/ejMetaEffectsXChannels.doc", kee
 *not surprising, trted indivs are very compliant and stayed home more, corroborative of a comm-driven social inclusion of treated indivs
 
 
-** Table 3 edits
+** Table 3 column 5
 *[rejuvination] test: what happens when combined with communication credit trts?
 **//interact w COVID CASES in district?**
 *separate?
@@ -116,7 +112,6 @@ test c.tmt01#c.previouslock c.tmt02#c.previouslock
 sum xgrowth if tmt_all==0
 outreg2 using "${replication_dir}/Output/Tables/ejSepEffectsXChannels.doc", keep(c.tmt01 c.tmt02#c.previouslock c.tmt02 c.tmt01#c.previouslock c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
-** not shown
 *pooled?
 pdslasso xgrowth c.tmt_all##c.previouslock (i.districtX i.dateinterviewend totExp7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) if (xgrowth>=-300 & xgrowth<=100), ///
     partial(i.districtX) ///
@@ -126,7 +121,6 @@ sum xgrowth if tmt_all==0
 outreg2 using "${replication_dir}/Output/Tables/ejMetaEffectsXChannels.doc", keep(tmt_all c.tmt_all#c.previouslock c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *limited evidence (though insig +7% increase in consumption growth for tranche treatment) -- yet theoretically plausible
 
-** not clear where these are 
 **get rwolf pvals?
 gen tmt01xLock =tmt01*previouslock 
 gen tmt02xLock =tmt02*previouslock

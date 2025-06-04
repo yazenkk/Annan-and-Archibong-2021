@@ -4,7 +4,6 @@ Figure A10
 
 ***********************************
 clear all
-// use "${data_dir}/_Francis_Impacts/End1_MobileCredit_attrition.dta", clear
 use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 
 ** Figure A10
