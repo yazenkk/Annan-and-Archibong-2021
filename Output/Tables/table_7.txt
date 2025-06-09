@@ -1,24 +1,24 @@
 	(1)	(2)	(3)	(4)	(5)
 VARIABLES	i1	i2	EmotSoc_Tired	stayedHomelast5wks	xgrowth
 					
-tmt01	0.565	-7.889	0.00415	0.0134	-7.474
-	(0.575)	(4.880)	(0.0286)	(0.0354)	(6.775)
-previouslock					70.10**
-					(32.58)
-c.tmt01#c.previouslock					30.07*
-					(17.21)
-tmt02	0.566	-3.477	0.00149	-0.00483	2.161
-	(0.580)	(5.385)	(0.0275)	(0.0354)	(6.707)
-c.tmt02#c.previouslock					23.86
-					(16.54)
-Constant	0.384	56.67	0.341**	0.424**	-53.82*
-	(1.279)	(39.45)	(0.146)	(0.192)	(28.79)
+tmt01	0.837	9.701*	-0.160***	0.116***	-20.26***
+	(0.561)	(5.143)	(0.0283)	(0.0331)	(6.583)
+previouslock					-84.73***
+					(32.27)
+c.tmt01#c.previouslock					-6.482
+					(16.08)
+tmt02	-0.290	8.368*	-0.265***	0.273***	7.381
+	(0.616)	(4.976)	(0.0280)	(0.0372)	(6.657)
+c.tmt02#c.previouslock					-3.157
+					(16.34)
+Constant	0.482	43.76	0.486***	0.428**	-52.57*
+	(1.309)	(38.77)	(0.140)	(0.172)	(28.11)
 					
-Observations	2,018	2,018	2,018	986	906
+Observations	2,019	2,019	2,019	986	906
 Number of groups	0	0	0	0	0
 District FE	Yes	Yes	Yes	Yes	Yes
 Date FE	Yes	Yes	Yes	Yes	Yes
 Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
-Mean of dep. variable	17.49130434782609	66.23913043478261	.3695652173913043	.3663663663663664	-71.51837290292282
+Mean of dep. variable	18.12574850299401	59.11676646706587	.5194610778443114	.2570532915360502	-29.74069612327208
 Robust standard errors in parentheses					
 *** p<0.01, ** p<0.05, * p<0.1					

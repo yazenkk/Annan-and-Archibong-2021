@@ -12,12 +12,12 @@ pause on
 use "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta", clear
 gen round=2
 tab round
-merge m:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
+merge m:1 caseidx using "${replication_dir}/Data/01_raw/MobileCredit40GHS_376list" //(but 1:1 for 12/6)
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
+merge m:m caseidx using "${replication_dir}/Data/01_raw/MobileCredit20GHS_371list_Wave1"  //(but 1:m for 12/6)
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -38,7 +38,7 @@ replace tmt=2 if tmt02==1
 sum tmt_all tmt_all2 tmt01 tmt02 tmt
 
 * add districtX and other demographics
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/TrtList00" // bring in round 1 = base & X's
+merge m:m caseidx using "${replication_dir}/Data/01_raw/TrtList00" // bring in round 1 = base & X's
 
 **balance?
 gen digitborrow0=(bd1==1) if !missing(bd1)

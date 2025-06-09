@@ -2,19 +2,19 @@ Mitigation of communication constraints - saturated
 	(1)	(2)	(3)	(4)
 VARIABLES	unableCall7days1	unableToCOVID1	digitborrow1	digitloan1
 				
-tmt01	-0.00316	0.0179	0.0120	0.00943
-	(0.0254)	(0.0241)	(0.0189)	(0.0122)
-tmt02	-0.0242	0.0307	0.0221	0.000697
-	(0.0252)	(0.0242)	(0.0191)	(0.0124)
-Constant	0.00947	0.106	0.203	-0.0401***
-	(0.0685)	(0.117)	(0.142)	(0.0128)
+tmt01	-0.282***	-0.119***	-0.184***	-0.0237*
+	(0.0239)	(0.0244)	(0.0200)	(0.0134)
+tmt02	-0.439***	-0.225***	-0.265***	-0.0461***
+	(0.0225)	(0.0240)	(0.0191)	(0.0131)
+Constant	0.258***	0.239*	0.367***	-0.0143
+	(0.0839)	(0.122)	(0.126)	(0.0143)
 				
-Observations	2,018	2,018	2,018	2,018
+Observations	2,019	2,019	2,019	2,019
 Number of groups	0	0	0	0
 District FE	Yes	Yes	Yes	Yes
 Date FE	Yes	Yes	Yes	Yes
 Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
 Mean of dep. variable	XX	XX	XX	XX
-p-value-jointtest	.5764802592453546	.4473447298273215	.5109536481744559	.707187539230427
+p-value-jointtest	3.41148221273e-84	7.89340401859e-20	4.99676244988e-44	.0017789562862092
 Robust standard errors in parentheses				
 *** p<0.01, ** p<0.05, * p<0.1				

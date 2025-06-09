@@ -1,20 +1,20 @@
 	(1)	(2)	(3)	(4)	(5)
 VARIABLES	i1	i2	EmotSoc_Tired	stayedHomelast5wks	xgrowth
 					
-tmt_all	0.564	-5.693	0.00197	0.00332	-2.766
-	(0.497)	(4.395)	(0.0247)	(0.0311)	(5.874)
-previouslock					73.40**
-					(31.65)
-c.tmt_all#c.previouslock					26.19*
-					(14.49)
-Constant	0.384	56.26	0.342**	0.426**	-54.52*
-	(1.278)	(39.64)	(0.145)	(0.191)	(28.68)
+tmt_all	0.278	8.454**	-0.213***	0.178***	-9.143
+	(0.508)	(4.305)	(0.0254)	(0.0304)	(5.815)
+previouslock					112.2***
+					(29.59)
+c.tmt_all#c.previouslock					-6.144
+					(13.26)
+Constant	0.565	43.71	0.494***	0.408**	-49.04*
+	(1.313)	(38.63)	(0.139)	(0.193)	(29.59)
 					
-Observations	2,018	2,018	2,018	986	906
+Observations	2,019	2,019	2,019	986	906
 Number of groups	0	0	0	0	0
 District FE	Yes	Yes	Yes	Yes	Yes
 Date FE	Yes	Yes	Yes	Yes	Yes
 Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
-Mean of dep. variable	17.49130434782609	66.23913043478261	.3695652173913043	.3663663663663664	-71.51837290292282
+Mean of dep. variable	18.12574850299401	59.11676646706587	.5194610778443114	.2570532915360502	-29.74069612327208
 Robust standard errors in parentheses					
 *** p<0.01, ** p<0.05, * p<0.1					

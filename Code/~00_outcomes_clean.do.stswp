@@ -156,7 +156,7 @@ saveold "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replac
 use "${replication_dir}/Data/01_raw/round3_data_21.11.dta", clear
 keep if interviewn_result==1
 bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+merge m:m caseidx using "${replication_dir}/Data/01_raw/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
 *bys caseidx: keep if _n==1  //only subjects + dropouts
 tab _merge //83 no reachable
 gen dropouts = (_merge==2)

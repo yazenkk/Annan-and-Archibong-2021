@@ -29,17 +29,16 @@ do "${replication_dir}/Code/00_outcomes_merge.do"
 do "${replication_dir}/Code/01_fig_1.do"
 do "${replication_dir}/Code/01_fig_A3-A5.do"
 do "${replication_dir}/Code/01_fig_A10.do"
-do "${replication_dir}/Code/01_table_1.do" // + Figure A8
-do "${replication_dir}/Code/01_table_2.do" // + Figure A9
+do "${replication_dir}/Code/01_table_1.do"
+do "${replication_dir}/Code/01_table_2.do"
 do "${replication_dir}/Code/01_table_3.do"
+do "${replication_dir}/Code/01_table_4.do"
+do "${replication_dir}/Code/01_table_5.do"
+do "${replication_dir}/Code/01_table_6.do"
+do "${replication_dir}/Code/01_table_7.do"
 do "${replication_dir}/Code/01_table_A3.do"
 do "${replication_dir}/Code/01_table_A4-A5.do"
-do "${replication_dir}/Code/01_table_A6.do"
-do "${replication_dir}/Code/01_table_A7.do" // + Figure A6
-do "${replication_dir}/Code/01_table_A8.do" // + Figure A7
-do "${replication_dir}/Code/01_table_A9.do" // + Figure A7
-do "${replication_dir}/Code/01_table_A10-A13.do"
-
+do "${replication_dir}/Code/01_table_A6-A9.do"
 
 timer off 1
 timer list 1
