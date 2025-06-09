@@ -1,5 +1,5 @@
 /*
-Table A9 and reviewer comments 4-5
+Table 5 and reviewer comments 4-5
 Figure A7, graphs 2-5
 */
 
@@ -13,13 +13,13 @@ use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 	leebounds threatenPartner1 tmt_all, level(90) cieffect tight() 
 reg threatenPartner1 tmt_all, r cluster(districtX)
 sum threatenPartner1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace 
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace 
 pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum threatenPartner1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title(" of communication credit on domestic voilence and mental meaalth - unsaturated")
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title(" of communication credit on domestic voilence and mental meaalth - unsaturated")
 *dyna fig
 pdslasso threatenPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -39,13 +39,13 @@ pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartne
 	leebounds hitPartner1 tmt_all, level(90) cieffect tight() 
 reg hitPartner1 tmt_all, r cluster(districtX)
 sum hitPartner1 if tmt_all==0 
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum hitPartner1 if tmt_all==0 
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso hitPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -66,13 +66,13 @@ pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 
 	leebounds logk101 tmt_all, level(90) cieffect tight() 
 reg logk101 tmt_all, r cluster(districtX)
 sum logk101 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum logk101 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso logk101 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -91,13 +91,13 @@ pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 ma
 	leebounds severe_distress1 tmt_all, level(90) cieffect tight() 	
 reg severe_distress1 tmt_all, r cluster(districtX)
 sum severe_distress if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) , ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum severe_distress if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a9.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 *dyna fig
 pdslasso severe_distress1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///

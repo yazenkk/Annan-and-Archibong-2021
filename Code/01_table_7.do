@@ -1,5 +1,5 @@
 /*
-Table 3
+Table 7
 */
 
 
@@ -26,7 +26,7 @@ pdslasso i1 tmt01 tmt02 (i.districtX i.dateinterviewend i1b female0 akan0 marrie
     rlasso
 test tmt01 tmt02
 sum i1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_3.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') replace
+outreg2 using "${replication_dir}/Output/Tables/table_7.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') replace
 // ejSepEffectsXChannels
 
 ** Table 3 column 2
@@ -36,7 +36,7 @@ pdslasso i2 tmt01 tmt02 (i.districtX i.dateinterviewend i2c female0 akan0 marrie
     rlasso
 test tmt01 tmt02
 sum i2 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_3.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_7.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 pdslasso i1 tmt_all (i.districtX i.dateinterviewend i1b female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -67,7 +67,7 @@ pdslasso EmotSoc_Tired tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0
     rlasso
 test tmt01 tmt02
 sum EmotSoc_Tired if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_3.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_7.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 *pooled?
 pdslasso EmotSoc_Tired tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -88,7 +88,7 @@ pdslasso stayedHomelast5wks tmt01 tmt02 (i.districtX i.dateinterviewend female0 
     rlasso
 test tmt01 tmt02
 sum stayedHomelast5wks if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_3.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_7.doc", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 *pooled?
 pdslasso stayedHomelast5wks tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -111,7 +111,7 @@ pdslasso xgrowth c.tmt01##c.previouslock c.tmt02##c.previouslock (i.districtX i.
 test c.tmt01#c.previouslock c.tmt02#c.previouslock
 
 sum xgrowth if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_3.doc", keep(c.tmt01 c.tmt02#c.previouslock c.tmt02 c.tmt01#c.previouslock c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_7.doc", keep(c.tmt01 c.tmt02#c.previouslock c.tmt02 c.tmt01#c.previouslock c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 *pooled?
 pdslasso xgrowth c.tmt_all##c.previouslock (i.districtX i.dateinterviewend totExp7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) if (xgrowth>=-300 & xgrowth<=100), ///

@@ -1,5 +1,5 @@
 /*
-Table 2 and Figure A9
+Table 6 and Figure A9
 */
 set graphics off
 ***********************************
@@ -16,7 +16,7 @@ pdslasso totExp7days1 tmt01 tmt02 (i.districtX i.dateinterviewend totExp7days fe
     rlasso
 sum totExp7days1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') replace
+outreg2 using "${replication_dir}/Output/Tables/table_6.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') replace
 // sepEffects_wellbeing_econ_mh
 
 *dyna fig
@@ -38,7 +38,7 @@ pdslasso threatenPartner1 tmt01 tmt02 (i.districtX i.dateinterviewend threatenPa
     rlasso
 sum threatenPartner1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+outreg2 using "${replication_dir}/Output/Tables/table_6.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
 
 *dyna fig
 pdslasso threatenPartner1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -58,7 +58,7 @@ pdslasso hitPartner1 tmt01 tmt02 (i.districtX i.dateinterviewend hitPartner fema
     rlasso
 sum hitPartner1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+outreg2 using "${replication_dir}/Output/Tables/table_6.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
 
 *dyna fig
 pdslasso hitPartner1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -80,7 +80,7 @@ pdslasso logk101 c.tmt01 c.tmt02 (i.districtX i.dateinterviewend logk10 female0 
     rlasso
 sum logk101 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+outreg2 using "${replication_dir}/Output/Tables/table_6.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
 
 *dyna fig
 pdslasso logk101 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -100,7 +100,7 @@ pdslasso severe_distress1 c.tmt01 c.tmt02 (i.districtX i.dateinterviewend i.seve
 sum severe_distress1 if tmt_all==0
 sum severe_distress if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append title(" of communication credit on wellbeing - saturated")
+outreg2 using "${replication_dir}/Output/Tables/table_6.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append title(" of communication credit on wellbeing - saturated")
 
 *dyna fig
 pdslasso severe_distress1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2  (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///

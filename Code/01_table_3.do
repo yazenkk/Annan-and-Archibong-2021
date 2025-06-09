@@ -1,5 +1,5 @@
 /*
-Table 1 and Figure A8
+Table 3 and Figure A8
 */
 
 ***********************************
@@ -17,7 +17,7 @@ pdslasso unableCall7days1 tmt01 tmt02 (i.districtX i.dateinterviewend unableCall
     rlasso
 sum unableCall7days1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') replace
+outreg2 using "${replication_dir}/Output/Tables/table_3.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') replace
 // sepEffects_mitigate
 
 *dyna fig
@@ -38,7 +38,7 @@ pdslasso unableToCOVID1 tmt01 tmt02 (i.districtX i.dateinterviewend unableToCOVI
     rlasso
 sum unableToCOVID1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+outreg2 using "${replication_dir}/Output/Tables/table_3.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
 
 *dyna fig
 pdslasso unableToCOVID1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2  (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -58,7 +58,7 @@ pdslasso digitborrow1 tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0 
     rlasso
 sum digitborrow1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+outreg2 using "${replication_dir}/Output/Tables/table_3.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
 
 *dyna fig
 pdslasso digitborrow1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2  (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -77,7 +77,7 @@ pdslasso digitloan1 tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0 ma
     rlasso
 sum digitloan1 if tmt_all==0
 test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append title("Mitigation of communication constraints - saturated")
+outreg2 using "${replication_dir}/Output/Tables/table_3.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append title("Mitigation of communication constraints - saturated")
 
 *dyna fig
 pdslasso digitloan1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///

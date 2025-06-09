@@ -1,5 +1,5 @@
 /*
-Table A6: Attrition
+Table 1: Attrition
 */
 
 
@@ -170,7 +170,7 @@ ttest dropouts if TMT2 !=1, by(TMT3)
 
 ** print table A6
 cap file close fh 
-file open fh using "${replication_dir}/Output/Tables/Table_a6_Attrition.tex", replace write
+file open fh using "${replication_dir}/Output/Tables/Table_1_Attrition.tex", replace write
 	file write fh "\begin{ThreePartTable}" _n
 	file write fh "\begin{table}[tbp]\centering"_n
 	file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n

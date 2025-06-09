@@ -241,35 +241,35 @@ pdslasso totExp7days1 c.tmt_all##c.previouslock (i.districtX i.dateinterviewend 
     cluster(caseidx) ///
     rlasso
 sum totExp7days1 if tmt_all==0
-outreg2 using "table_a9.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') replace
+outreg2 using "table_a13.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') replace
 
 pdslasso threatenPartner1 c.tmt_all##c.previouslock (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum threatenPartner1 if tmt_all==0
-outreg2 using "table_a9.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "table_a13.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 pdslasso hitPartner1 c.tmt_all##c.previouslock (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum hitPartner1 if tmt_all==0
-outreg2 using "table_a9.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "table_a13.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 pdslasso logk101 c.tmt_all##c.previouslock (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum logk101 if tmt_all==0
-outreg2 using "table_a9.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "table_a13.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 pdslasso severe_distress1 c.tmt_all##c.previouslock (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum severe_distress if tmt_all==0
-outreg2 using "table_a9.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "table_a13.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previouslock) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 
 
 

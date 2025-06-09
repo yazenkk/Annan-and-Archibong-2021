@@ -1,9 +1,9 @@
 /*
-Table A7 and Figure A6
+Table 2 and Figure A6
 */
 
 
-set graphics on
+set graphics off
 ***********************************
 use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
 
@@ -29,13 +29,13 @@ rwolf threatenPartner1 hitPartner1 logk101 severe_distress1, indepvar(tmt01 tmt0
 	leebounds unableCall7days1 tmt_all, level(90) cieffect tight() 
 reg unableCall7days1 tmt_all, r cluster(districtX)
 sum unableCall7days1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') replace
 pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum unableCall7days1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso unableCall7days1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -55,13 +55,13 @@ pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7day
 	leebounds unableToCOVID1 tmt_all, level(90) cieffect tight() 
 reg unableToCOVID1 tmt_all, r cluster(districtX)
 sum unableToCOVID1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum unableToCOVID1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso unableToCOVID1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -81,13 +81,13 @@ pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID fe
 	leebounds digitborrow1 tmt_all, level(90) cieffect tight() 
 reg digitborrow1 tmt_all, r cluster(districtX)
 sum digitborrow1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum digitborrow1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append
 *dyna fig
 pdslasso digitborrow1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
@@ -107,13 +107,13 @@ pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 marr
 	leebounds digitloan1 tmt_all, level(90) cieffect tight() 
 reg digitloan1 tmt_all, r cluster(districtX)
 sum digitloan1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `r(mean)') append
 pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum digitloan1 if tmt_all==0
-outreg2 using "${replication_dir}/Output/Tables/table_a7.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title("Mitigation of communication constraints - unsaturated")
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, `r(mean)') append title("Mitigation of communication constraints - unsaturated")
 *dyna fig
 pdslasso digitloan1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
