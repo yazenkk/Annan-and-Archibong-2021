@@ -1,91 +1,202 @@
 /*
-Table 1 and Figure A8
+Table A6: Attrition
 */
 
-***********************************
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
 
 
-* Table 1
-**separate Effects
-**mitigate "unexpected" comm probl?
-	leebounds unableCall7days1 tmt01, level(90) cieffect tight() 	
-	leebounds unableCall7days1 tmt02, level(90) cieffect tight() 	
-pdslasso unableCall7days1 tmt01 tmt02 (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-sum unableCall7days1 if tmt_all==0
-test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') replace
-// sepEffects_mitigate
+** Analyze Baseline
+use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
+keep if interviewn_result==1
+bys caseidx: keep if _n==1  //only subjects + dropouts
+merge 1:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+*bys caseidx: keep if _n==1  //only subjects + dropouts
+tab _merge //0 no reachable
+gen dropouts = (_merge==2)
+gen ins=(dropouts==0)
+tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
+*tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
+levelsof MobileCredit_attrition, local(levs)
+foreach lev in `levs' {
+	
+	** treatments
+	qui sum ins if MobileCredit_attrition == "`lev'"
+	local mean_`lev'_w1 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_`lev'_w1 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 & MobileCredit_attrition == "`lev'"
+	local n_`lev'_w1 `r(N)'
 
-*dyna fig
-pdslasso unableCall7days1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-coefplot, keep(c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(60) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
-coeflabels(c.tmt01#c.round1="Endline (round 1): lumpsum" c.tmt02#c.round1="Endline (round 1): Installments" c.tmt01#c.round2="Endline (round 2): lumpsum" c.tmt02#c.round2="Endline (round 2): Installments") title("Survey-level: unable to communicate or call in past 7 days 0-1", size(med))
-gr export "${replication_dir}/Output/Figures/figure_a8_1.eps", replace // sep_unableCall7days
+	dis "`lev'"
+	dis "`mean_`lev'_w1'"
+	dis "`sd_`lev'_w1'"
+	dis "`n_`lev'_w1'"
 	
+	** total
+	qui sum ins 
+	local mean_w1 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_w1 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 
+	local n_w1 `r(N)'
 	
-	leebounds unableToCOVID1 tmt01, level(90) cieffect tight() 	
-	leebounds unableToCOVID1 tmt02, level(90) cieffect tight() 	
-pdslasso unableToCOVID1 tmt01 tmt02 (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-sum unableToCOVID1 if tmt_all==0
-test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+	** attrition
+	sum dropouts 
+	local mean_atrt_w1 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_atrt_w1 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	count if dropouts == 1
+	local n_atrt_w1 `r(N)'
+}
 
-*dyna fig
-pdslasso unableToCOVID1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2  (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-coefplot, keep(c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 ) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(60) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
-coeflabels(c.tmt01#c.round1="Endline (round 1): lumpsum" c.tmt02#c.round1="Endline (round 1): Installments" c.tmt01#c.round2="Endline (round 2): lumpsum" c.tmt02#c.round2="Endline (round 2): Installments") title("Survey-level: unable to communicate or call due to COVID19 0-1", size(med))
-gr export "${replication_dir}/Output/Figures/figure_a8_2.eps", replace // sep_unableToCOVID
+*base 2
+use "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta", clear
+keep if interviewn_result==1
+bys caseidx: keep if _n==1  //only subjects + dropouts
+*drop _merge
+merge 1:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+*bys caseidx: keep if _n==1  //only subjects + dropouts
+tab _merge //88 no reachable
+gen dropouts = (_merge==2)
+tab MobileCredit_attrition if dropouts==0
+gen ins=(dropouts==0)
+tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
+*tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
+levelsof MobileCredit_attrition, local(levs)
+foreach lev in `levs' {
 	
-	
-	leebounds digitborrow1 tmt01, level(90) cieffect tight() 	
-	leebounds digitborrow1 tmt02, level(90) cieffect tight() 	
-pdslasso digitborrow1 tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-sum digitborrow1 if tmt_all==0
-test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append
+	** treatments
+	qui sum ins if MobileCredit_attrition == "`lev'"
+	local mean_`lev'_w2 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_`lev'_w2 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 & MobileCredit_attrition == "`lev'"
+	local n_`lev'_w2 `r(N)'
 
-*dyna fig
-pdslasso digitborrow1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2  (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-coefplot, keep(c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(60) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
-coeflabels(c.tmt01#c.round1="Endline (round 1): lumpsum" c.tmt02#c.round1="Endline (round 1): Installments" c.tmt01#c.round2="Endline (round 2): lumpsum" c.tmt02#c.round2="Endline (round 2): Installments") title("Survey-level: seek or borrow mobile credit 0-1")
-gr export "${replication_dir}/Output/Figures/figure_a8_3.eps", replace // sep_digitborrow
+	dis "`lev'"
+	dis "`mean_`lev'_w2'"
+	dis "`sd_`lev'_w2'"
+	dis "`n_`lev'_w2'"
 	
-	leebounds digitloan1 tmt01, level(90) cieffect tight() 	
-	leebounds digitloan1 tmt02, level(90) cieffect tight() 	
-pdslasso digitloan1 tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-sum digitloan1 if tmt_all==0
-test tmt01 tmt02
-outreg2 using "${replication_dir}/Output/Tables/table_1.tex", keep(tmt01 tmt02) addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, Mean of dep. variable, XX, p-value-jointtest, `r(p)') append title("Mitigation of communication constraints - saturated")
+	** total
+	qui sum ins 
+	local mean_w2 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_w2 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 
+	local n_w2 `r(N)'
+	
+	** attrition
+	sum dropouts 
+	local mean_atrt_w2 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_atrt_w2 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	count if dropouts == 1
+	local n_atrt_w2 `r(N)'
+}
 
-*dyna fig
-pdslasso digitloan1 c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2 (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-coefplot, keep(c.tmt01#c.round1 c.tmt02#c.round1 c.tmt01#c.round2 c.tmt02#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(60) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
-coeflabels(c.tmt01#c.round1="Endline (round 1): lumpsum" c.tmt02#c.round1="Endline (round 1): Installments" c.tmt01#c.round2="Endline (round 2): lumpsum" c.tmt02#c.round2="Endline (round 2): Installments") title("Survey-level: seek digital loan 0-1")
-gr export "${replication_dir}/Output/Figures/figure_a8_4.eps", replace // sep_digitloan
+
+** Analyze Endline
+*end 1
+use  "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
+
+levelsof MobileCredit_attrition, local(levs)
+foreach lev in `levs' {
 	
+	** treatments
+	qui sum ins if MobileCredit_attrition == "`lev'"
+	local mean_`lev'_w3 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_`lev'_w3 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 & MobileCredit_attrition == "`lev'"
+	local n_`lev'_w3 `r(N)'
+
+	dis "`lev'"
+	dis "`mean_`lev'_w3'"
+	dis "`sd_`lev'_w3'"
+	dis "`n_`lev'_w3'"
+	
+	** total
+	qui sum ins 
+	local mean_w3 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_w3 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 
+	local n_w3 `r(N)'
+	
+	** attrition
+	sum dropouts 
+	local mean_atrt_w3 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_atrt_w3 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	count if dropouts == 1
+	local n_atrt_w3 `r(N)'
+}
+
+
+*end 2
+use "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", clear
+
+levelsof MobileCredit_attrition, local(levs)
+foreach lev in `levs' {
+	
+	** treatments
+	qui sum ins if MobileCredit_attrition == "`lev'"
+	local mean_`lev'_w4 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_`lev'_w4 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1 & MobileCredit_attrition == "`lev'"
+	local n_`lev'_w4 `r(N)'
+
+	dis "`lev'"
+	dis "`mean_`lev'_w4'"
+	dis "`sd_`lev'_w4'"
+	dis "`n_`lev'_w4'"
+	
+	** total
+	qui sum ins 
+	local mean_w4 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_w4 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	qui count if ins == 1
+	local n_w4 `r(N)'
+	
+	** attrition
+	sum dropouts 
+	local mean_atrt_w4 = string(`r(mean)'*100, "%12.0fc") + "\%"
+	local sd_atrt_w4 = string(`r(sd)'*100, "%12.0fc") + "\%"	
+	count if dropouts == 1
+	local n_atrt_w4 `r(N)'
+}
+
+
+
+**overall rate differential?
+use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
+append using "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition"
+tab MobileCredit_attrition, gen(TMT)
+reg dropouts TMT2 TMT3
+ttest dropouts if TMT3 !=1, by(TMT2)
+ttest dropouts if TMT2 !=1, by(TMT3)
+
+
+** print table A6
+cap file close fh 
+file open fh using "${replication_dir}/Output/Tables/Table_a6_Attrition.tex", replace write
+	file write fh "\begin{ThreePartTable}" _n
+	file write fh "\begin{table}[tbp]\centering"_n
+	file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n
+	file write fh "\caption{Attrition}"_n
+	file write fh "\begin{tabular}{lccccc}"_n
+	file write fh "\hline"_n
+	file write fh " & Lumpsum & Installments & Control & Total & Attrition \\"_n
+	file write fh "\hline\hline"_n
+	file write fh "STEP 0  &  		       &		 & 1,993 &  		\\"_n
+	file write fh "*Verify phone numbers & & & & & \\ "_n
+	file write fh "*Measure poverty (Schreiner 2005) & & & & & \\ "_n
+	file write fh "SELECT SAMPLE (Randomized) & `n_40GHS_w1' 		&	`n_20GHS_w1' 		&	`n_0GHS_w1' 		&	`n_w1' 		& 					\\"_n
+	file write fh "BASELINE I (Wave 1) 		   & `n_40GHS_w1' 		&	`n_20GHS_w1' 		&	`n_0GHS_w1' 		&	`n_w1' 		&	`n_atrt_w1' 	\\"_n
+	file write fh "							   & (`mean_40GHS_w1') 	&	(`mean_20GHS_w1') 	&	(`mean_0GHS_w1') 	&	(`mean_w1') &	(`mean_atrt_w1') \\"_n
+	file write fh "							   & (`sd_40GHS_w1') 	&	(`sd_20GHS_w1') 	&	(`sd_0GHS_w1') 		&	(`sd_w1') 	&	(`sd_atrt_w1') 	\\"_n
+	file write fh "BASELINE II (Wave 2) 	   & `n_40GHS_w2' 		&	`n_20GHS_w2' 		&	`n_0GHS_w2' 		&	`n_w2' 		&	`n_atrt_w2' 	\\"_n
+	file write fh "							   & (`mean_40GHS_w2') 	&	(`mean_20GHS_w2') 	&	(`mean_0GHS_w2') 	&	(`mean_w2') &	(`mean_atrt_w2') \\"_n
+	file write fh "							   & (`sd_40GHS_w2') 	&	(`sd_20GHS_w2') 	&	(`sd_0GHS_w2') 		&	(`sd_w2') 	&	(`sd_atrt_w2') 	\\"_n
+	file write fh "ENDLINE I (Follow-up wave 3) & `n_40GHS_w3' 		&	`n_20GHS_w3' 		&	`n_0GHS_w3' 		&	`n_w3' 		&	`n_atrt_w3' 	\\"_n
+	file write fh "							   & (`mean_40GHS_w3') 	&	(`mean_20GHS_w3') 	&	(`mean_0GHS_w3') 	&	(`mean_w3') &	(`mean_atrt_w3') \\"_n
+	file write fh "							   & (`sd_40GHS_w3') 	&	(`sd_20GHS_w3') 	&	(`sd_0GHS_w3') 		&	(`sd_w3') 	&	(`sd_atrt_w3') 	\\"_n
+	file write fh "ENDLINE II (Follow-up wave 4) & `n_40GHS_w4' 		&	`n_20GHS_w4' 		&	`n_0GHS_w4' 		&	`n_w4' 		&	`n_atrt_w4' 	\\"_n
+	file write fh "							   & (`mean_40GHS_w4') 	&	(`mean_20GHS_w4') 	&	(`mean_0GHS_w4') 	&	(`mean_w4') &	(`mean_atrt_w4') \\"_n
+	file write fh "							   & (`sd_40GHS_w4') 	&	(`sd_20GHS_w4') 	&	(`sd_0GHS_w4') 		&	(`sd_w4') 	&	(`sd_atrt_w4') 	\\"_n
+	file write fh "\hline\hline"_n
+	file write fh "\end{tabular}"_n
+	file write fh "\end{table}"_n
+file close fh 
 
