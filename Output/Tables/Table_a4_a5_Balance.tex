@@ -1,4 +1,8 @@
 \begin{ThreePartTable}
+\begin{TableNotes}[flushleft]
+\footnotesize
+\item Note:                                  Note: Observations are at the individual level. Each row is a separate regression. Clustered standard errors (at the district level) are reported in parentheses. *** p<0.01, ** p<0.05, * p<0.10. Mean baseline characteristics are also balanced across treatment arms. Results are similar with and without controls for randomization strata dummies. Adding strata fixed effects does not change the results.                                 
+\end{TableNotes}
 \begin{table}[tbp]\centering
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \caption{Attrition}
@@ -64,7 +68,7 @@
                    &      (0.222)     &      (0.296)     &      (0.292)     \\ [0.1em] 
  Self-employed 0-1 & 0.771*** & 0.040 & -0.063* \\ [0.1em] 
                    &      (0.022)     &      (0.029)     &      (0.035)     \\ [0.1em] 
- Operates in informal sector 0-1 & 0.802*** & 0.033 & -0.040 \\ [0.1em] 
+ Operates in informal sector 0-1 & 0.802*** & 0.033 & -0.037 \\ [0.1em] 
                    &      (0.021)     &      (0.027)     &      (0.033)     \\ [0.1em] 
  Personal income (1 to 5 scale) (monthly) & 1.581*** & 0.026 & 0.095 \\ [0.1em] 
                    &      (0.049)     &      (0.061)     &      (0.060)     \\ [0.1em] 
@@ -91,4 +95,6 @@
                    &      (0.287)     &      (0.330)     &      (0.359)     \\ [0.1em] 
 \hline\hline
 \end{tabular}
+\insertTableNotes
 \end{table}
+\end{ThreePartTable}

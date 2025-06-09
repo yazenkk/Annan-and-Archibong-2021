@@ -162,6 +162,7 @@ foreach lev in `levs' {
 use "${replication_dir}/Data/01_raw/ZeroScoreData_26_09_p1", clear
 count if q2 == 1
 local fullcount = string(`r(N)', "%12.0fc")
+dis "`fullcount'"
 
 **overall rate differential?
 use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", clear
