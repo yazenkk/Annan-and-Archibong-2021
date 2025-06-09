@@ -55,7 +55,7 @@ local wave2_vars digitborrow0 digitloan0 relocated0
 ** regress
 foreach y in `wave2_vars' {
 	
-	qui reg `y' tmt01 tmt02, r cluster(districtX)
+	qui reg `y' tmt01 tmt02 i.districtX, r cluster(districtX)
 	mat M = r(table)
 	
 	** constant
