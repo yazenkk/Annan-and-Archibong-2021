@@ -18,6 +18,8 @@ timer on 1
 ** initialize directory 
 if c(username) == "yazenkashlan" {
 	** Replication globals
+	global project_dir "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper"
+	global sample_dir "${project_dir}/covid19 paper/DATA/COVID ZERO STEP/Stata"
 	global replication_dir "/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021"
 }
 
