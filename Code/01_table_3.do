@@ -8,8 +8,8 @@ use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
 
 **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction
 local y_list1 unableCall7days1 unableToCOVID1 digitborrow1 digitloan1
-local y_list2 totExp7days1 c1 c2 e1 e2 e3 e4 e5
-local y_list3 threatenPartner1 hitPartner1 logk101 severe_distress1
+// local y_list2 totExp7days1 c1 c2 e1 e2 e3 e4 e5
+// local y_list3 threatenPartner1 hitPartner1 logk101 severe_distress1
 // local t_list1 tmt_all
 local t_list2 tmt01 tmt02
  
