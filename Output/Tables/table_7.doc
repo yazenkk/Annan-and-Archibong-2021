@@ -6,20 +6,20 @@
 \ql VARIABLES\cell\qc i1\cell\qc i2\cell\qc EmotSoc_Tired\cell\qc stayedHomelast5wks\cell\qc xgrowth\cell\row
 \trowd\trgaph75\trleft-75\trqc\cellx3312\cellx5904\cellx8496\cellx11088\cellx13824\cellx16560
 \ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
-\ql tmt01\cell\qc 0.837\cell\qc 9.701*\cell\qc -0.160***\cell\qc 0.116***\cell\qc -20.26***\cell\row
-\ql \cell\qc (0.561)\cell\qc (5.143)\cell\qc (0.0283)\cell\qc (0.0331)\cell\qc (6.583)\cell\row
-\ql previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -84.73***\cell\row
-\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (32.27)\cell\row
-\ql c.tmt01#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -6.482\cell\row
-\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (16.08)\cell\row
-\ql tmt02\cell\qc -0.290\cell\qc 8.368*\cell\qc -0.265***\cell\qc 0.273***\cell\qc 7.381\cell\row
-\ql \cell\qc (0.616)\cell\qc (4.976)\cell\qc (0.0280)\cell\qc (0.0372)\cell\qc (6.657)\cell\row
-\ql c.tmt02#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -3.157\cell\row
-\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (16.34)\cell\row
-\ql Constant\cell\qc 0.482\cell\qc 43.76\cell\qc 0.486***\cell\qc 0.428**\cell\qc -52.57*\cell\row
-\ql \cell\qc (1.309)\cell\qc (38.77)\cell\qc (0.140)\cell\qc (0.172)\cell\qc (28.11)\cell\row
+\ql tmt01\cell\qc 0.837\cell\qc 9.701*\cell\qc -0.160***\cell\qc 0.118***\cell\qc -19.95***\cell\row
+\ql \cell\qc (0.561)\cell\qc (5.143)\cell\qc (0.0283)\cell\qc (0.0331)\cell\qc (6.607)\cell\row
+\ql previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -84.57***\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (32.30)\cell\row
+\ql c.tmt01#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -6.782\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (16.09)\cell\row
+\ql tmt02\cell\qc -0.290\cell\qc 8.368*\cell\qc -0.265***\cell\qc 0.273***\cell\qc 7.319\cell\row
+\ql \cell\qc (0.616)\cell\qc (4.976)\cell\qc (0.0280)\cell\qc (0.0372)\cell\qc (6.666)\cell\row
+\ql c.tmt02#c.previouslock\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -3.094\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (16.35)\cell\row
+\ql Constant\cell\qc 0.482\cell\qc 43.76\cell\qc 0.486***\cell\qc 0.428**\cell\qc -52.53*\cell\row
+\ql \cell\qc (1.309)\cell\qc (38.77)\cell\qc (0.140)\cell\qc (0.173)\cell\qc (28.14)\cell\row
 \ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
-\ql Observations\cell\qc 2,019\cell\qc 2,019\cell\qc 2,019\cell\qc 986\cell\qc 906\cell\row
+\ql Observations\cell\qc 2,019\cell\qc 2,019\cell\qc 2,019\cell\qc 987\cell\qc 907\cell\row
 \ql Number of groups\cell\qc 0\cell\qc 0\cell\qc 0\cell\qc 0\cell\qc 0\cell\row
 \ql District FE\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\row
 \ql Date FE\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\qc Yes\cell\row
