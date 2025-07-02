@@ -17,7 +17,7 @@ local y_list1 unableCall7days1 unableToCOVID1 digitborrow1 digitloan1
 local y_list2 totExp7days1 c1 c2 e1 e2 e3 e4 e5
 local y_list3 threatenPartner1 hitPartner1 logk101 severe_distress1
 local t_list1 tmt_all
-local t_list2 tmt01 t?mt02
+// local t_list2 tmt01 tmt02
  
 foreach y_list in y_list1 y_list2 y_list3 { //  
 	foreach t_list in t_list1 { // t_list2
@@ -58,7 +58,12 @@ reg unableCall7days1 tmt_all, r cluster(districtX)
 sum unableCall7days1 if tmt_all == 0
 local control_mean = string(`r(mean)', "%15.3fc")
 
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `control_mean', Lee 2009 Attrition Bounds, `lee_bounds', Imbens-Manski 2004 CS, `im_bounds', p-value: Romano-Wolf Correction, `rw_unableCall7days1') replace
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) ///
+	addtext(District FE, No, Date FE, No, Controls, None, ///
+	Mean of dep. variable, `control_mean', ///
+	Lee 2009 Attrition Bounds, `lee_bounds', ///
+	Imbens-Manski 2004 CS, `im_bounds', ///
+	p-value: Romano-Wolf Correction, `rw_unableCall7days1') replace
 pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///

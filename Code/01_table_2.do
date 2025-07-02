@@ -58,7 +58,14 @@ reg unableCall7days1 tmt_all, r cluster(districtX)
 sum unableCall7days1 if tmt_all == 0
 local control_mean = string(`r(mean)', "%15.3fc")
 
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, No, Date FE, No, Controls, None, Mean of dep. variable, `control_mean', Lee 2009 Attrition Bounds, `lee_bounds', Imbens-Manski 2004 CS, `im_bounds', p-value: Romano-Wolf Correction, `rw_unableCall7days1') replace
+outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) ///
+	addtext(District FE, No, Date FE, No, Controls, None, ///
+	Mean of dep. variable, `control_mean', ///
+	Lee 2009 Attrition Bounds, `lee_bounds', ///
+	Imbens-Manski 2004 CS, `im_bounds', ///
+	p-value: Romano-Wolf Correction, `rw_unableCall7days1') ///
+	replace
+	
 pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///

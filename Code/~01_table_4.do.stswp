@@ -214,7 +214,7 @@ outreg2 using "${replication_dir}/Output/Tables/table_4.tex", keep(c.tmt_all) //
 	Mean of dep. variable, `control_mean', ///
 	Lee 2009 Attrition Bounds, `lee_bounds', ///
 	Imbens-Manski 2004 CS, `im_bounds', ///
-	p-value: Romano-Wolf Correction, `rw_e5') ///
+	p-value: Romano-Wolf Correction, `rw_c1') ///
 	append title(" of communication credit on consumption expenditure - unsaturated")
 
 *dyna fig
