@@ -3,7 +3,7 @@
 \begin{document}
 \begin{tabular}{lccccc} \hline
  & (1) & (2) & (3) & (4) & (5) \\
-VARIABLES & totExp7days1 & threatenPartner1 & hitPartner1 & logk101 & severe\_distress1 \\ \hline
+VARIABLES & texp1 & tp1 & hp1 & logk101 & sd1 \\ \hline
  &  &  &  &  &  \\
 tmt\_all & 11.61 & -0.0880** & -0.0632* & -0.0899*** & -0.00200 \\
  & (11.04) & (0.0360) & (0.0351) & (0.0139) & (0.00724) \\
@@ -19,7 +19,10 @@ Number of groups & 0 & 0 & 0 & 0 & 0 \\
 District FE & Yes & Yes & Yes & Yes & Yes \\
 Date FE & Yes & Yes & Yes & Yes & Yes \\
 Controls & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO \\
- Mean of dep. variable & 219.5733532934132 & 1.247005988023952 & 1.166167664670659 & 2.704211549130743 & .1013333333333333 \\ \hline
+Mean of dep. variable & 219.573 & 1.247 & 1.166 & 2.704 & 0.025 \\
+p-value: Romano-Wolf Correction tmt & 0.818 & 0.273 & 0.818 & 0.091 & 0.818 \\
+p-value: Romano-Wolf Correction het & 1.000 & 1.000 & 1.000 & 0.273 & 1.000 \\
+ p-value: Romano-Wolf Correction t-h & 1.000 & 1.000 & 1.000 & 0.182 & 1.000 \\ \hline
 \multicolumn{6}{c}{ Robust standard errors in parentheses} \\
 \multicolumn{6}{c}{ *** p$<$0.01, ** p$<$0.05, * p$<$0.1} \\
 \end{tabular}

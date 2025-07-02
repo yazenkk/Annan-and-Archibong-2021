@@ -149,9 +149,7 @@ outreg2 using "table_a6.tex", keep(c.tmt_all c.pov_likelihood c.tmt_all#c.pov_li
 	append
 
 
-
 ** Table A7 (metaEffects_Xinformal)
-**(2)informal0? evidence: those in informal sector experienced large/better-sig mental health effects
 
 foreach y_list in y_list4 {
 	foreach t_list in t_list2 {
