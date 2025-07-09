@@ -1,0 +1,20 @@
+Mitigation of communication constraints - unsaturated															
+		(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)	(13)	(14)
+													Unable to Call	Unable to Call	Unable to Call
+VARIABLES	LABELS	No Call 7 0-1	No Call 7 0-1	No Call COV 0-1	No Call COV 0-1	Borrow Airtime 0-1	Borrow Airtime 0-1	Seek Loan 0-1	Seek Loan 0-1	No Call COV 0-1	No Call COV 0-1	No Call COV 0-1	COVID19 0-1	COVID19 0-1	COVID19 0-1
+															
+tmt_all	Communication Credit (\beta)	-0.371***	-0.357***	-0.194***	-0.172***	-0.226***	-0.221***	-0.0336***	-0.0347***	-0.172***	-0.172***	-0.172***	-0.172***	-0.172***	-0.172***
+		(0.0238)	(0.0214)	(0.0262)	(0.0215)	(0.0177)	(0.0185)	(0.0117)	(0.0119)	(0.0215)	(0.0215)	(0.0215)	(0.0215)	(0.0215)	(0.0215)
+															
+Observations		2,045	2,019	2,045	2,019	2,045	2,019	2,045	2,019	2,019	2,019	2,019	2,019	2,019	2,019
+R-squared		0.163		0.038		0.095		0.005							
+District FE		No	Yes	No	Yes	No	Yes	No	Yes	Yes	Yes	Yes	Yes	Yes	Yes
+Date FE		No	Yes	No	Yes	No	Yes	No	Yes	Yes	Yes	Yes	Yes	Yes	Yes
+Controls		None	PD LASSO	None	PD LASSO	None	PD LASSO	None	PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO
+Mean of dep. variable		0.499	0.499	0.452	0.452	0.289	0.289	0.079	0.079	)	)	)	)	)	)
+Lee 2009 Attrition Bounds		[-0.425; -0.364]		[-0.240; -0.179]		[-0.283; -0.222]		[-0.079; -0.031]							
+Imbens-Manski 2004 CS		[-0.458; -0.336]		[-0.273; -0.149]		[-0.314; -0.198]		[-0.093; -0.015]							
+p-value: Romano-Wolf Correction		0.091		0.091		0.091		0.091							
+Number of groups			0		0		0		0	0	0	0	0	0	0
+Robust standard errors in parentheses															
+*** p<0.01, ** p<0.05, * p<0.1															

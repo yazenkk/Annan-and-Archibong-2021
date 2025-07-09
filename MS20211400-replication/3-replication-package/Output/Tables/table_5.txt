@@ -1,0 +1,21 @@
+of communication credit on domestic voilence and mental meaalth - unsaturated								
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)
+VARIABLES	threatenPartner1	threatenPartner1	hitPartner1	hitPartner1	logk101	logk101	severe_distress1	severe_distress1
+								
+tmt_all	-0.0676*	-0.0778**	-0.0260	-0.0444	-0.112***	-0.0980***	-0.00439	-0.00394
+	(0.0363)	(0.0328)	(0.0341)	(0.0320)	(0.0146)	(0.0128)	(0.00769)	(0.00653)
+Constant	1.247***	1.055***	1.166***	1.032***	2.704***	1.655***	0.0254***	-0.00350
+	(0.0307)	(0.0305)	(0.0280)	(0.0291)	(0.0149)	(0.0774)	(0.00652)	(0.00595)
+								
+Observations	2,045	2,019	2,045	2,019	2,045	2,019	2,045	2,019
+R-squared	0.002		0.000		0.034		0.000	
+District FE	No	Yes	No	Yes	No	Yes	No	Yes
+Date FE	No	Yes	No	Yes	No	Yes	No	Yes
+Controls	None	Post-Double LASSO	None	Post-Double LASSO	None	Post-Double LASSO	None	Post-Double LASSO
+Mean of dep. variable	1.247	1.247	1.166	1.166	2.704	2.704	0.025	0.025
+Lee 2009 Attrition Bounds	[-0.198; -0.057]		[-0.159; -0.017]		[-0.148; -0.112]		[-0.025; -0.003]	
+Imbens-Manski 2004 CS	[-0.238; -0.015]		[-0.199; 0.024]		[-0.168; -0.094]		[-0.033; 0.006]	
+p-value: Romano-Wolf Correction	0.114		0.656		0.002		0.656	
+Number of groups		0		0		0		0
+Robust standard errors in parentheses								
+*** p<0.01, ** p<0.05, * p<0.1								
