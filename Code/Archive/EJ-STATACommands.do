@@ -44,7 +44,7 @@ egen totExp7days= rowtotal(c1-e5), missing
 
 **iii) gender relations?
 gen threatenPartner=g1
-gen hitPartner=g1
+gen hitPartner=g2
 
 *number of districts?
 egen nDistricts=group(districtX)

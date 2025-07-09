@@ -20,7 +20,7 @@ Lee 2009 Attrition Bounds tmt01	[-0.108; -0.069]	[-0.038; 0.001]	[-0.089; -0.049
 Lee 2009 Attrition Bounds tmt02	[-0.310; -0.289]	[-0.198; -0.177]	[-0.190; -0.169]	[-0.057; -0.036]
 Imbens-Manski 2004 CS tmt01	[-0.138; -0.043]	[-0.070; 0.030]	[-0.114; -0.030]	[-0.056; 0.020]
 Imbens-Manski 2004 CS tmt02	[-0.338; -0.268]	[-0.230; -0.149]	[-0.215; -0.153]	[-0.079; -0.023]
-p-value: Romano-Wolf Correction tmt01	0.091	0.091	0.091	0.182
-p-value: Romano-Wolf Correction tmt02	0.091	0.091	0.091	0.091
+p-value: Romano-Wolf Correction tmt01	0.010	0.010	0.010	0.139
+p-value: Romano-Wolf Correction tmt02	0.010	0.010	0.010	0.010
 Robust standard errors in parentheses				
 *** p<0.01, ** p<0.05, * p<0.1				

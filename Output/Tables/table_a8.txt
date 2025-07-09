@@ -16,8 +16,8 @@ District FE	Yes	Yes	Yes	Yes	Yes
 Date FE	Yes	Yes	Yes	Yes	Yes
 Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
 Mean of dep. variable	219.573	1.247	1.166	2.704	0.025
-p-value: Romano-Wolf Correction tmt	0.818	0.273	0.818	0.091	0.818
-p-value: Romano-Wolf Correction het	1.000	1.000	1.000	0.273	1.000
-p-value: Romano-Wolf Correction t-h	1.000	1.000	1.000	0.182	1.000
+p-value: Romano-Wolf Correction tmt	0.663	0.208	0.663	0.010	0.703
+p-value: Romano-Wolf Correction het	0.921	0.921	0.921	0.228	0.921
+p-value: Romano-Wolf Correction t-h	0.990	0.990	0.990	0.188	0.990
 Robust standard errors in parentheses					
 *** p<0.01, ** p<0.05, * p<0.1					

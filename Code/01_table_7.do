@@ -20,7 +20,7 @@ tab round stayed5wks
 gen tmt01xLock =tmt01*previouslock 
 gen tmt02xLock =tmt02*previouslock
 // rwolf i1 i2 EmotSoc_Tired stayed5wks xgrowth, indepvar(tmt01 tmt02) seed(124) reps(499)
-// rwolf i1 i2 EmotSoc_Tired 					  xgrowth, indepvar(tmt01 tmt02 tmt01xLock tmt02xLock previouslock) seed(124) reps(499) //get for interactions
+// rwolf i1 i2 EmotSoc_Tired 		    xgrowth, indepvar(tmt01 tmt02 tmt01xLock tmt02xLock previouslock) seed(124) reps(499) //get for interactions
 *rwolf i1 i2 EmotSoc_Tired stayed5wks xgrowth, indepvar(tmt01 tmt02 tmt01xLock tmt02xLock previouslock) seed(124)
 
 *reply comment: 
@@ -38,10 +38,7 @@ local t_list3 tmt01 tmt02 tmt01xLock tmt02xLock previouslock
 foreach y_list in y_list5 y_list6 { //  
 	foreach t_list in t_list2 t_list3 { // t_list1
 		
-		** more reps for some tests
-		if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" local reps_option "reps(499)"
-		else local reps_option ""
-		local reps_option "reps(10)"
+		local reps_option "reps(499)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'

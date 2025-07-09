@@ -13,13 +13,12 @@ local y_list1 unableCall7days1 unableToCOVID1 digitborrow1 digitloan1
 // local t_list1 tmt_all
 local t_list2 tmt01 tmt02
  
-foreach y_list in y_list1 y_list2 y_list3 { //  
+foreach y_list in y_list1  { //  y_list2 y_list3
 	foreach t_list in t_list2 { // t_list1
 		
 		** more reps for some tests
 		if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" local reps_option "reps(499)"
 		else local reps_option ""
-		local reps_option "reps(10)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'

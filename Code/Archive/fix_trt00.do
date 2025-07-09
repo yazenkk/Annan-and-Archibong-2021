@@ -1,22 +1,27 @@
 /*
-Replicating randomization step.
+Fix g1 and g2 in trt00 data
+
+Code is copied from EJ-STATACommands.do
+
 */
 
-
-*cd "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/_Francis_"
 // cd "/Users/fannan/Dropbox/Annan Archibong et al./belinda_main/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts"
-ls
+// ls
 set more off
+
+
 
 *---------------------------------------------*
 * SECTION: Data Preparation - Round 1 & 2     *
 * Used to build baseline and endline datasets *
 *---------------------------------------------*
 **round 1
-use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
+// use "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/DATA/Round_1/impact10.102020Final.dta", clear
+use "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/DATA/Round_1/impact10.102020Final.dta", clear
 gen round =1
 ** add-round 2
-append using "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta"
+// append using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/IMPACT_COVID19 DATA/DATA/Round_2/impact_covid_roundFINAL.dta"
+append using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/DATA/Round_2/impact_covid_roundFINAL.dta"
 replace round=2 if missing(round)
 tab round
 
@@ -25,7 +30,8 @@ keep if interviewn_result==1
 *--- Merge with Baseline Sampling Frame (GLSS7) ---*
 **bring in base GLSS7
 gen caseidX=caseidx
-merge m:1 caseidX using "${sample_dir}/select1396Final_sample.dta"
+// merge m:1 caseidX using "/Users/fannan/Dropbox/research_projs/fraud-monitors/_rGroup-finfraud/COVID ZERO STEP/Stata/select1396Final_sample.dta"
+merge m:1 caseidX using "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/covid19 paper/DATA/COVID ZERO STEP/Stata/select1396Final_sample.dta"
 drop if _merge==2
 
 
@@ -47,7 +53,7 @@ egen totExp7days= rowtotal(c1-e5), missing
 
 **iii) gender relations?
 gen threatenPartner=g1
-gen hitPartner=g1
+gen hitPartner=g2
 
 *number of districts?
 egen nDistricts=group(districtX)
@@ -68,7 +74,6 @@ hist k10, percent xline(30) xtitle("K10 Score")
 gen logk10 = log(k10)
 gen severe_distress = (k10>=30) if !missing(k10)
 // bys round: sum severe_distress
-tab round, sum (severe_distress)
 
 gen tiredCOVID=(i8==1) if !missing(i8)
 
@@ -104,7 +109,7 @@ sum needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0
 
 
 
-
+/*
 **old: randomization & balance...
 *y's
 reg needToCOVID i.treatment_status
@@ -134,12 +139,11 @@ reg treatment_status female akan married ageYrs jhs hhsize selfEmploy informal i
 probit treatment_status female akan married ageYrs jhs hhsize selfEmploy informal incomegrp if (treatment_status==0 | treatment_status==1)
 probit treatment_status female akan married ageYrs jhs hhsize selfEmploy informal incomegrp if (treatment_status==0 | treatment_status==2) 
 mprobit treatment_status female akan married ageYrs jhs hhsize selfEmploy informal incomegrp
-
+*/
 
 **new: redo-randomization?
 keep if round==1
 randtreat, generate(trt) replace unequal(1/3 1/3 1/3) strata(districtX) misfits(wstrata) setseed(1357911)
-
 tab trt, miss
 
 gen Trt=.
@@ -153,12 +157,4 @@ tab round
 
 
 keep caseidx caseidX Trt districtX regionX needToCOVID unableToCOVID unableCall7days unableTrans7days ct1a0 ct1b0 ct2a0 ct2b0 totExp7days threatenPartner hitPartner logk10 severe_distress tiredCOVID awareofCOVID0 trustgovtCOVIDNos0 m110 m120 m130 m140 bd10 bd20 bd30 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0 pov_likelihood motherTogether noReligion female spouseTogether ageMarried self_hseWork0 i11
-saveold "${replication_dir}/Data/01_raw/TrtList00", replace
-sort caseidx Trt
-tempfile compares
-save	`compares'
-
-use "/Users/yazenkashlan/Dropbox (Personal)/covid19 paper/IMPACT_COVID19 DATA/_Francis_Impacts/TrtList00", clear
-sort caseidx Trt
-cf Trt using `compares',
-
+saveold "/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/data/01_raw/TrtList00", replace

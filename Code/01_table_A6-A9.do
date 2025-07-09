@@ -54,11 +54,6 @@ local t_list4 tmt_all previouslock 		jointLoc
 foreach y_list in y_list4 {
 	foreach t_list in t_list1 {
 		
-		** more reps for some tests
-		if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" local reps_option "reps(499)"
-		else local reps_option ""
-		local reps_option "reps(10)"
-		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
 		
@@ -156,11 +151,6 @@ outreg2 using "table_a6.tex", keep(c.tmt_all c.pov_likelihood c.tmt_all#c.pov_li
 foreach y_list in y_list4 {
 	foreach t_list in t_list2 {
 		
-		** more reps for some tests
-		if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" local reps_option "reps(499)"
-		else local reps_option ""
-		local reps_option "reps(10)"
-		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
 		
@@ -251,11 +241,6 @@ outreg2 using "table_a7.tex", keep(c.tmt_all c.informal0 c.tmt_all#c.informal0) 
 **(3)female/gender? evidence: females experienced "slightly" (ns, but) better mental health effects
 foreach y_list in y_list4 {
 	foreach t_list in t_list3 {
-		
-		** more reps for some tests
-		if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" local reps_option "reps(499)"
-		else local reps_option ""
-		local reps_option "reps(10)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
@@ -349,11 +334,6 @@ outreg2 using "table_a8.tex", keep(c.tmt_all c.female0 c.tmt_all#c.female0) ///
 
 foreach y_list in y_list4 {
 	foreach t_list in t_list4 {
-		
-		** more reps for some tests
-		if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" local reps_option "reps(499)"
-		else local reps_option ""
-		local reps_option "reps(10)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'

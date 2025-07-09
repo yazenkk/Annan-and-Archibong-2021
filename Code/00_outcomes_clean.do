@@ -12,8 +12,6 @@ Merge (Data/01_raw):
 
 Output (Data/02_intermediate):
 	round1_round2 (baseline: waves 1 + 2)
-	TrtList00
-	TrtList0
 	MobileCredit40GHS_376list.xls
 	MobileCredit20GHS_371list_Wave1.xls
 	MobileCredit20GHS_371list_Wave2.xls

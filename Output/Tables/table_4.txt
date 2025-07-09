@@ -15,6 +15,6 @@ Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
 Mean of dep. variable	219.573	125.789	45.952	8.298	8.299	6.943	21.985	2.307
 Lee 2009 Attrition Bounds	[-26.423; 24.893]	[-22.276; 0.426]	[-9.991; 7.319]	[-3.340; 5.251]	[-2.646; 3.171]	[-6.296; 1.680]	[-13.573; -1.858]	[-1.426; 9.094]
 Imbens-Manski 2004 CS	[-40.599; 37.968]	[-29.701; 7.406]	[-15.276; 11.895]	[-5.524; 7.454]	[-4.842; 5.435]	[-8.295; 4.308]	[-17.587; 2.487]	[-3.178; 11.415]
-p-value: Romano-Wolf Correction	0.727	0.727	0.727	0.182	0.636	0.818	0.818	0.091
+p-value: Romano-Wolf Correction	0.542	0.512	0.542	0.106	0.438	0.576	0.542	0.004
 Robust standard errors in parentheses								
 *** p<0.01, ** p<0.05, * p<0.1								
