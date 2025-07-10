@@ -319,7 +319,7 @@ Johns Hopkins University SAIS and NBER
 
 \series bold
 \size default
- OCTOBER 2024
+ JULY 2025
 \end_layout
 
 \begin_layout Standard
@@ -4267,7 +4267,7 @@ placement document
 alignment document
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -4690,7 +4690,7 @@ placement document
 alignment document
 wide false
 sideways true
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -4741,7 +4741,7 @@ placement document
 alignment document
 wide false
 sideways true
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard

@@ -1,0 +1,3161 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+%%base:
+\usepackage{amsfonts}
+\usepackage{setspace}
+\usepackage{fullpage}
+\usepackage{rotating}
+\usepackage{booktabs}
+\usepackage[abbr]{harvard}
+\usepackage{color}
+
+\renewcommand{\floatpagefraction}{.99}
+\renewcommand{\topfraction}{.99}
+\renewcommand{\bottomfraction}{.99}
+\renewcommand{\textfraction}{0.01}
+
+%%Cross reference figs and tabs
+\AtBeginDocument{%
+\let\ref\autoref
+\renewcommand\figureautorefname{\@gobble}
+\renewcommand\tableautorefname{\@gobble}
+\renewcommand\equationautorefname{\@gobble}
+}
+
+\usepackage{color}
+\hypersetup{colorlinks,linkcolor=blue}
+
+\usepackage[toc,page]{appendix}
+
+
+
+%%independence symbol
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%%or indep
+\usepackage{graphicx}
+\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+
+%\usepackage[nolists,tablesfirst]{endfloat}
+%\nomarkersintext
+
+%\DeclareDelayedFloatFlavor{sidewaystable}{table}
+%\DeclareDelayedFloatFlavor{sidewaysfigure}{figure}
+
+\usepackage{graphicx,dblfloatfix}
+
+
+% set hyperlink color
+\usepackage{url}
+\hypersetup{urlcolor=blue}
+
+%%insert quote
+\usepackage{epigraph}
+\renewcommand{\textflush}{flushepinormal}
+\setlength{\epigraphwidth}{0.9\textwidth}
+
+% insert online Appendix: appendix page numbering
+\let\origappendix\appendix % save the existing appendix command
+\renewcommand\appendix{\clearpage\pagenumbering{roman}\origappendix}
+
+% modify a page's margin e.g. abstract page
+\usepackage{changepage}
+
+%supress reference label/number
+
+%change arabbic to roman numeral?
+\renewcommand\thesection{\Roman{section}}
+%\renewcommand\thesubsection{\Alph{subsection}}
+
+%set some pages portrait?
+\usepackage{pdflscape}
+
+
+\usepackage[T1]{fontenc}
+
+%stop table exceeding page
+\usepackage{graphicx}
+
+%include link in tex tables
+\usepackage{url} 
+
+%remove numbering of references
+%\makeatletter
+%\renewcommand\@biblabel[1]{}
+%\makeatother
+
+\usepackage{threeparttablex} % for footnote after longtable
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+doublespace
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{adjustwidth*}{+1.cm}{+1.cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\size large
+\lang english
+Appendix for 
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\size large
+\lang english
+THE VALUE OF COMMUNICATION FOR MENTAL HEALTH
+\series default
+
+\begin_inset VSpace 0.5cm*
+\end_inset
+
+
+\begin_inset space \hspace{}
+\length 1cm
+\end_inset
+
+Francis Annan
+\begin_inset Formula $^{\clubsuit}$
+\end_inset
+
+ 
+\begin_inset space \hspace{}
+\length 4cm
+\end_inset
+
+Belinda Archibong
+\begin_inset Formula $^{\spadesuit}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\size small
+University of California,
+ Berkeley and NBER
+\begin_inset space \hspace{}
+\length 1cm
+\end_inset
+
+Johns Hopkins University SAIS and NBER
+\size large
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\size default
+ JULY 2025
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{adjustwidth*}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{adjustwidth*}{+1.1cm}{+1.1cm}
+\end_layout
+
+\end_inset
+
+
+\size large
+
+\begin_inset VSpace 0.5cm*
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{figure}{0} 
+\backslash
+renewcommand{
+\backslash
+thefigure}{A
+\backslash
+arabic{figure}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{table}{0} 
+\backslash
+renewcommand{
+\backslash
+thetable}{A
+\backslash
+arabic{table}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\noindent
+
+\color black
+\lang english
+Appendix
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\lang english
+Global Review of Communication Programs – Motivating Evidence I
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\lang english
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways true
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+A G
+\size footnotesize
+LOBAL REVIEW OF COVID-19 COMMUNICATION INTERVENTIONS
+\size scriptsize
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:globalreviewp1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/original_figures/global_review_1r.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\lang english
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways true
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+CONT'D:
+ A G
+\size footnotesize
+LOBAL REVIEW OF COVID-19 COMMUNICATION INTERVENTIONS
+\size scriptsize
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:globalreviewp2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/original_figures/global_review_2r.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\lang english
+Exhibits – Motivating Evidence II
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+C
+\size footnotesize
+OMMUNICATION PROGRAMS 
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:photo_comm_interventions"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/original_figures/_commTaxDecrease.jpg
+	scale 30
+
+\end_inset
+
+
+\size default
+
+\begin_inset space \hspace{}
+\length 1cm
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../3-replication-package/original_figures/_freeZoom.PNG
+	scale 13
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\lang english
+Administrative Data – Motivating Evidence III
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+M
+\size footnotesize
+OBILE FINANCIAL TRANSACTIONS DURING COVID-19 
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:mobileTransactions"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/original_figures/mobilefinTransactions.eps
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+
+\lang english
+Note:
+ Mobile financial transaction data from a major local telecommunications company and based on 694,695 transactions (2,0751 random unique subscribers).
+ As displayed,
+ average purchase (total and total without airtime + data) shown in the left vertical axis with solid lines,
+ while average purchase for airtime-related activities (airtime + data only) shown in the right vertical axis with a dash line.
+ Overall market activity decreased following the onset of the pandemic,
+ but demand for mobile airtime-related activities sharply increased over the period.
+ Pre-COVID-19,
+ these two purchases (average totals versus average airtime) look similar.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\lang english
+Descriptive Statistics
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+S
+\size footnotesize
+UMMARY STATISTICS OF RELEVANT VARIABLES
+\size large
+ 
+\size footnotesize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:summary-baseSurvey-all"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a3_Summary_stats.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\paragraph_spacing other 0.8
+
+\lang english
+Note:
+ Observations are at the individual level.
+ Table reports the summary statistics of relevant variables from our baseline survey waves.
+ This include information about demographics,
+ poverty indicators,
+ communication and well-being outcomes,
+ respectively.
+ The exchange rate during the baseline period is US$ 1.0 = GHS 5.80.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+K
+\size footnotesize
+ 10 SCORE
+\size scriptsize
+ AT BASELINE (WAVE 1)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:subjects_k10_base"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a3.eps
+	scale 65
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+Note:
+ Observations are at the individual level.
+ Low (scores of 10-15,
+ indicating little or no psychological distress).
+ Moderate (scores of 16-21).
+ High (scores of 22-29).
+ Very high or severe distress (scores of 30-50).
+ 11.5% rate of severe distress (indicated by the vertical dashed line).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+T
+\size footnotesize
+OTAL CONSUMPTION EXPENDITURE 
+\size scriptsize
+AT BASELINE (WAVE 1)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:subjects_totconsump_base"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a4.eps
+	scale 65
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+Note:
+ Observations are at the individual level.
+ Total consumption expenditure sums all expenses:
+ food (inside and outside home),
+ utilities,
+ personal care,
+ education,
+ health,
+ and durables.
+ 81.7% rate of poor consumption (
+\begin_inset Formula $\leq$
+\end_inset
+
+ 500GHS per week and indicated by the dashed vertical line).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\lang english
+Balance
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+B
+\size footnotesize
+ALANCE TEST:
+ PRE-INTERVENTION TREATMENT-CONTROL DIFFERENCES 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:treatment_balanceY"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a4.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\paragraph_spacing other 0.7
+
+\lang english
+Note:
+ Observations are at the individual level.
+ Each row is a separate regression.
+ Clustered standard errors (at the district level) are reported in parentheses.
+ *** p<0.01,
+ ** p<0.05,
+ * p<0.10.
+ Mean baseline characteristics are also balanced across treatment arms.
+ 
+\series bold
+Results are similar with and without controls for randomization strata dummies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+B
+\size footnotesize
+ALANCE TEST:
+ PRE-INTERVENTION TREATMENT-CONTROL DIFFERENCES 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:treatment_balanceXs"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a5.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\paragraph_spacing other 0.7
+
+\lang english
+Note:
+ Observations are at the individual level.
+ Each row is a separate regression.
+ The F and Chi-squared tests are conducted using the pooled indicator 
+\series bold
+1(Communication Credit)
+\series default
+ as the outcome and excluding all the communication and well-being outcomes.
+ Clustered standard errors (at the district level) are reported in parentheses.
+ *** p<0.01,
+ ** p<0.05,
+ * p<0.10.
+ Mean baseline characteristics are also balanced across treatment arms.
+ 
+\series bold
+Results are similar with and without controls for randomization strata dummies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+P
+\size footnotesize
+HONE CALLS AND REACHABILITY OF INDIVIDUALS
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:subjects_reachability"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a5.eps
+	scale 65
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\paragraph_spacing double
+\noindent
+
+\size large
+\lang english
+Further Results – Tables and Figures
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\lang english
+POOLED EFFECTS OVER TRAJECTORY
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+\lang english
+MITIGATION OF COMMUNICATION CONSTRAINTS 
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:mitigate_trajectory_meta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a6_1.eps
+	scale 55
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a6_2.eps
+	scale 55
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a6_3.eps
+	scale 55
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a6_4.eps
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ Estimates are from a model that includes randomization strata (district) fixed effects,
+ survey date fixed effects,
+ and double-post LASSO specification which considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Standard errors are clustered at the individual level (the level of treatment).
+ 90% confidence intervals are displayed around the estimates.
+ Table of coefficients and standard errors available upon request.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+\lang english
+IMPACTS OF COMMUNICATION PROGRAMS ON WELL-BEING MEASURES 
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:consumpxhealth_trajectory_meta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a7_1.eps
+	scale 50
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a7_2.eps
+	scale 50
+
+\end_inset
+
+
+\size small
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a7_3.eps
+	scale 55
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a7_4.eps
+	scale 50
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a7_5.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ Estimates are from a model that includes randomization strata (district) fixed effects,
+ survey date fixed effects,
+ and double-post LASSO specification which considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Standard errors are clustered at the individual level (the level of treatment).
+ 90% confidence intervals are displayed around the estimates.
+ Table of coefficients and standard errors available upon request.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\lang english
+SEPARATE EFFECTS OVER TRAJECTORY
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+\lang english
+MITIGATION OF COMMUNICATION CONSTRAINTS 
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:mitigate_trajectory_sep"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a8_1.eps
+	scale 55
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a8_2.eps
+	scale 55
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a8_3.eps
+	scale 55
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a8_4.eps
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ Estimates are from a model that includes randomization strata (district) fixed effects,
+ survey date fixed effects,
+ and double-post LASSO specification which considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Standard errors are clustered at the individual level (the level of treatment).
+ 90% confidence intervals are displayed around the estimates.
+ Table of coefficients and standard errors available upon request.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+\lang english
+IMPACTS OF COMMUNICATION PROGRAMS ON WELL-BEING
+\size scriptsize
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:consumpxhealth_trajectory_sep"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a9_1.eps
+	scale 50
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a9_2.eps
+	scale 50
+
+\end_inset
+
+
+\size small
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a9_3.eps
+	scale 55
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a9_4.eps
+	scale 50
+
+\end_inset
+
+...
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a9_5.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ Estimates are from a model that includes randomization strata (district) fixed effects,
+ survey date fixed effects,
+ and double-post LASSO specification which considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Standard errors are clustered at the individual level (the level of treatment).
+ 90% confidence intervals are displayed around the estimates.
+ Table of coefficients and standard errors available upon request.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\lang english
+HETEROGENEOUS EFFECTS
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\lang english
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+I
+\size footnotesize
+MPACTS OF COMMUNICATION PROGRAMS ON WELL-BEING BY POVERTY 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:wellbeingXpoverty_pooled_meta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a6.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ District is the randomization strata.
+ The double-post LASSO specification considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Clustered standard errors (at the individual level;
+ the level of treatment) are reported in parentheses.
+ *** p<0.01 (1% level),
+ ** p<0.05 (5% level),
+ * p<0.1 (10% level).
+ Romano-Wolf multiple hypothesis correction 
+\shape italic
+p
+\shape default
+-values (Romano and Wolf [2005]) reported separately for consumption expense outcomes family (Total (GHS) Expenditure;
+ Food-In (GHS);
+ Food-Out (GHS);
+ Utilities (GHS);
+ Personal care (GHS);
+ Educ.
+ (GHS);
+ Health (GHS);
+ Durables (GHS)),
+ and for mental health and domestic violence outcomes family (Threatened Partner 1-4;
+ Hit Partner 1-4;
+ log K10;
+ Severe Distress 0-1).
+ NE denotes not estimable.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\lang english
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+I
+\size footnotesize
+MPACTS OF COMMUNICATION PROGRAMS ON WELL-BEING BY INFORMALITY 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:wellbeingXinformal_pooled_meta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a7.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ District is the randomization strata.
+ The double-post LASSO specification considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Clustered standard errors (at the individual level;
+ the level of treatment) are reported in parentheses.
+ *** p<0.01 (1% level),
+ ** p<0.05 (5% level),
+ * p<0.1 (10% level).
+ NE denotes not estimable,
+ which occurs due to insufficient sample from individuals in the informal sector with severe mental distress experiences.
+ Romano-Wolf multiple hypothesis correction 
+\shape italic
+p
+\shape default
+-values (Romano and Wolf [2005]) reported separately for consumption expense outcomes family (Total (GHS) Expenditure;
+ Food-In (GHS);
+ Food-Out (GHS);
+ Utilities (GHS);
+ Personal care (GHS);
+ Educ.
+ (GHS);
+ Health (GHS);
+ Durables (GHS)),
+ and for mental health and domestic violence outcomes family (Threatened Partner 1-4;
+ Hit Partner 1-4;
+ log K10;
+ Severe Distress 0-1).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\lang english
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+I
+\size footnotesize
+MPACTS OF COMMUNICATION PROGRAMS ON WELL-BEING BY GENDER 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:wellbeingXfemale_pooled_meta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a8.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ District is the randomization strata.
+ The double-post LASSO specification considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Clustered standard errors (at the individual level;
+ the level of treatment) are reported in parentheses.
+ *** p<0.01 (1% level),
+ ** p<0.05 (5% level),
+ * p<0.1 (10% level).
+ Romano-Wolf multiple hypothesis correction 
+\shape italic
+p
+\shape default
+-values (Romano and Wolf [2005]) reported separately for consumption expense outcomes family (Total (GHS) Expenditure;
+ Food-In (GHS);
+ Food-Out (GHS);
+ Utilities (GHS);
+ Personal care (GHS);
+ Educ.
+ (GHS);
+ Health (GHS);
+ Durables (GHS)),
+ and for mental health and domestic violence outcomes family (Threatened Partner 1-4;
+ Hit Partner 1-4;
+ log K10;
+ Severe Distress 0-1).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\lang english
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+I
+\size footnotesize
+MPACTS OF COMMUNICATION PROGRAMS ON WELL-BEING BY LOCKED-DOWN 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:wellbeingXlockeddown_pooled_meta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/Table_a9.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset VSpace 0.2cm*
+\end_inset
+
+
+\size default
+Note:
+ District is the randomization strata.
+ The double-post LASSO specification considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Clustered standard errors (at the individual level;
+ the level of treatment) are reported in parentheses.
+ *** p<0.01 (1% level),
+ ** p<0.05 (5% level),
+ * p<0.1 (10% level).
+ Romano-Wolf multiple hypothesis correction 
+\shape italic
+p
+\shape default
+-values (Romano and Wolf [2005]) reported separately for consumption expense outcomes family (Total (GHS) Expenditure;
+ Food-In (GHS);
+ Food-Out (GHS);
+ Utilities (GHS);
+ Personal care (GHS);
+ Educ.
+ (GHS);
+ Health (GHS);
+ Durables (GHS)),
+ and for mental health and domestic violence outcomes family (Threatened Partner 1-4;
+ Hit Partner 1-4;
+ log K10;
+ Severe Distress 0-1).
+ NE denotes not estimable.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size large
+\lang english
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\lang english
+D
+\size footnotesize
+ISTRIBUTION OF CONSUMPTION GROWTH AMONG INDIVIDUALS INSIDE AND OUTSIDE PANDEMIC'S LOCKDOWN AREAS
+\size tiny
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:_consumpShock?"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size large
+\lang english
+\begin_inset Graphics
+	filename ../3-replication-package/Output/Figures/figure_a10.eps
+	scale 120
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size small
+\lang english
+Note:
+ Figure plots the distribution (CDF) of consumption growth per week at endline for the different subsamples (lockdown areas vs non-lockdown areas).
+ Observations are at the individual level.
+ Median (mean) percent consumption growth is -13% (-45%) for individuals in lockdown areas and -8% (-27%) for those in non-lockdown areas.
+ From a Kolmogorov–Smirnov (KS) test for the equality of distributions,
+ 
+\shape italic
+p
+\shape default
+-value equals 0.020 (for equality test,
+ we trimmed the individual consumption growth outcome at the 5% level).
+ Equality tests reject the null that the distributional pairs are equal.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\series bold
+\lang english
+Definition of Relevant Select Variables – Questions
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\series bold
+\size large
+\lang english
+Communication constraints (un)mitigation:
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\lang english
+Consider the last 7 days:
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\size large
+\lang english
+Unable to call in past 7days 0-1:
+ 
+\family typewriter
+Were you confronted with the need to call others (i.e.,
+ family,
+ friends or work) but unable to call because you/ household lacked enough communication resources to cover costs?
+ 0=No,
+ 1=Yes
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\size large
+\lang english
+Borrow airtime 0-1:
+ 
+\family typewriter
+Have borrowed airtime due to unexpected circumstances to make calls?
+ 0=No,
+ 1=Yes 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\size large
+\lang english
+Seek digital loan 0-1:
+ 
+\family typewriter
+Have taken a digital loan due to unexpected circumstances to make calls?
+ 0=No,
+ 1=Yes
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\size large
+\lang english
+Unable to call due to COVID19 0-1:
+ 
+\family typewriter
+Are you sometimes unable to see or communicate with your family and friends due to COVID19,
+ its lockdown restrictions and other personal avoidance steps you have taken?
+ 0=No,
+ 1=Yes 
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\series bold
+\size large
+\lang english
+Gender and Domestic violence relations:
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\lang english
+Consider last 7 days:
+ Please indicate how often you act to the following:
+
+\series bold
+\size default
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+\lang english
+USE CODES:
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\family typewriter
+\size large
+\lang english
+1=Never (less than 1 time in 7 days),
+ 2=Sometime (1-2 times in 7 days),
+ 3=Often (3-4 times in 7 days),
+ 4=Very often (5-7 times in 7 days),
+ 5=No Answer (if you want/feel uncomfortable to say)
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\size large
+\lang english
+Threatened Partner 1-4:
+
+\family typewriter
+ How often do you threaten to hurt your partner or someone close to your partner?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\size large
+\lang english
+Hit Partner 1-4:
+
+\family typewriter
+ How often do you hit or throw something at your partner?
+ 
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\series bold
+\size large
+\lang english
+Mental Health (K10):
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\lang english
+Consider last 7 days:
+ Please indicate how often you feel about the following:
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+\lang english
+USE CODES:
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\family typewriter
+\size large
+\lang english
+1=None of the time (less than 1 time in 7 days),
+ 2=A little of the time (1-2 times in 7 days),
+ 3=Some of the time (3-4 times in 7 days) 4=Most of the time (5-6 times in 7 days),
+ 5=All of the time (7 times in 7 days) 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel tired out for no good reason?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel nervous?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel nervous that nothing could calm you down?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel hopeless?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel restless or fidgety?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel so restless you could not sit still?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel depressed?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel that everything was an effort?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel so sad that nothing could cheer you up?
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+About how often did you feel worthless?
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+\size large
+\lang english
+Consumption Expenditures (weekly):
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of all food and beverage items your household (i) purchased and consumed,
+ (ii) consumed from your own stock or production,
+ or (iii) received as a gift and consumed over the last 7 days?
+ NOTE:
+ Please only include food and beverage items consumed in the 7 days ...GHS 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of all food and beverage items you or any member of your household purchased and consumed from outside the house over the last 7 days?
+ NOTE:
+ This includes items purchased outside the house in restaurants,
+ cafeterias,
+ canteens/kiosks,
+ as well as products such as spirits,
+ tobacco,
+ stimulants,
+ etc.
+ ...GHS
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of house rents,
+ house repair costs and utilities that were paid for,
+ purchased,
+ or acquired from other sources (ie gifts and in-kind) by your household over the last 7 days?
+ NOTE:
+ Utilities include sewerage,
+ electricity,
+ water,
+ gas,
+ cooking fuels,
+ house servants,
+ etc.
+ ...GHS 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of products and services for personal use and care,
+ that were paid for,
+ purchased,
+ or acquired from other sources (ie gifts and in-kind) over the last 7 days by your household?
+ NOTE:
+ Personal care products and services include barber services,
+ electrical appliances for personal care,
+ oils,
+ soaps,
+ etc.
+ Personal use products and services include jewelry,
+ accessories (watches,
+ clocks,
+ clothing,
+ etc.),
+ cultural services,
+ mobile airtime services,
+ financial service fees,
+ transportation costs.
+ ...GHS 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of education expenses (i.e.,
+ all tuition or fees including all educational scholarships) over the last 7 days by your household?
+ ...GHS 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of consultation or treatment services,
+ and pharmaceutical or therapeutic products purchased last 7 days by your household?
+ ...GHS 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+What is the total value (in GHS) of durable products such as furniture,
+ electronics and other household appliances,
+ purchased over the last 7 days by your household?
+ NOTE:
+ This includes furniture,
+ household appliances (large and small),
+ repair of household appliances,
+ miscellaneous accessories such as TVs,
+ laptops,
+ cars,
+ mobile phones,
+ bicycles,
+ torches,
+ batteries,
+ solar lamps,
+ etc.
+ ...GHS 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+\size large
+\lang english
+Total expenditure:
+ add 1 to 8 ...GHS
+\family default
+\size default
+
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\paragraph_spacing double
+
+\lang english
+Marginal Value of Public Funds (MVPF)
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\size large
+\lang english
+We use our causal estimates to compute the MVPF (Hendren and Sprung-Keyser 2020) for a policy that provides communication credit to low-income adults for two months.
+ The MVPF is a ratio of society’s willingness to pay (private benefit) for this policy to the net cost of the policy to the government (here,
+ an 
+\begin_inset Quotes eld
+\end_inset
+
+imagined
+\begin_inset Quotes erd
+\end_inset
+
+ funder).
+ 
+\end_layout
+
+\begin_layout Subsubsection
+\paragraph_spacing double
+
+\size large
+\lang english
+Society’s Willingness to Pay (MVPF numerator)
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\size large
+\lang english
+We estimate this to include two main components.
+ 
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size large
+\lang english
+First,
+ is the averted (otherwise) social cost of mental health burden,
+ 
+\begin_inset Formula $\xi$
+\end_inset
+
+.
+ Mental health disorders account for 13% of the overall global disease burden (Collins et al.
+ [2011]),
+ which is likely higher in low-income countries (
+\begin_inset CommandInset href
+LatexCommand href
+name "Adhvaryu et al. [2019]"
+target "https://www.journals.uchicago.edu/doi/full/10.1086/701606?mobileUi=0"
+literal "false"
+
+\end_inset
+
+);
+ we assume 13%.
+ Health expenditure per capita in Ghana is US$78 (
+\begin_inset CommandInset href
+LatexCommand href
+name "World Bank [2018]"
+target "https://data.worldbank.org/indicator/SH.XPD.CHEX.PC.CD?locations=GH"
+literal "false"
+
+\end_inset
+
+).
+ With a treatment effect of -10% reduced mental destress rate (or -25% for severe mental distress;
+ we assume -10%),
+ we conservatively estimate the averted social cost of mental health burden to be 0.10x0.13xUS$78=+US$1.014.
+ This 
+\begin_inset Formula $\xi$
+\end_inset
+
+ estimate is very conservative:
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "Addo et al. [2013]"
+target "https://pubmed.ncbi.nlm.nih.gov/24526584/"
+literal "false"
+
+\end_inset
+
+ estimate that the average monthly household cost of mental healthcare in Ghana is US$60.24 (i.e.,
+ 2xUS$60.24=US$120.48 for two months),
+ so with a treatment effect of -10% reduced mental destress rate and a national average household size of 4.5 people per household,
+ this will imply 0.1xUS$120.48/4.5=+US$2.68 averted social cost,
+ which is 2.6 times larger.
+ Second,
+ is the individual beneficiary's willingness to pay for not visiting the hospital or not getting mentally unwell,
+ 
+\begin_inset Formula $\eta$
+\end_inset
+
+.
+ This includes three sub-components:
+ (i) out-of-pocket health bill 
+\begin_inset Formula $\eta_{1}$
+\end_inset
+
+ (0.10x0.13xUS$63=+US$0.82;
+ out-of-pocket health expense is US$63 [
+\begin_inset CommandInset href
+LatexCommand href
+name "World Bank 2018"
+target "https://data.worldbank.org/indicator/SH.XPD.CHEX.PC.CD?locations=GH"
+literal "false"
+
+\end_inset
+
+]);
+ (ii) travel cost to health centers 
+\begin_inset Formula $\eta_{2}$
+\end_inset
+
+ (assumed to be 20% of the estimated out-of-pocket health bill = 0.2xUS$0.82=+US$0.203;
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "Addo et al. [2013]"
+target "https://pubmed.ncbi.nlm.nih.gov/24526584/"
+literal "false"
+
+\end_inset
+
+ suggest using 74% for such indirect costs but we assume 20%);
+ and (iii) lost income from missed work 
+\begin_inset Formula $\eta_{3}$
+\end_inset
+
+ (assumed to be only 5% of the average earnings of non-farm enterprises = 0.05xUS$231=+US$11.55 for two months;
+ most individuals in our sample [around 80%] operate informal non-farm enterprises and the total average annual earnings of non-farm enterprises is US$1,385 in 2021 US$ [
+\begin_inset CommandInset href
+LatexCommand href
+name "Ghana Statistical Service, GLSS 7 Table 9.6]"
+target "https://www.statsghana.gov.gh/gssmain/fileUpload/pressrelease/GLSS7%20MAIN%20REPORT_FINAL.pdf"
+literal "false"
+
+\end_inset
+
+;
+ the treatment effects were all concentrated on individuals operating informal enterprises,
+ see Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:wellbeingXinformal_pooled_meta"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+Informal non-farm business income may either be consumed in the household (where we find no impacts) or invested (where our impacts are concentrated given that our treatment effects were all concentrated on individuals operating informal enterprises).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size large
+\lang english
+Combining all the components,
+ the MVPF's numerator = 
+\begin_inset Formula $\xi$
+\end_inset
+
++
+\begin_inset Formula $\sum_{i=1}^{3}\eta_{i}$
+\end_inset
+
+=US$13.590 for the average treated individual.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\lang english
+We drop the direct value of the communication subsidy to beneficiaries (+US$7.0) to avoid double counting.
+ In standard maximization models,
+ the willingness to pay would have just been the size of the subsidy 
+\shape italic
+if
+\shape default
+ people are fully optimizing.
+ Here,
+ it is reasonable to assume that people are not fully optimizing (see e.g.,
+ our evidence that the installment program has larger and more sustainable effects compared to the lumpsum,
+ with the exception of consumption,
+ which may reflect either time inconsistency or social pressure problems from receiving one-time large transfers).
+ Given this potential mis-optimization (the envelope theorem does not easily apply and so the benefits the subsidy delivers to people are not already captured by the subsidy),
+ the willingness to pay includes the benefits on mental health and its associated cost reductions (
+\begin_inset Formula $\xi$
+\end_inset
+
+ and 
+\begin_inset Formula $\eta$
+\end_inset
+
+).
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+\paragraph_spacing double
+
+\size large
+\lang english
+Net Cost to the 
+\begin_inset Quotes eld
+\end_inset
+
+imagined
+\begin_inset Quotes erd
+\end_inset
+
+ Funder / Government (MVPF denominator)
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\size large
+\lang english
+We estimate this to include two main components.
+ 
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size large
+\lang english
+First,
+ is the cost of providing communication transfer for two months,
+ 
+\begin_inset Formula $G$
+\end_inset
+
+ (+US$7.0).
+ Second,
+ is the missed communication services tax (CST) revenue if individuals do not communicate or stay connected,
+ 
+\begin_inset Formula $\mu$
+\end_inset
+
+.
+ In Ghana,
+ the CST is used to finance the National Youth Employment Programme (NYEP) (
+\begin_inset Formula $\geq$
+\end_inset
+
+20% of the CST) and support other national development activities.
+ Using the prevailing 5% CST rate (
+\begin_inset CommandInset href
+LatexCommand href
+name "Ghana Revenue Authority [2020]"
+target "https://gra.gov.gh/news/amendments-to-the-communications-service-tax-act-2008-act-754/"
+literal "false"
+
+\end_inset
+
+),
+ we estimate that the government loses 0.05xUS$7.0= -US$0.35.
+ In computing the net cost to the government of this policy,
+ it is important to note that (i) communication is a network good so the ultimate economic incidence of these communication transfers extends to other individuals:
+ others might benefit from receiving mobile phone calls from the treated individual (positive externalities) but this might also create congestion hassle or traffic on the communication network (negative externalities).
+ We assume (i) and (ii) to be equal.
+ If the positive externalities dominate,
+ as we would expect (see 
+\begin_inset CommandInset href
+LatexCommand href
+name "Björkegren [2019]"
+target "https://academic.oup.com/restud/article/86/3/1033/5061115?guestAccessKey=8628aed3-426d-4fc6-af39-bd5561c493a3"
+literal "false"
+
+\end_inset
+
+ for an example in Rwanda),
+ then the total cost of this policy is over-estimated in this dimension.
+ Further,
+ we conservatively did not factor in the reduced fiscal cost from less hospital visits generally due to the reduced likelihood of mental health disorders.
+ 
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size large
+\lang english
+Lastly,
+ combining all the components,
+ the MVPF's denominator = 
+\begin_inset Formula $G$
+\end_inset
+
++
+\begin_inset Formula $\mu$
+\end_inset
+
+=US$6.65 for the average treated individual.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+\paragraph_spacing double
+
+\size large
+\lang english
+MVPF Estimate
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\noindent
+
+\size large
+\lang english
+Taking the ratio,
+ we estimate a conservative MVPF of providing communication credit to be 
+\begin_inset Formula $\frac{13.590}{6.650}=2.044$
+\end_inset
+
+.
+ Notice that in determining the MVPF,
+ we intentionally bias the estimates to understate the benefits and overstate the costs.
+ With a current total population of about 31,732,129 in Ghana,
+ an adult population of 18,073,230 (57% of the total population),
+ and the poverty rate of our study's sample of adults being 22%,
+ the policy's total benefit will be US$54,035,343 (=0.22x18,073,230xUS$13.590) against a total cost of US$26,441,135 (=0.22x18,073,230xUS$6.650).
+\end_layout
+
+\end_body
+\end_document
