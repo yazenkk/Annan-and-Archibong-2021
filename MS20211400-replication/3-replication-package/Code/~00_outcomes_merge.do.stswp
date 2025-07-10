@@ -117,5 +117,6 @@ label var logk101 "log K10"
 label var severe_distress1 "Severe Distress 0-1"
 
 
+
 ** save data
 save "${replication_dir}/Data/03_clean/end1_end2.dta", replace

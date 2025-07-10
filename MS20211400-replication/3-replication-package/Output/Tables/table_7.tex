@@ -1,34 +1,30 @@
-\documentclass[]{article}
-\setlength{\pdfpagewidth}{8.5in} \setlength{\pdfpageheight}{11in}
-\begin{document}
 \begin{tabular}{lccccc} \hline
  & (1) & (2) & (3) & (4) & (5) \\
-VARIABLES & i1 & i2 & EmotSoc\_Tired & stayed5wks & xgrowth \\ \hline
+ & Hours worked & Business Income & Emotionally & Stayed Home & Consumption \\
+VARIABLES & (last 7 days) (Hrs) & (last 7 days) (GHS) & -Tired 0-1 & (last 5 weeks) 0-1 & Growth (\%) \\ \hline
  &  &  &  &  &  \\
-tmt01 & 0.837 & 9.701* & -0.160*** & 0.118*** & -19.95*** \\
+Lumpsum Credit ($\beta_1$) & 0.837 & 9.701* & -0.160*** & 0.118*** & -19.95*** \\
  & (0.561) & (5.143) & (0.0283) & (0.0331) & (6.607) \\
-tmt02 & -0.290 & 8.368* & -0.265*** & 0.273*** & 7.319 \\
+Installments Credit ($\beta_2$) & -0.290 & 8.368* & -0.265*** & 0.273*** & 7.319 \\
  & (0.616) & (4.976) & (0.0280) & (0.0372) & (6.666) \\
-previouslock &  &  &  &  & -84.57*** \\
+Locked-down 0-1, [Consumption shock] &  &  &  &  & -84.57*** \\
  &  &  &  &  & (32.30) \\
 c.tmt01\#c.previouslock &  &  &  &  & -6.782 \\
  &  &  &  &  & (16.09) \\
 c.tmt02\#c.previouslock &  &  &  &  & -3.094 \\
  &  &  &  &  & (16.35) \\
-Constant & 0.482 & 43.76 & 0.486*** & 0.428** & -52.53* \\
- & (1.309) & (38.77) & (0.140) & (0.173) & (28.14) \\
  &  &  &  &  &  \\
 Observations & 2,019 & 2,019 & 2,019 & 987 & 907 \\
 Number of groups & 0 & 0 & 0 & 0 & 0 \\
 District FE & Yes & Yes & Yes & Yes & Yes \\
 Date FE & Yes & Yes & Yes & Yes & Yes \\
-Controls & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO \\
+Controls & PD LASSO & PD LASSO & PD LASSO & PD LASSO & PD LASSO \\
 Mean of dep. variable & 18.126 & 59.117 & 0.519 & 0.257 & -29.741 \\
-p-value-jointtest & 0.118 & 0.106 & 0.000 & 0.000 &  \\
-p-value: Romano-Wolf Correction tmt01 & 0.068 & 0.068 & 0.002 & 0.028 & 0.068 \\
-p-value: Romano-Wolf Correction tmt02 & 0.382 & 0.190 & 0.002 & 0.002 & 0.246 \\
- p-value-jointtest interaction &  &  &  &  & 0.913 \\ \hline
-\multicolumn{6}{c}{ Robust standard errors in parentheses} \\
-\multicolumn{6}{c}{ *** p$<$0.01, ** p$<$0.05, * p$<$0.1} \\
+p-value for test: $\beta_1$ = $\beta_2$ & 0.118 & 0.106 & 0.000 & 0.000 & NA \\
+p-value for test: $\delta_1$ = $\delta_2$ & NA & NA & NA & NA & 0.913 \\
+p-value: Romano-Wolf Correction $\beta_1$ & 0.091 & 0.091 & 0.091 & 0.091 & 0.182 \\
+p-value: Romano-Wolf Correction $\beta_2$ & 0.455 & 0.273 & 0.091 & 0.091 & 0.455 \\
+p-value: Romano-Wolf Correction $\delta_1$ & NA & NA & NA & NA & 1.000 \\
+p-value: Romano-Wolf Correction $\delta_2$ & NA & NA & NA & NA & 1.000 \\
+ p-value: Romano-Wolf Correction Lockdown & NA & NA & NA & NA & 0.909 \\ \hline
 \end{tabular}
-\end{document}

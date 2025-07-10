@@ -1,32 +1,24 @@
-\documentclass[]{article}
-\setlength{\pdfpagewidth}{8.5in} \setlength{\pdfpageheight}{11in}
-\begin{document}
-\begin{tabular}{lccccc}
-\multicolumn{6}{c}{ of communication credit on wellbeing - saturated} \\ \hline
+\begin{tabular}{lccccc} \hline
  & (1) & (2) & (3) & (4) & (5) \\
-VARIABLES & totExp7days1 & threatenPartner1 & hitPartner1 & logk101 & severe\_distress1 \\ \hline
+ & Total (GHS) &  &  &  &  \\
+VARIABLES & Expenditure & Threatened Partner 1-4 & Hit Partner 1-4 & log K10 & Severe Distress 0-1 \\ \hline
  &  &  &  &  &  \\
-tmt01 & 10.60 & -0.0432 & -0.0195 & -0.0584*** & 0.0121 \\
+Lumpsum Credit ($\beta_1$) & 10.60 & -0.0432 & -0.0195 & -0.0584*** & 0.0121 \\
  & (11.35) & (0.0374) & (0.0372) & (0.0144) & (0.00843) \\
-tmt02 & 17.76 & -0.121*** & -0.0793** & -0.141*** & -0.0227*** \\
+Installments Credit ($\beta_2$) & 17.76 & -0.121*** & -0.0793** & -0.141*** & -0.0227*** \\
  & (11.82) & (0.0399) & (0.0383) & (0.0142) & (0.00609) \\
-Constant & 40.10 & 1.050*** & 1.028*** & 1.641*** & -0.00580 \\
- & (61.09) & (0.0323) & (0.0313) & (0.0800) & (0.00806) \\
  &  &  &  &  &  \\
 Observations & 2,019 & 2,019 & 2,019 & 2,019 & 2,019 \\
 Number of groups & 0 & 0 & 0 & 0 & 0 \\
 District FE & Yes & Yes & Yes & Yes & Yes \\
 Date FE & Yes & Yes & Yes & Yes & Yes \\
-Controls & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO & Post-Double LASSO \\
+Controls & PD LASSO & PD LASSO & PD LASSO & PD LASSO & PD LASSO \\
 Mean of dep. variable & 219.573 & 1.247 & 1.166 & 2.704 & 0.025 \\
-p-value-jointtest & 0.314 & 0.010 & 0.101 & 0.000 & 0.000 \\
-Lee 2009 Attrition Bounds tmt01 & [-18.916; 16.809] & [-0.084; 0.031] & [-0.080; 0.035] & [-0.022; 0.009] & [-0.011; 0.028] \\
-Lee 2009 Attrition Bounds tmt02 & [-15.773; 7.861] & [-0.171; -0.087] & [-0.137; -0.053] & [-0.134; -0.120] & [-0.033; -0.031] \\
-Imbens-Manski 2004 CS tmt01 & [-33.491; 30.054] & [-0.117; 0.073] & [-0.112; 0.076] & [-0.045; 0.027] & [-0.031; 0.039] \\
-Imbens-Manski 2004 CS tmt02 & [-32.234; 21.343] & [-0.254; -0.046] & [-0.220; -0.012] & [-0.154; -0.103] & [-0.040; -0.024] \\
-p-value: Romano-Wolf Correction tmt01 & 0.495 & 0.495 & 0.970 & 0.010 & 0.267 \\
- p-value: Romano-Wolf Correction tmt02 & 0.327 & 0.010 & 0.198 & 0.010 & 0.010 \\ \hline
-\multicolumn{6}{c}{ Robust standard errors in parentheses} \\
-\multicolumn{6}{c}{ *** p$<$0.01, ** p$<$0.05, * p$<$0.1} \\
+p-value for test: $\beta_1$ = $\beta_2$ & 0.314 & 0.010 & 0.101 & 0.000 & 0.000 \\
+Lee 2009 Attrition Bounds $\beta_1$ & [-18.916; 16.809] & [-0.084; 0.031] & [-0.080; 0.035] & [-0.022; 0.009] & [-0.011; 0.028] \\
+Lee 2009 Attrition Bounds $\beta_2$ & [-15.773; 7.861] & [-0.171; -0.087] & [-0.137; -0.053] & [-0.134; -0.120] & [-0.033; -0.031] \\
+Imbens-Manski 2004 CS $\beta_1$ & [-33.491; 30.054] & [-0.117; 0.073] & [-0.112; 0.076] & [-0.045; 0.027] & [-0.031; 0.039] \\
+Imbens-Manski 2004 CS $\beta_2$ & [-32.234; 21.343] & [-0.254; -0.046] & [-0.220; -0.012] & [-0.154; -0.103] & [-0.040; -0.024] \\
+p-value: Romano-Wolf Correction $\beta_1$ & 0.455 & 0.727 & 1.000 & 0.091 & 0.091 \\
+ p-value: Romano-Wolf Correction $\beta_2$ & 0.273 & 0.091 & 0.182 & 0.091 & 0.091 \\ \hline
 \end{tabular}
-\end{document}

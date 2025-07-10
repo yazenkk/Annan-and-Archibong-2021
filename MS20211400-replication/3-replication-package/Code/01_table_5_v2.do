@@ -19,7 +19,7 @@ foreach y_list in y_list3 { // y_list1 y_list2
 	foreach t_list in t_list1 { // t_list2
 	
 		** more reps for some tests
-		local reps_option "reps(499)"
+		local reps_option "reps(10)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
@@ -47,27 +47,28 @@ foreach y_list in y_list3 { // y_list1 y_list2
 	local im_upper = string(e(ciupper), "%15.3fc")
 	local im_bounds = "[`im_lower'; `im_upper']"
 	
-reg threatenPartner1 tmt_all, r cluster(districtX)
+eststo: reg threatenPartner1 tmt_all, r cluster(districtX)
 sum threatenPartner1 if tmt_all==0
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, No, Date FE, No, Controls, None, ///
-	Mean of dep. variable, `control_mean', ///
-	Lee 2009 Attrition Bounds, `lee_bounds', ///
-	Imbens-Manski 2004 CS, `im_bounds', ///
-	p-value: Romano-Wolf Correction, `rw_threatenPartner1') ///
-	replace tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "No", replace
+estadd local survey_FE   "No", replace
+estadd local controls    "None", replace
+estadd local rw_stat `rw_threatenPartner1', replace
+estadd local lee_bounds `lee_bounds', replace
+estadd local im_bounds `im_bounds', replace
 	
-pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+eststo: pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum threatenPartner1 if tmt_all==0
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, ///
-	Mean of dep. variable, `control_mean') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "Yes", replace
+estadd local survey_FE   "Yes", replace
+estadd local controls    "PD Lasso", replace
+estadd local rw_stat "", replace
+estadd local lee_bounds "", replace
+estadd local im_bounds "", replace
 	
 *dyna fig
 pdslasso threatenPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend threatenPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -93,27 +94,28 @@ pdslasso threatenPartner1 tmt_all (i.districtX i.dateinterviewend threatenPartne
 	local im_upper = string(e(ciupper), "%15.3fc")
 	local im_bounds = "[`im_lower'; `im_upper']"
 	
-reg hitPartner1 tmt_all, r cluster(districtX)
+eststo: reg hitPartner1 tmt_all, r cluster(districtX)
 sum hitPartner1 if tmt_all==0 
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, No, Date FE, No, Controls, None, ///
-	Mean of dep. variable, `control_mean', ///
-	Lee 2009 Attrition Bounds, `lee_bounds', ///
-	Imbens-Manski 2004 CS, `im_bounds', ///
-	p-value: Romano-Wolf Correction, `rw_hitPartner1') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "No", replace
+estadd local survey_FE   "No", replace
+estadd local controls    "None", replace
+estadd local rw_stat `rw_hitPartner1', replace
+estadd local lee_bounds `lee_bounds', replace
+estadd local im_bounds `im_bounds', replace
 	
-pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+eststo: pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum hitPartner1 if tmt_all==0 
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, ///
-	Mean of dep. variable, `control_mean') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "Yes", replace
+estadd local survey_FE   "Yes", replace
+estadd local controls    "PD Lasso", replace
+estadd local rw_stat "", replace
+estadd local lee_bounds "", replace
+estadd local im_bounds "", replace
 	
 *dyna fig
 pdslasso hitPartner1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend hitPartner female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -140,27 +142,28 @@ pdslasso hitPartner1 tmt_all (i.districtX i.dateinterviewend hitPartner female0 
 	local im_upper = string(e(ciupper), "%15.3fc")
 	local im_bounds = "[`im_lower'; `im_upper']"
 	
-reg logk101 tmt_all, r cluster(districtX)
+eststo: reg logk101 tmt_all, r cluster(districtX)
 sum logk101 if tmt_all==0
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, No, Date FE, No, Controls, None, ///
-	Mean of dep. variable, `control_mean', ///
-	Lee 2009 Attrition Bounds, `lee_bounds', ///
-	Imbens-Manski 2004 CS, `im_bounds', ///
-	p-value: Romano-Wolf Correction, `rw_logk101') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "No", replace
+estadd local survey_FE   "No", replace
+estadd local controls    "None", replace
+estadd local rw_stat `rw_logk101', replace
+estadd local lee_bounds `lee_bounds', replace
+estadd local im_bounds `im_bounds', replace
 	
-pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+eststo: pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum logk101 if tmt_all==0
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, ///
-	Mean of dep. variable, `control_mean') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "Yes", replace
+estadd local survey_FE   "Yes", replace
+estadd local controls    "PD Lasso", replace
+estadd local rw_stat "", replace
+estadd local lee_bounds "", replace
+estadd local im_bounds "", replace
 	
 *dyna fig
 pdslasso logk101 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -185,27 +188,28 @@ pdslasso logk101 tmt_all (i.districtX i.dateinterviewend logk10 female0 akan0 ma
 	local im_upper = string(e(ciupper), "%15.3fc")
 	local im_bounds = "[`im_lower'; `im_upper']"
 	
-reg severe_distress1 tmt_all, r cluster(districtX)
+eststo: reg severe_distress1 tmt_all, r cluster(districtX)
 sum severe_distress1 if tmt_all==0
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, No, Date FE, No, Controls, None, ///
-	Mean of dep. variable, `control_mean', ///
-	Lee 2009 Attrition Bounds, `lee_bounds', ///
-	Imbens-Manski 2004 CS, `im_bounds', ///
-	p-value: Romano-Wolf Correction, `rw_severe_distress1') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "No", replace
+estadd local survey_FE   "No", replace
+estadd local controls    "None", replace
+estadd local rw_stat `rw_severe_distress1', replace
+estadd local lee_bounds `lee_bounds', replace
+estadd local im_bounds `im_bounds', replace
 	
-pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) , ///
+eststo: pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) , ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
 sum severe_distress1 if tmt_all==0
-local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_5.tex", keep(c.tmt_all) ///
-	addtext(District FE, Yes, Date FE, Yes, Controls, Post-Double LASSO, ///
-	Mean of dep. variable, `control_mean') ///
-	append tex(frag) nonotes label nocons
+estadd local control_mean = string(`r(mean)', "%15.3fc"), replace
+estadd local district_FE "Yes", replace
+estadd local survey_FE   "Yes", replace
+estadd local controls    "PD Lasso", replace
+estadd local rw_stat "", replace
+estadd local lee_bounds "", replace
+estadd local im_bounds "", replace
 
 *dyna fig
 pdslasso severe_distress1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
@@ -273,4 +277,41 @@ pdslasso logk101 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterv
     rlasso
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: logK10")
+
+
+esttab using "${replication_dir}/Output/Tables/table_5_esttab.tex", ///
+	keep(tmt_all) 									///
+	style(tex)											///
+	nogaps												///
+	nobaselevels 										///
+	noconstant											///
+	label            									///
+	varwidth(50)										///
+	wrap 												///
+	nomtitles /// mlabels(`mylabels')									///
+	mgroups("Threatened Partner 1-4" "Hit Partner 1-4" ///
+			"log K10" "Severe Distress 0-1", ///
+			pattern(1 0 1 0 1 0 1 0)  					///
+			prefix(\multicolumn{@span}{c}{) 			///
+			suffix(}) span							  	///
+			erepeat(\cmidrule(lr){@span})) 				///
+	cells (b(fmt(3) star) se(fmt(3) par)) 				///
+	stats(N 											///
+		  district_FE									///
+		  survey_FE 									///
+		  controls  									///
+		  control_mean 									///
+		  lee_bounds 									///
+		  im_bounds 									///
+		  rw_stat, 									 	///
+		  fmt(%9.0f %9.3f %9.3f %9.3f %9.3f %9.3f %9.3f %9.3f) ///
+		  labels("Observations"					 		///
+				 "District FE" ///
+				 "Survey Date FE" ///
+				 "Controls" 	  ///
+				 "Mean of dep. variable (control)" ///
+				 "Lee 2009 Attrition Bounds" ///
+				 "Imbens-Manski 2004" ///
+				 "p-value: Romano-Wolf Correction" )) ///
+	replace
 

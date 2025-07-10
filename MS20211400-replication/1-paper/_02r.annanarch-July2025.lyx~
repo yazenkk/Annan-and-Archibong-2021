@@ -3973,7 +3973,7 @@ placement document
 alignment document
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -4001,7 +4001,7 @@ name "tab:mitigate_pooled_meta"
 \begin_layout Plain Layout
 \begin_inset CommandInset include
 LatexCommand include
-filename "../3-replication-package/Output/Tables/table_2.tex"
+filename "../3-replication-package/Output/Tables/table_2_esttab.tex"
 literal "true"
 
 \end_inset

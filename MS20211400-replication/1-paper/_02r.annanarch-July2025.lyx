@@ -3973,7 +3973,7 @@ placement document
 alignment document
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -4267,7 +4267,7 @@ placement document
 alignment document
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -4295,7 +4295,7 @@ name "tab:health_pooled_meta"
 \begin_layout Plain Layout
 \begin_inset CommandInset include
 LatexCommand include
-filename "../3-replication-package/Output/Tables/table_5.tex"
+filename "../3-replication-package/Output/Tables/table_5_esttab.tex"
 literal "true"
 
 \end_inset

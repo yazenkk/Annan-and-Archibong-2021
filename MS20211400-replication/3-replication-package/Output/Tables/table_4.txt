@@ -1,20 +1,16 @@
-of communication credit on consumption expenditure - unsaturated								
-	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)
-VARIABLES	totExp7days1	c1	c2	e1	e2	e3	e4	e5
-								
-tmt_all	12.92	-6.100	2.079	4.819***	1.776	1.125	-4.254	8.575***
-	(9.934)	(5.783)	(3.790)	(1.707)	(2.102)	(2.006)	(3.342)	(2.702)
-Constant	38.46	191.3***	30.56	22.99*	5.850	-1.063	13.93***	-4.054**
-	(61.76)	(43.71)	(26.56)	(13.51)	(3.775)	(1.667)	(5.284)	(1.597)
-								
-Observations	2,019	2,019	2,019	2,019	2,019	2,019	2,019	2,019
-Number of groups	0	0	0	0	0	0	0	0
-District FE	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes
-Date FE	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes
-Controls	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO	Post-Double LASSO
-Mean of dep. variable	219.573	125.789	45.952	8.298	8.299	6.943	21.985	2.307
-Lee 2009 Attrition Bounds	[-26.423; 24.893]	[-22.276; 0.426]	[-9.991; 7.319]	[-3.340; 5.251]	[-2.646; 3.171]	[-6.296; 1.680]	[-13.573; -1.858]	[-1.426; 9.094]
-Imbens-Manski 2004 CS	[-40.599; 37.968]	[-29.701; 7.406]	[-15.276; 11.895]	[-5.524; 7.454]	[-4.842; 5.435]	[-8.295; 4.308]	[-17.587; 2.487]	[-3.178; 11.415]
-p-value: Romano-Wolf Correction	0.542	0.512	0.542	0.106	0.438	0.576	0.542	0.004
-Robust standard errors in parentheses								
-*** p<0.01, ** p<0.05, * p<0.1								
+		(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)
+		Total (GHS)	Food-In	Food-Out	Utilities	Personal care	Educ.	Health	Durables
+VARIABLES	LABELS	Expenditure	(GHS)	(GHS)	(GHS)	(GHS)	(GHS)	(GHS)	(GHS)
+									
+tmt_all	Communication Credit ($\beta$)	12.92	-6.100	2.079	4.819***	1.776	1.125	-4.254	8.575***
+		(9.934)	(5.783)	(3.790)	(1.707)	(2.102)	(2.006)	(3.342)	(2.702)
+									
+Observations		2,019	2,019	2,019	2,019	2,019	2,019	2,019	2,019
+Number of groups		0	0	0	0	0	0	0	0
+District FE		Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes
+Date FE		Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes
+Controls		PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO
+Mean of dep. variable		219.573	125.789	45.952	8.298	8.299	6.943	21.985	2.307
+Lee 2009 Attrition Bounds		[-26.423; 24.893]	[-22.276; 0.426]	[-9.991; 7.319]	[-3.340; 5.251]	[-2.646; 3.171]	[-6.296; 1.680]	[-13.573; -1.858]	[-1.426; 9.094]
+Imbens-Manski 2004 CS		[-40.599; 37.968]	[-29.701; 7.406]	[-15.276; 11.895]	[-5.524; 7.454]	[-4.842; 5.435]	[-8.295; 4.308]	[-17.587; 2.487]	[-3.178; 11.415]
+p-value: Romano-Wolf Correction		0.636	0.636	0.636	0.182	0.545	0.636	0.636	0.091
