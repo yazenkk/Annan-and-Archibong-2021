@@ -233,7 +233,7 @@ outreg2 using "table_a7.tex", keep(c.tmt_all c.informal0 c.tmt_all#c.informal0) 
 			p-value: Romano-Wolf Correction interaction, `rw_logk101_jointInf') ///
 	append tex(frag) nonotes label nocons
 
-pdslasso sd1 c.tmt_all##c.informal0 (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0  incomegrp0), ///
+pdslasso sd1 c.tmt_all##c.pov_likelihood (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0  incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso

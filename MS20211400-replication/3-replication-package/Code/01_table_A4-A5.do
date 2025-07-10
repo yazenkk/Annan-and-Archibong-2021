@@ -199,17 +199,6 @@ local lab_m120 "I'm relaxed (1 = disagree to 5 = agree)"
 local lab_m130 "I'm satisfied with life, all else equal (1 = disagree to 5 = agree)"
 local lab_m140 "I'm satisfied with finances, all else equal (1 = disagree to 5 = agree)"
 
-
-		#delimit;
-			local note "
-				Note: Observations are at the individual level. Each row is a separate regression. Clustered standard errors (at the district level) are reported in parentheses. *** p<0.01, ** p<0.05, * p<0.10. Mean baseline characteristics are also balanced across treatment arms. Results are similar with and without controls for randomization strata dummies. Adding strata fixed effects does not change the results.
-				"
-		;
-		#delimit cr
-
-
-
-
 ** run regression: balance test
 foreach table in table_a4 table_a5 {
 	foreach list in ``table'' {
@@ -245,16 +234,6 @@ foreach table in table_a4 table_a5 {
 	** print table
 	cap file close fh 
 	file open fh using "${replication_dir}/Output/Tables/`table'.tex", replace write
-		file write fh "\begin{ThreePartTable}" _n
-		
-		file write fh "\begin{TableNotes}[flushleft]" _n
-		file write fh "\footnotesize" _n
-		file write fh "\item Note: `note'" _n
-		file write fh "\end{TableNotes}" _n
-
-		file write fh "\begin{table}[tbp]\centering"_n
-		file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n
-		file write fh "\caption{Attrition}"_n
 		file write fh "\begin{tabular}{lccc}"_n
 		file write fh "\hline"_n
 		file write fh " Variable & Constant & Lumpsum & Installments \\ [0.1em] " _n
@@ -275,9 +254,6 @@ foreach table in table_a4 table_a5 {
 		
 		file write fh "\hline\hline"_n
 		file write fh "\end{tabular}"_n
-		file write fh "\insertTableNotes" _n
-		file write fh "\end{table}"_n
-		file write fh "\end{ThreePartTable}" _n	
 	file close fh 
 }
 

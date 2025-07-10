@@ -19,7 +19,7 @@ foreach y_list in y_list3 { // y_list1 y_list2
 	foreach t_list in t_list1 { // t_list2
 	
 		** more reps for some tests
-		local reps_option "reps(10)"
+// 		local reps_option "reps(10)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
@@ -220,67 +220,9 @@ coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: severe distress 0-1")
 gr export "${replication_dir}/Output/Figures/figure_a7_5.eps", replace // meta_severe_distress
 
-*robust-indivi-level clustering?
-pdslasso severe_distress1 tmt_all (i.districtX i.dateinterviewend severe_distress female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso	
-	
-**Reviewer #4 (robustness of log consump) + #3 (robustness of util/durables consump):
-*Try log (consumption), log(e1, e5), results still there?
-*try drop outliers -- To account for outliers, 
-**we trimmed the utilities/durables consumption data at both the 1% and 5% levels, still sig
-**however, when we take log of utilities/durables consumption, the results are insignificance
-**we conclude that, the bseline effects on utilities/durables consumption are inconclusive
-gen logtotExp7days1 = log(totExp7days1) 
-gen loge1 = log(e1) //utilities
-sum e1, d
-gen trim1pctE1=e1 if e1>=r(p1) & e1<=r(p99)
-gen trim5pctE1=e1 if e1>=r(p5) & e1<=r(p95)
-gen loge5 = log(e5) //durables
-sum e5, d
-gen trim1pctE5=e5 if e5>=r(p1) & e5<=r(p99)
-gen trim5pctE5=e5 if e5>=r(p5) & e5<=r(p95)
-
-
-reg totExp7days1 tmt_all, r cluster(districtX) //not sig
-reg logtotExp7days1 tmt_all, r cluster(districtX) //not sig
-reg e1 tmt_all, r cluster(districtX) //sig
-reg loge1 tmt_all, r cluster(districtX) //not sig
-reg trim1pctE1 tmt_all, r cluster(districtX) //sig
-reg trim5pctE1 tmt_all, r cluster(districtX) //sig
-
-reg e5 tmt_all, r cluster(districtX) //sig
-reg loge5 tmt_all, r cluster(districtX) //not sig
-reg trim1pctE5 tmt_all, r cluster(districtX) //sig
-reg trim5pctE5 tmt_all, r cluster(districtX) //sig
-
-**Reviewer #1: baseline differences in DV/hit rates
-*baseline?
-bys female0: sum threatenPartner hitPartner
-*hit: 1.19/4(m) vs 1.16/4(f) but insignificant (p-val=0.464)
-ttest hitPartner, by(female0)
-*endline?
-bys female0: sum threatenPartner1 hitPartner1
-*hit: 1.15/4(m) vs 1.09/4(f) but (in) sig at 13% (pval=1.124)
-ttest hitPartner1, by(female0)
-
-bys female0: sum k101
-ttest k101, by(female0)
-
-
-**Reviewer #$: hetero wrt baseline mh quartiles?
-xtile quartMH = k10, nq(4)
-pdslasso logk101 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend logk10 female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
-    partial(i.districtX) ///
-    cluster(caseidx) ///
-    rlasso
-coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
-coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: logK10")
-
 
 esttab using "${replication_dir}/Output/Tables/table_5_esttab.tex", ///
-	keep(tmt_all) 									///
+	keep(tmt_all) 										///
 	style(tex)											///
 	nogaps												///
 	nobaselevels 										///
@@ -288,9 +230,9 @@ esttab using "${replication_dir}/Output/Tables/table_5_esttab.tex", ///
 	label            									///
 	varwidth(50)										///
 	wrap 												///
-	nomtitles /// mlabels(`mylabels')									///
-	mgroups("Threatened Partner 1-4" "Hit Partner 1-4" ///
-			"log K10" "Severe Distress 0-1", ///
+	nomtitles /// mlabels(`mylabels')					///
+	mgroups("Threatened Partner 1-4" "Hit Partner 1-4" 	///
+			"log K10" "Severe Distress 0-1", 			///
 			pattern(1 0 1 0 1 0 1 0)  					///
 			prefix(\multicolumn{@span}{c}{) 			///
 			suffix(}) span							  	///

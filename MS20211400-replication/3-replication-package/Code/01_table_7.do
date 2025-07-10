@@ -16,11 +16,11 @@ sum EmotSoc_Tired
 gen stayed5wks=(p3==1) if !missing(p3) //asked (@ end 2 only): Consider the last 5 weeks - are you staying home as much as possible because of the covid19 outbreak?
 tab round stayed5wks
 
-label var i1 "Hours worked, (last 7 days) (Hrs)"
-label var i2 "Business Income, (last 7 days) (GHS)"
-label var EmotSoc_Tired "Emotionally, -Tired 0-1"
-label var stayed5wks "Stayed Home, (last 5 weeks) 0-1"
-label var xgrowth "Consumption, Growth (%)"
+label var i1 "Professional/Business, Networks:, Hours worked, (last 7 days) (Hrs)"
+label var i2 "Professional/Business, Networks:, Business Income, (last 7 days) (GHS)"
+label var EmotSoc_Tired "Social Inclusion/, Networks:, Emotionally, -Tired 0-1"
+label var stayed5wks "Social Inclusion/, Networks:, Stayed Home, (last 5 weeks) 0-1"
+label var xgrowth "Insurance, Networks:, Consumption, Growth (%)"
 label var previouslock "Locked-down 0-1, [Consumption shock]"
 
 **get rwolf pvals?
@@ -45,7 +45,7 @@ local t_list3 tmt01 tmt02 tmt01xLock tmt02xLock previouslock
 foreach y_list in y_list5 y_list6 { //  
 	foreach t_list in t_list2 t_list3 { // t_list1
 		
-		local reps_option "reps(10)"
+// 		local reps_option "reps(10)"
 		
 		** calculate RW p-values
 		rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
@@ -77,19 +77,24 @@ pdslasso i1 tmt01 tmt02 (i.districtX i.dateinterviewend i1b female0 akan0 marrie
     rlasso
 test tmt01 tmt02
 local ttest_p = string(`r(p)', "%15.3fc")
-local ttest_p2 "NA" // empty
+local ttest_p2 "-" // empty
 sum i1 if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
 outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
-			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2', ///
 			p-value: Romano-Wolf Correction $\beta_1$, `rw_i1_tmt01', ///
 			p-value: Romano-Wolf Correction $\beta_2$, `rw_i1_tmt02', ///
-			p-value: Romano-Wolf Correction $\delta_1$, "NA", ///
-			p-value: Romano-Wolf Correction $\delta_2$, "NA", /// 
-			p-value: Romano-Wolf Correction Lockdown, "NA") ///
+			Interactions, 									"-", ///
+			Lumpsum Credit, 								"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_1$, 	"-", ///
+			Installments Credit, 							"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_2$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_1$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_2$, 	"-", /// 
+			p-value: Romano-Wolf Correction Lockdown, 		"-", ///
+			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2') ///
 	replace tex(frag) nonotes label nocons
 // ejSepEffectsXChannels
 
@@ -100,19 +105,24 @@ pdslasso i2 tmt01 tmt02 (i.districtX i.dateinterviewend i2c female0 akan0 marrie
     rlasso
 test tmt01 tmt02
 local ttest_p = string(`r(p)', "%15.3fc")
-local ttest_p2 "NA" // empty
+local ttest_p2 "-" // empty
 sum i2 if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
 outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
-			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2', ///
 			p-value: Romano-Wolf Correction $\beta_1$, `rw_i2_tmt01', ///
 			p-value: Romano-Wolf Correction $\beta_2$, `rw_i2_tmt02', ///
-			p-value: Romano-Wolf Correction $\delta_1$, "NA", ///
-			p-value: Romano-Wolf Correction $\delta_2$, "NA", /// 
-			p-value: Romano-Wolf Correction Lockdown, "NA") ///
+			Interactions, 									"-", ///
+			Lumpsum Credit, 								"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_1$, 	"-", ///
+			Installments Credit, 							"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_2$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_1$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_2$, 	"-", /// 
+			p-value: Romano-Wolf Correction Lockdown, 		"-", ///
+			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2') ///
 	append tex(frag) nonotes label nocons
 
 
@@ -127,19 +137,24 @@ pdslasso EmotSoc_Tired tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0
     rlasso
 test tmt01 tmt02
 local ttest_p = string(`r(p)', "%15.3fc")
-local ttest_p2 "NA" // empty
+local ttest_p2 "-" // empty
 sum EmotSoc_Tired if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
 outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
-			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2', ///
 			p-value: Romano-Wolf Correction $\beta_1$, `rw_EmotSoc_Tired_tmt01', ///
 			p-value: Romano-Wolf Correction $\beta_2$, `rw_EmotSoc_Tired_tmt02', ///
-			p-value: Romano-Wolf Correction $\delta_1$, "NA", ///
-			p-value: Romano-Wolf Correction $\delta_2$, "NA", /// 
-			p-value: Romano-Wolf Correction Lockdown, "NA") ///
+			Interactions, 									"-", ///
+			Lumpsum Credit, 								"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_1$, 	"-", ///
+			Installments Credit, 							"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_2$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_1$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_2$, 	"-", /// 
+			p-value: Romano-Wolf Correction Lockdown, 		"-", ///
+			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2') ///
 	append tex(frag) nonotes label nocons
 
 
@@ -151,19 +166,24 @@ pdslasso stayed5wks tmt01 tmt02 (i.districtX i.dateinterviewend female0 akan0 ma
     rlasso
 test tmt01 tmt02
 local ttest_p = string(`r(p)', "%15.3fc")
-local ttest_p2 "NA" // empty
+local ttest_p2 "-" // empty
 sum stayed5wks if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
 outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
-			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2', ///
 			p-value: Romano-Wolf Correction $\beta_1$, `rw_stayed5wks_tmt01', ///
 			p-value: Romano-Wolf Correction $\beta_2$, `rw_stayed5wks_tmt02', ///
-			p-value: Romano-Wolf Correction $\delta_1$, "NA", ///
-			p-value: Romano-Wolf Correction $\delta_2$, "NA", /// 
-			p-value: Romano-Wolf Correction Lockdown, "NA") ///
+			Interactions, 									"-", ///
+			Lumpsum Credit, 								"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_1$, 	"-", ///
+			Installments Credit, 							"-", ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_2$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_1$, 	"-", ///
+			p-value: Romano-Wolf Correction $\delta_2$, 	"-", /// 
+			p-value: Romano-Wolf Correction Lockdown, 		"-", ///
+			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2') ///
 	append tex(frag) nonotes label nocons
 
 
@@ -176,23 +196,43 @@ pdslasso xgrowth c.tmt01##c.previouslock c.tmt02##c.previouslock (i.districtX i.
     partial(i.districtX) ///
     cluster(caseidx) ///
     rlasso
+** collect interaction terms to include in addtext
+mat M = r(table)
+local het_dimension previouslock
+foreach i in 1 2 {
+	
+	loc b_`i'_`het_dimension'  = string(M[rownumb(matrix(M), "b"),	    colnumb(matrix(M), "c.tmt0`i'#c.`het_dimension'")], "%15.3fc")
+	loc se_`i'_`het_dimension' = string(M[rownumb(matrix(M), "se"),     colnumb(matrix(M), "c.tmt0`i'#c.`het_dimension'")], "%12.3fc")
+	loc se_`i'_`het_dimension' = "[`se_`i'_`het_dimension'']"
+	loc p_`i'_`het_dimension'  = string(M[rownumb(matrix(M), "pvalue"), colnumb(matrix(M), "c.tmt0`i'#c.`het_dimension'")], "%12.3fc")
+	loc st_`i'_`het_dimension' = cond(`p_`i'_`het_dimension''<=.01,"***", ///
+									  cond(`p_`i'_`het_dimension''<=.05,"**", ///
+										   cond(`p_`i'_`het_dimension''<=.1,"*","")))
+	loc bs_`i'_`het_dimension' "`b_`i'_`het_dimension''`st_`i'_`het_dimension''" // combine b with star
+		
+}
 test c.tmt01#c.previouslock c.tmt02#c.previouslock
 local ttest_p2 = string(`r(p)', "%15.3fc")
-local ttest_p "NA" // empty
+local ttest_p "-" // empty
 
 sum xgrowth if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
 outreg2 using "${replication_dir}/Output/Tables/table_7.tex", ///
-	keep(c.tmt01 c.tmt02 c.tmt01#c.previouslock c.tmt02#c.previouslock c.previouslock) ///
+	keep(c.tmt01 c.tmt02 c.previouslock) ///
 	sortvar(tmt01 tmt02 previouslock) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
-			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2', ///
 			p-value: Romano-Wolf Correction $\beta_1$, `rw_xgrowth_tmt01', ///
 			p-value: Romano-Wolf Correction $\beta_2$, `rw_xgrowth_tmt02', ///
+			Interactions, 					"-", ///
+			Lumpsum Credit, 				`b_1_previouslock', ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_1$, 	`se_1_previouslock', ///
+			Installments Credit, 			`b_2_previouslock', ///
+			\hspace{0.5cm} x Locked-down 0-1 $\delta_2$, 	`se_2_previouslock', ///
 			p-value: Romano-Wolf Correction $\delta_1$,`rw_xgrowth_tmt01xLock', ///
 			p-value: Romano-Wolf Correction $\delta_2$,`rw_xgrowth_tmt02xLock', /// 
-			p-value: Romano-Wolf Correction Lockdown,`rw_xgrowth_previouslock') ///
+			p-value: Romano-Wolf Correction Lockdown,`rw_xgrowth_previouslock', ///
+			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2') ///
 	append tex(frag) nonotes label nocons
 

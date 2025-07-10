@@ -177,9 +177,9 @@ cap file close fh
 file open fh using "${replication_dir}/Output/Tables/Table_1_Attrition.tex", replace write
 	file write fh "\begin{tabular}{lccccc}"_n
 	file write fh "\hline"_n
-	file write fh " & Lumpsum & Installments & Control & Total & Attrition \\"_n
+	file write fh " 	   & Lumpsum 	   & Installments & Control	& Total 	  & Attrition \\"_n
 	file write fh "\hline\hline"_n
-	file write fh "STEP 0  &  		       &		 & `fullcount' &  		\\"_n
+	file write fh "STEP 0  &  		       &		 	  &			& `fullcount' &  		\\"_n
 	file write fh "*Verify phone numbers & & & & & \\ "_n
 	file write fh "*Measure poverty (Schreiner 2005) & & & & & \\ "_n
 	file write fh "SELECT SAMPLE (Randomized) & `n_40GHS_w1' 		&	`n_20GHS_w1' 		&	`n_0GHS_w1' 		&	`n_w1' 		& 					\\"_n

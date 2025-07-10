@@ -72,10 +72,6 @@ foreach list in `master_list' {
 ** print table A3
 cap file close fh 
 file open fh using "${replication_dir}/Output/Tables/Table_a3_Summary_stats.tex", replace write
-	file write fh "\begin{ThreePartTable}" _n
-	file write fh "\begin{table}[tbp]\centering"_n
-	file write fh "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}"_n
-	file write fh "\caption{Attrition}"_n
 	file write fh "\begin{tabular}{lccc}"_n
 	file write fh "\hline"_n
 	file write fh "Variable & Mean & SD & N \\"_n
@@ -92,7 +88,6 @@ file open fh using "${replication_dir}/Output/Tables/Table_a3_Summary_stats.tex"
 	}
 	file write fh "\hline\hline"_n
 	file write fh "\end{tabular}"_n
-	file write fh "\end{table}"_n
 file close fh 
 
 
