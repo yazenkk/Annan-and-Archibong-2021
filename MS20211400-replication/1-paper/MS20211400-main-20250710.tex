@@ -5,7 +5,7 @@
 \renewcommand{\familydefault}{\rmdefault}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
-\synctex=-1
+\usepackage[active]{srcltx}
 \usepackage{color}
 \usepackage{babel}
 \usepackage{float}
@@ -116,7 +116,7 @@
 \hspace{1cm}Francis Annan$^{\clubsuit}$ \hspace{4cm}Belinda Archibong$^{\spadesuit}$}\\
 {\small University of California, Berkeley and NBER\hspace{1cm}Johns
 Hopkins University SAIS and NBER}{\large}\\
-\textbf{ OCTOBER 2024}
+\textbf{ JULY 2025}
 \par\end{center}
 
 \end{adjustwidth*}\begin{adjustwidth*}{+1.1cm}{+1.1cm}{\large\vspace*{0.5cm}
@@ -1272,6 +1272,8 @@ Available here: https://data.worldbank.org/indicator/IT.CEL.SETS.P2?locations=GH
 \section*{Main Results for Text}
 
 \begin{landscape}
+
+\begin{small}
 \begin{center}
 {\large{}
 \begin{figure}[H]
@@ -1324,7 +1326,7 @@ panel waves.
 \caption{\textbf{M}{\footnotesize\textbf{ITIGATION OF COMMUNICATION CONSTRAINTS
 \protect\label{tab:mitigate_pooled_meta}}}}
 
-\include{../3-replication-package/Output/Tables/table_2}
+\include{../3-replication-package/Output/Tables/table_2_esttab}
 
 {\large\vspace*{0.2cm}
 }Note: District is the randomization strata. The double-post LASSO
@@ -1414,7 +1416,7 @@ attrition bounds (not reported) are tighter.
 \caption{\textbf{I}{\footnotesize\textbf{MPACTS OF COMMUNICATION PROGRAMS ON
 MENTAL HEALTH AND DOMESTIC VIOLENCE \protect\label{tab:health_pooled_meta}}}}
 
-\include{../3-replication-package/Output/Tables/table_5}
+\include{../3-replication-package/Output/Tables/table_5_esttab}
 
 {\large\vspace*{0.2cm}
 }Note: District is the randomization strata. The double-post LASSO
@@ -1471,7 +1473,11 @@ section VI.7 for variable definitions.
 \end{table}
 \par\end{center}
 
-\end{landscape} \begin{landscape}
+\end{small}
+
+\end{landscape}
+
+\begin{landscape}
 \begin{center}
 {\large{}
 \begin{table}[H]
@@ -1539,7 +1545,7 @@ COMMUNICATION INTERVENTIONS}}{\scriptsize\textbf{ \protect\label{fig:globalrevie
 \begin{figure}[!tph]
 {\large\caption{\textbf{C}{\footnotesize\textbf{OMMUNICATION PROGRAMS }}{\scriptsize\textbf{\protect\label{fig:photo_comm_interventions}}}}
 }{\large\par}
-\centering{}{\large\includegraphics[scale=0.3]{../3-replication-package/original_figures/_commTaxDecrease}}\hspace{1cm}\includegraphics[scale=0.13]{../3-replication-package/original_figures/_freeZoom.PNG}
+\centering{}{\large\includegraphics[scale=0.3]{../3-replication-package/original_figures/_commTaxDecrease}}\hspace{1cm}\includegraphics[scale=0.13]{../3-replication-package/original_figures/_freeZoom}
 \end{figure}
 }{\large\par}
 \par\end{center}
