@@ -269,3 +269,7 @@ coeflabels(c.tmt01#c.round1="Endline (round 1): lumpsum" c.tmt02#c.round1="Endli
 gr export "${replication_dir}/Output/Figures/figure_a9_5.eps", replace // sep_severe_distress
 	
 	
+** import table to drop one row
+import delimited "${replication_dir}/Output/Tables/table_6.tex", clear delimiters("<>")
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "${replication_dir}/Output/Tables/table_6.tex", replace noquote

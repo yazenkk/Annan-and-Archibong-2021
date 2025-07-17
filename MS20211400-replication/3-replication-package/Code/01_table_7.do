@@ -236,3 +236,7 @@ outreg2 using "${replication_dir}/Output/Tables/table_7.tex", ///
 			p-value for test: $\delta_1$ = $\delta_2$, `ttest_p2') ///
 	append tex(frag) nonotes label nocons
 
+** import table to drop one row
+import delimited "${replication_dir}/Output/Tables/table_7.tex", clear delimiters("<>")
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "${replication_dir}/Output/Tables/table_7.tex", replace noquote

@@ -224,4 +224,18 @@ pdslasso totExp7days1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.datei
 coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vertical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white)) ylab(, nogrid) ///
 coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2): Assignment") title("Survey-level: consumption expenses (GHS)")
 gr export "${replication_dir}/Output/Figures/figure_a7_1.eps", replace // meta_totExp7days
-	
+
+
+** shrink table 4 to fit in page
+import delimited  "${replication_dir}/Output/Tables/table_4.tex", clear delimiters("<>")
+insobs 1, before(1)
+replace v1 = "\resizebox{1.5\textwidth}{!}{" if _n == 1
+insobs 1, after(_N)
+replace v1 = "}" if _n == _N
+outfile v1 using  "${replication_dir}/Output/Tables/table_4.tex", replace noquote
+
+** import table to drop one row
+import delimited "${replication_dir}/Output/Tables/table_4.tex", clear delimiters("<>")
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "${replication_dir}/Output/Tables/table_4.tex", replace noquote
+

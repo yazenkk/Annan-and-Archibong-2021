@@ -154,6 +154,11 @@ outreg2 using "table_a6.tex", keep(c.tmt_all c.pov_likelihood c.tmt_all#c.pov_li
 			p-value: Romano-Wolf Correction interaction, `rw_sd1_jointPov') ///
 	append tex(frag) nonotes label nocons
 
+** import table to fix interaction name
+import delimited  "table_a6.tex", clear delimiters("<>")
+replace v1 = subinstr(v1, "c.tmt\_all\#c.pov\_likelihood", "Credit x Poverty", .)
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "table_a6.tex", replace noquote
 
 
 ** Table A7 (metaEffects_Xinformal)
@@ -247,6 +252,12 @@ outreg2 using "table_a7.tex", keep(c.tmt_all c.informal0 c.tmt_all#c.informal0) 
 			p-value: Romano-Wolf Correction interaction, `rw_sd1_jointInf') ///
 	append tex(frag) nonotes label nocons
 
+** import table to fix interaction name
+import delimited  "table_a7.tex", clear delimiters("<>")
+replace v1 = subinstr(v1, "c.tmt\_all\#c.informal0", "Credit x Informal 0-1", .)
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "table_a7.tex", replace noquote
+	
 	
 ** Table A8 (metaEffects_Xfemale)
 **(3)female/gender? evidence: females experienced "slightly" (ns, but) better mental health effects
@@ -338,6 +349,11 @@ outreg2 using "table_a8.tex", keep(c.tmt_all c.female0 c.tmt_all#c.female0) ///
 			p-value: Romano-Wolf Correction interaction, `rw_sd1_jointFem') ///
 	append tex(frag) nonotes label nocons
 
+** import table to fix interaction name
+import delimited  "table_a8.tex", clear delimiters("<>")
+replace v1 = subinstr(v1, "c.tmt\_all\#c.female0", "Credit x Female 0-1", .)
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "table_a8.tex", replace noquote
 	
 	
 ** Table A9 (metaEffects_Xlockeddown)
@@ -431,8 +447,11 @@ outreg2 using "table_a9.tex", keep(c.tmt_all c.previouslock c.tmt_all#c.previous
 			p-value: Romano-Wolf Correction interaction, `rw_sd1_jointLoc') ///
 	append tex(frag) nonotes label nocons
 
-
-
+** import table to fix interaction name
+import delimited  "table_a9.tex", clear delimiters("<>")
+replace v1 = subinstr(v1, "c.tmt\_all\#c.previouslock", "Credit x Locked-down 0-1", .)
+drop if strpos(v1, "Number of groups") > 0
+outfile v1 using  "table_a9.tex", replace noquote
 	
 	
 	
