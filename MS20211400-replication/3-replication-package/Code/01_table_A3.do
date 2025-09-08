@@ -5,7 +5,7 @@ Wave 1 data and some wave 2
 
 
 ***********************************
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	
 
 
 *Validity and balanced-yes? redo again to verify

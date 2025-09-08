@@ -7,7 +7,7 @@ Table 7
 
 ***********************************
 clear all
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear
 
 
 gen EmotSoc_Tired = (i8==1) if !missing(i8)

@@ -6,7 +6,7 @@ Table 2 and Figure A6
 eststo clear 
 set graphics off
 ***********************************
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	
 
 
 	
@@ -125,7 +125,6 @@ estadd local rw_stat "", replace
 estadd local lee_bounds "", replace
 estadd local im_bounds "", replace
 
-outreg2 using "${replication_dir}/Output/Tables/table_2.tex", keep(c.tmt_all) addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, Mean of dep. variable, `control_mean') append tex(frag) label nocons
 *dyna fig
 pdslasso unableToCOVID1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///

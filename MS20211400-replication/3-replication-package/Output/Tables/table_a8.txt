@@ -15,6 +15,6 @@ District FE		Yes	Yes	Yes	Yes	Yes
 Date FE		Yes	Yes	Yes	Yes	Yes
 Controls		PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO
 Mean of dep. variable		219.573	1.247	1.166	2.704	0.025
-p-value: Romano-Wolf Correction treatment		0.752	0.257	0.752	0.010	0.752
-p-value: Romano-Wolf Correction female		0.861	0.861	0.861	0.287	0.861
-p-value: Romano-Wolf Correction interaction		0.970	0.970	0.970	0.267	0.970
+p-value: Romano-Wolf Correction treatment		0.792	0.257	0.792	0.010	0.792
+p-value: Romano-Wolf Correction female		0.871	0.871	0.861	0.218	0.871
+p-value: Romano-Wolf Correction interaction		0.970	0.970	0.970	0.198	0.960

@@ -14,6 +14,8 @@ clear all
 set more off
 timer clear
 timer on 1
+version 14 // to address rwolf issue across replications
+set seed 090725 
 
 ** initialize directory 
 if c(username) == "yazenkashlan" {
@@ -22,6 +24,9 @@ if c(username) == "yazenkashlan" {
 	global sample_dir "${project_dir}/covid19 paper/DATA/COVID ZERO STEP/Stata"
 	global replication_dir "/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replication-package"
 }
+
+** Programs
+do "${replication_dir}/Code/00_programs.do"
 
 ** clean data
 do "${replication_dir}/Code/00_outcomes_clean.do"

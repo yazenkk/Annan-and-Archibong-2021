@@ -5,7 +5,7 @@ Figure A7, graph 1
 
 
 ***********************************
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	
 
 
 **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction

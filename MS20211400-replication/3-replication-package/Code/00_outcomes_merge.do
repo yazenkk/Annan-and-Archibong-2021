@@ -16,6 +16,7 @@ clear all
 use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition.dta", clear
 gen end=1
 gen round=3
+isid caseidx
 append using "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition.dta"
 replace end=2 if missing(end)
 replace round=4 if missing(round)
@@ -33,8 +34,8 @@ tab _merge // Attritors
 drop _merge
 
 **bring-In baseline data- (wave 1, round 1)
-merge m:m caseidx using "${replication_dir}/Data/01_raw/TrtList00.dta" //bring in round 1 = base	
-bys caseidx end: keep if _n==1  
+isid caseidx round
+merge m:1 caseidx using "${replication_dir}/Data/02_intermediate/TrtList00_dedup.dta" //bring in round 1 = base	
 drop _merge
 
 **bring-In baseline data- (wave 2, round 2)
@@ -69,14 +70,14 @@ tab round, gen(round)
 
 
 ** Consumption growth (used in Tables 3 and A10-A13 and Figure A10)
-bys caseidx: gen xdif=totExp7days1[_n]-totExp7days1[_n-1]
-bys caseidx: gen xgrowth=(xdif/totExp7days1[_n])*100
+bys caseidx (round): gen xdif=totExp7days1[_n]-totExp7days1[_n-1]
+bys caseidx (round): gen xgrowth=(xdif/totExp7days1[_n])*100
 tab regionX
 tab regionX, nolab
 gen Trust = (trustgovtCOVIDNos0>=3) if !missing(trustgovtCOVIDNos0)
-gen  previouslock =(regionX==3 | regionX==6)
+gen previouslock =(regionX==3 | regionX==6)
 sum xgrowth if xgrowth, d
-bys previouslock: sum xgrowth if (xgrowth>-300 & xgrowth<100), d //worst cgrowth in locked areas! so truly a shock [trimmed at 95%?]
+// bys previouslock: sum xgrowth if (xgrowth>-300 & xgrowth<100), d //worst cgrowth in locked areas! so truly a shock [trimmed at 95%?]
 
 ** Label variables
 label var female0  "Female 0-1"
@@ -118,4 +119,5 @@ label var severe_distress1 "Severe Distress 0-1"
 
 
 ** save data
+sort caseidx round
 save "${replication_dir}/Data/03_clean/end1_end2.dta", replace

@@ -3,9 +3,10 @@ Table 5 and reviewer comments 4-5
 Figure A7, graphs 2-5
 */
 
+eststo clear
 
 ***********************************
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace	
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	
 
 
 **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction

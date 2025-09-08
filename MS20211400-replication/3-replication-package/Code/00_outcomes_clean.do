@@ -23,9 +23,25 @@ Output (Data/02_intermediate):
 
 set graphics off
 
+** Deduplicate
+use "${replication_dir}/Data/01_raw/MobileCredit20GHS_371list_Wave1.dta", clear
+duplicates drop
+isid caseidx
+saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1_dedup", replace
+
+use "${replication_dir}/Data/01_raw/TrtList00", clear
+sort caseidx
+drop if caseidx == 84504 & ct2a == 90 // second submission correctly flips ct2a and ct2b
+drop if caseidx == 71110 & informal0 == 0 // second submission provides more info on work (d9)
+drop if caseidx == 95214 & i11 != . 	  // second submission provides info 
+isid caseidx
+saveold "${replication_dir}/Data/02_intermediate/TrtList00_dedup", replace
+
+
 
 **round 1
 use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
+
 gen round =1
 ** add-round 2
 append using "${replication_dir}/Data/01_raw/impact_covid_roundFINAL.dta"
@@ -33,6 +49,15 @@ replace round=2 if missing(round)
 tab round
 
 keep if interviewn_result==1
+
+** deduplicate (round 1)
+drop if caseidx == 84504 & ct2a == 90 // second submission correctly flips ct2a and ct2b
+drop if caseidx == 71110 & d9 == 4 	  // second submission provides more info on work (d9)
+drop if caseidx == 95214 & d2 != . 	  // second submission provides info 
+order caseidx round
+sort caseidx round
+isid caseidx round
+
 
 **bring in base GLSS7
 gen caseidX=caseidx
@@ -75,10 +100,7 @@ hist k10, percent xline(30) xtitle("K10 Score")
 
 gen logk10 = log(k10)
 gen severe_distress = (k10>=30) if !missing(k10)
-bys round: sum severe_distress
-
 gen tiredCOVID=(i8==1) if !missing(i8)
-
 gen awareofCOVID0 = (b1a==1) if !missing(b1a)
 gen trustgovtCOVIDNos0 =b1aa
 
@@ -125,14 +147,21 @@ saveold "${replication_dir}/Data/02_intermediate/round1_round2", replace
 use "${replication_dir}/Data/01_raw/impact10.102020Final.dta", clear
 gen wave =1
 keep if interviewn_result==1
-bys caseidx wave: keep if _n==1  // tot subjects = 1130
+egen tag=tag(caseidx wave)
+order caseidx wave tag
 
-merge m:1 caseidx using "${replication_dir}/Data/01_raw/MobileCredit40GHS_376list.dta" //(but 1:1 for 12/6)
+** deduplicate
+drop if caseidx == 84504 & ct2a == 90 // second submission correctly flips ct2a and ct2b
+drop if caseidx == 71110 & d9 == 4 	  // second submission provides more info on work (d9)
+drop if caseidx == 95214 & d2 != . 	  // second submission provides info 
+isid caseidx
+
+merge 1:1 caseidx using "${replication_dir}/Data/01_raw/MobileCredit40GHS_376list.dta" //(but 1:1 for 12/6)
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
-merge m:m caseidx using "${replication_dir}/Data/01_raw/MobileCredit20GHS_371list_Wave1.dta"  //(but 1:m for 12/6)
+merge 1:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1_dedup.dta"  //(but 1:m for 12/6)
 drop _merge
 gen MobileCredit20=MobileCredit
 drop MobileCredit
@@ -145,17 +174,16 @@ gen MobileCredit_attrition = MobileCredit
 tab MobileCredit 
 tab MobileCredit_attrition
 
-*bys caseidx: keep if _n==1  
 keep caseidx MobileCredit_attrition
 tab MobileCredit_attrition
+isid caseidx
 saveold "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replace
 
 ** Wave 3, end 1
 use "${replication_dir}/Data/01_raw/round3_data_21.11.dta", clear
 keep if interviewn_result==1
-bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
+isid caseidx
+merge 1:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
 tab _merge //83 no reachable
 gen dropouts = (_merge==2)
 tab MobileCredit_attrition if dropouts==0
@@ -168,9 +196,8 @@ saveold "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", r
 ** Wave 4, end 2
 use "${replication_dir}/Data/01_raw/round4_data_14.12.dta", clear
 keep if interviewn_result==1
-*bys caseidx: keep if _n==1  //only subjects + dropouts
-merge m:m caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
-*bys caseidx: keep if _n==1  //only subjects + dropouts
+isid caseidx
+merge 1:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
 tab _merge //134 no reachable
 gen dropouts = (_merge==2)
 tab MobileCredit_attrition if dropouts==0

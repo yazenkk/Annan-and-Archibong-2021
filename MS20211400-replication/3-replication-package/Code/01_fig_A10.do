@@ -4,7 +4,7 @@ Figure A10
 
 ***********************************
 clear all
-use "${replication_dir}/Data/03_clean/end1_end2.dta", replace
+use "${replication_dir}/Data/03_clean/end1_end2.dta", clear
 
 ** Figure A10
 *3. social networks #2-risk sharing: cc improves or ejunivates perishing informal insurance arrangs? 
