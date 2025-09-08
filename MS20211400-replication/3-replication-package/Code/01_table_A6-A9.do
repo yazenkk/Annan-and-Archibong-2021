@@ -7,13 +7,6 @@ Tables A6-A9
 use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	
 cd "${replication_dir}/Output/Tables"
 
-** bring this step in although it's also used to generate Fig A10
-tab regionX
-tab regionX, nolab
-sum xgrowth if xgrowth, d
-bys previouslock: sum xgrowth if (xgrowth>-300 & xgrowth<100), d //worst cgrowth in locked areas! so truly a shock [trimmed at 95%?]
-
-
 **Heterogeneity: ?
 **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction
 *(i) MEta?
