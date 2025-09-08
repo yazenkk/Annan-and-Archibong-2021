@@ -2,12 +2,12 @@
 		Unable to Call	Unable to Call		
 VARIABLES	LABELS	7days 0-1	COVID19 0-1	Borrow SOS Airtime 0-1	Seek Digital Loan 0-1
 					
-tmt01	Lumpsum Credit ($\beta_1$)	-0.280***	-0.119***	-0.183***	-0.0237*
+tmt01	Lumpsum Credit ($\beta_1$)	-0.282***	-0.119***	-0.184***	-0.0237*
 		(0.0239)	(0.0244)	(0.0200)	(0.0134)
-tmt02	Installments Credit ($\beta_2$)	-0.439***	-0.225***	-0.266***	-0.0461***
+tmt02	Installments Credit ($\beta_2$)	-0.439***	-0.225***	-0.265***	-0.0461***
 		(0.0225)	(0.0240)	(0.0191)	(0.0131)
 					
-Observations		2,019	2,019	2,019	2,019
+Observations		2,018	2,018	2,018	2,018
 Number of groups		0	0	0	0
 District FE		Yes	Yes	Yes	Yes
 Date FE		Yes	Yes	Yes	Yes
@@ -18,5 +18,5 @@ Lee 2009 Attrition Bounds $\beta_1$		[-0.108; -0.069]	[-0.038; 0.001]	[-0.089; -
 Lee 2009 Attrition Bounds $\beta_2$		[-0.310; -0.289]	[-0.198; -0.177]	[-0.190; -0.169]	[-0.057; -0.036]
 Imbens-Manski 2004 CS $\beta_1$		[-0.138; -0.043]	[-0.070; 0.030]	[-0.114; -0.030]	[-0.056; 0.020]
 Imbens-Manski 2004 CS $\beta_2$		[-0.338; -0.268]	[-0.230; -0.149]	[-0.215; -0.153]	[-0.079; -0.023]
-p-value: Romano-Wolf Correction $\beta_1$		0.010	0.010	0.010	0.158
+p-value: Romano-Wolf Correction $\beta_1$		0.010	0.010	0.010	0.139
 p-value: Romano-Wolf Correction $\beta_2$		0.010	0.010	0.010	0.010

@@ -2,19 +2,19 @@
 		Total (GHS)	Threatened	Hit		Severe
 VARIABLES	LABELS	Expenditure	Partner 1-4	Partner 1-4	log K10	Distress 0-1
 						
-tmt_all	Communication Credit ($\beta$)	19.05	0.0230	0.00926	-0.0821***	0.000935
-		(16.31)	(0.0479)	(0.0486)	(0.0202)	(0.00973)
-pov_likelihood	Poverty Likelihood	-0.730*	0.00232	0.000611	0.000457	-0.000516
-		(0.394)	(0.00184)	(0.00184)	(0.000565)	(0.000327)
-c.tmt_all#c.pov_likelihood		-0.305	-0.00435**	-0.00229	-0.000678	-0.000213
-		(0.477)	(0.00208)	(0.00202)	(0.000638)	(0.000361)
+tmt_all	Communication Credit ($\beta$)	19.13	0.0231	0.00938	-0.0798***	0.00103
+		(16.31)	(0.0480)	(0.0487)	(0.0201)	(0.00974)
+pov_likelihood	Poverty Likelihood	-0.732*	0.00232	0.000609	0.000473	-0.000518
+		(0.394)	(0.00184)	(0.00184)	(0.000564)	(0.000327)
+c.tmt_all#c.pov_likelihood		-0.307	-0.00436**	-0.00229	-0.000714	-0.000215
+		(0.477)	(0.00208)	(0.00202)	(0.000636)	(0.000362)
 						
-Observations		2,019	2,019	2,019	2,019	2,019
+Observations		2,018	2,018	2,018	2,018	2,018
 Number of groups		0	0	0	0	0
 District FE		Yes	Yes	Yes	Yes	Yes
 Date FE		Yes	Yes	Yes	Yes	Yes
 Controls		PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO
 Mean of dep. variable		219.573	1.247	1.166	2.704	0.025
-p-value: Romano-Wolf Correction treatment		0.911	0.941	0.941	0.010	0.941
-p-value: Romano-Wolf Correction poverty		0.010	0.010	0.030	0.010	0.634
-p-value: Romano-Wolf Correction interaction		0.960	0.109	0.624	0.832	0.723
+p-value: Romano-Wolf Correction treatment		0.921	0.931	0.931	0.010	0.950
+p-value: Romano-Wolf Correction poverty		0.010	0.010	0.050	0.010	0.703
+p-value: Romano-Wolf Correction interaction		0.960	0.139	0.673	0.842	0.842

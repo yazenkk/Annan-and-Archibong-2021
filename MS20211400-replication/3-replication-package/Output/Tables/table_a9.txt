@@ -2,19 +2,19 @@
 		Total (GHS)	Threatened	Hit		Severe
 VARIABLES	LABELS	Expenditure	Partner 1-4	Partner 1-4	log K10	Distress 0-1
 						
-tmt_all	Communication Credit ($\beta$)	0.466	-0.0856**	-0.0501	-0.0924***	-0.00684
+tmt_all	Communication Credit ($\beta$)	0.485	-0.0856**	-0.0501	-0.0908***	-0.00680
 		(11.05)	(0.0386)	(0.0377)	(0.0141)	(0.00729)
-previouslock	Locked-Down 0-1	199.0***	-0.00869	-0.0292	0.432***	-0.0119
-		(60.61)	(0.0647)	(0.0660)	(0.0510)	(0.0192)
-c.tmt_all#c.previouslock		64.46**	0.0406	0.0299	-0.0293	0.0151
-		(25.07)	(0.0658)	(0.0661)	(0.0335)	(0.0185)
+previouslock	Locked-Down 0-1	199.0***	-0.0607*	-0.0359	0.432***	0.00139
+		(60.61)	(0.0341)	(0.0321)	(0.0508)	(0.00672)
+c.tmt_all#c.previouslock		64.45**	0.0406	0.0299	-0.0300	0.0150
+		(25.07)	(0.0658)	(0.0661)	(0.0333)	(0.0185)
 						
-Observations		2,019	2,019	2,019	2,019	2,019
+Observations		2,018	2,018	2,018	2,018	2,018
 Number of groups		0	0	0	0	0
 District FE		Yes	Yes	Yes	Yes	Yes
 Date FE		Yes	Yes	Yes	Yes	Yes
 Controls		PD LASSO	PD LASSO	PD LASSO	PD LASSO	PD LASSO
 Mean of dep. variable		219.573	1.247	1.166	2.704	0.025
-p-value: Romano-Wolf Correction treatment		0.901	0.129	0.901	0.010	0.901
-p-value: Romano-Wolf Correction locked		0.040	0.010	0.446	0.446	0.614
-p-value: Romano-Wolf Correction interaction		0.208	0.980	0.980	0.980	0.980
+p-value: Romano-Wolf Correction treatment		0.881	0.158	0.881	0.010	0.881
+p-value: Romano-Wolf Correction locked		0.099	0.059	0.525	0.525	0.842
+p-value: Romano-Wolf Correction interaction		0.327	1.000	1.000	1.000	1.000
