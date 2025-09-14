@@ -1,5 +1,5 @@
 /*
-Table 7
+Table 8
 */
 
 
@@ -80,7 +80,7 @@ local ttest_p = string(`r(p)', "%15.3fc")
 local ttest_p2 "-" // empty
 sum i1 if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
+outreg2 using "${replication_dir}/Output/Tables/table_8.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
@@ -108,7 +108,7 @@ local ttest_p = string(`r(p)', "%15.3fc")
 local ttest_p2 "-" // empty
 sum i2 if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
+outreg2 using "${replication_dir}/Output/Tables/table_8.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
@@ -140,7 +140,7 @@ local ttest_p = string(`r(p)', "%15.3fc")
 local ttest_p2 "-" // empty
 sum EmotSoc_Tired if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
+outreg2 using "${replication_dir}/Output/Tables/table_8.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
@@ -169,7 +169,7 @@ local ttest_p = string(`r(p)', "%15.3fc")
 local ttest_p2 "-" // empty
 sum stayed5wks if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt01 tmt02) ///
+outreg2 using "${replication_dir}/Output/Tables/table_8.tex", keep(tmt01 tmt02) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
 			Mean of dep. variable, `control_mean', ///
 			p-value for test: $\beta_1$ = $\beta_2$, `ttest_p', ///
@@ -217,7 +217,7 @@ local ttest_p "-" // empty
 
 sum xgrowth if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
-outreg2 using "${replication_dir}/Output/Tables/table_7.tex", ///
+outreg2 using "${replication_dir}/Output/Tables/table_8.tex", ///
 	keep(c.tmt01 c.tmt02 c.previouslock) ///
 	sortvar(tmt01 tmt02 previouslock) ///
 	addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
@@ -226,9 +226,9 @@ outreg2 using "${replication_dir}/Output/Tables/table_7.tex", ///
 			p-value: Romano-Wolf Correction $\beta_1$, `rw_xgrowth_tmt01', ///
 			p-value: Romano-Wolf Correction $\beta_2$, `rw_xgrowth_tmt02', ///
 			Interactions, 					"-", ///
-			Lumpsum Credit, 				`b_1_previouslock', ///
+			Lumpsum Credit, 								`b_1_previouslock', ///
 			\hspace{0.5cm} x Locked-down 0-1 $\delta_1$, 	`se_1_previouslock', ///
-			Installments Credit, 			`b_2_previouslock', ///
+			Installments Credit, 							`b_2_previouslock', ///
 			\hspace{0.5cm} x Locked-down 0-1 $\delta_2$, 	`se_2_previouslock', ///
 			p-value: Romano-Wolf Correction $\delta_1$,`rw_xgrowth_tmt01xLock', ///
 			p-value: Romano-Wolf Correction $\delta_2$,`rw_xgrowth_tmt02xLock', /// 
@@ -237,6 +237,6 @@ outreg2 using "${replication_dir}/Output/Tables/table_7.tex", ///
 	append tex(frag) nonotes label nocons
 
 ** import table to drop one row
-import delimited "${replication_dir}/Output/Tables/table_7.tex", clear delimiters("<>")
+import delimited "${replication_dir}/Output/Tables/table_8.tex", clear delimiters("<>")
 drop if strpos(v1, "Number of groups") > 0
-outfile v1 using  "${replication_dir}/Output/Tables/table_7.tex", replace noquote
+outfile v1 using  "${replication_dir}/Output/Tables/table_8.tex", replace noquote

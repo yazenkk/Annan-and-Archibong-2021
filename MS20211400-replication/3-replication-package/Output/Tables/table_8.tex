@@ -1,0 +1,32 @@
+\begin{tabular}{lccccc} \hline
+ & (1) & (2) & (3) & (4) & (5) \\
+ & Professional/Business & Professional/Business & Social Inclusion/ & Social Inclusion/ & Insurance \\
+ & Networks: & Networks: & Networks: & Networks: & Networks: \\
+ & Hours worked & Business Income & Emotionally & Stayed Home & Consumption \\
+VARIABLES & (last 7 days) (Hrs) & (last 7 days) (GHS) & -Tired 0-1 & (last 5 weeks) 0-1 & Growth (\%) \\ \hline
+ &  &  &  &  &  \\
+Lumpsum Credit ($\beta_1$) & 0.834 & 9.715* & -0.159*** & 0.116*** & -20.26*** \\
+ & (0.561) & (5.142) & (0.0283) & (0.0331) & (6.583) \\
+Installments Credit ($\beta_2$) & -0.289 & 8.365* & -0.265*** & 0.273*** & 7.381 \\
+ & (0.615) & (4.977) & (0.0280) & (0.0372) & (6.657) \\
+Locked-down 0-1, [Consumption shock] &  &  &  &  & -84.73*** \\
+ &  &  &  &  & (32.27) \\
+ &  &  &  &  &  \\
+Observations & 2,018 & 2,018 & 2,018 & 986 & 906 \\
+District FE & Yes & Yes & Yes & Yes & Yes \\
+Date FE & Yes & Yes & Yes & Yes & Yes \\
+Controls & PD LASSO & PD LASSO & PD LASSO & PD LASSO & PD LASSO \\
+Mean of dep. variable & 18.126 & 59.117 & 0.519 & 0.257 & -29.741 \\
+p-value for test: $\beta_1$ = $\beta_2$ & 0.120 & 0.106 & 0.000 & 0.000 & - \\
+p-value: Romano-Wolf Correction $\beta_1$ & 0.188 & 0.188 & 0.010 & 0.059 & 0.188 \\
+p-value: Romano-Wolf Correction $\beta_2$ & 0.604 & 0.158 & 0.010 & 0.030 & 0.277 \\
+Interactions & - & - & - & - & - \\
+Lumpsum Credit & - & - & - & - & -6.482 \\
+\hspace{0.5cm} x Locked-down 0-1 $\delta_1$ & - & - & - & - & [16.084] \\
+Installments Credit & - & - & - & - & -3.157 \\
+\hspace{0.5cm} x Locked-down 0-1 $\delta_2$ & - & - & - & - & [16.343] \\
+p-value: Romano-Wolf Correction $\delta_1$ & - & - & - & - & 0.851 \\
+p-value: Romano-Wolf Correction $\delta_2$ & - & - & - & - & 0.970 \\
+p-value: Romano-Wolf Correction Lockdown & - & - & - & - & 0.743 \\
+ p-value for test: $\delta_1$ = $\delta_2$ & - & - & - & - & 0.920 \\ \hline
+\end{tabular}
