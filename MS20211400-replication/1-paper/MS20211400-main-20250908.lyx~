@@ -378,7 +378,7 @@ Mental health disorders account for a significant share of the overall global di
  need to borrow SOS airtime,
  and to seek digital loans decreased significantly relative to a control group.
  As a result,
- the programs led to a significant decrease in mental distress (-9.8%),
+ the programs led to a significant decrease in mental distress (-9.7%),
  the likelihood of severe mental distress by -2.3 percentage points (a quarter of the mean prevalence),
  and domestic violence,
  with null impact on overall consumption expenditure.
@@ -845,9 +845,24 @@ First,
  as a first stage,
  the interventions decreased unexpected communication constraints significantly.
  That is,
- our experimental interventions mitigate individuals' inability to meet unexpected communication needs and stay connected (-37pp=-74% for inability to make unexpected calls,
- -22pp=-78% for unexpected need to borrow airtime,
- and -3.5pp=-44% to seek digital loans).
+ our experimental interventions mitigate individuals' inability to meet unexpected communication needs and stay connected.
+ On peoples' inability to make unexpected calls,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:mitigate_pooled_meta"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Column 2 shows a treatment effect of -36 percentage points (pp,
+ i.e.
+ is -72% relative to the control group mean).
+ Column 6 shows a treatment effect of -22 pp (-78%) for unexpected need to borrow airtime,
+ and column 8 shows -3.5pp (-44%) effect on seeking digital loans.
  These effects are larger and more sustained over time for the installment communication credit program compared to the lumpsum credit.
 \end_layout
 
@@ -856,12 +871,60 @@ First,
 
 \size large
 Second,
- we find meaningful improvement in psychological well-being,
+ we find a meaningful improvement in psychological well-being,
  which is measured using the Kessler Psychological Distress Scale (K10) and on domestic violence.
- Both mental distress and severe mental distress decreased by -9.8% and -2.3pp (=-24%) relative to a control group,
- respectively.
+ Both mental distress and severe mental distress decreased by -9.7% and -2.3pp (-24%) relative to a control group,
+ respectively (See Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:health_pooled_meta"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Column 6 and Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:consumpxhealth_pooled_sep"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Column 5).
  The installment communication credit program had larger and more sustainable effects compared to the lumpsum credit.
- Only the installment program led to a significant decrease in the overall likelihood of individuals threatening their partners by -6.3% (but with no impacts on the overall likelihood of individuals hitting their partners – our second measure of domestic violence).
+ Only the installment program led to a significant decrease in the likelihood of individuals threatening their partners (-9.7%,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:consumpxhealth_pooled_sep"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Column 2).
+ Overall,
+ there are no impacts on the likelihood of individuals hitting their partners,
+ our second measure of domestic violence (Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:health_pooled_meta"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Column 4).
 \end_layout
 
 \begin_layout Standard
@@ -892,11 +955,33 @@ Fourth,
  and (iii) improved informal risk-sharing or consumption insurance.
  We find strong empirical support for improvements in both business-related services (increased business-related income) and social inclusion/protection (reduced isolation),
  but not for consumption insurance.
- Treated individuals reported a significant increase in income (+9.0GHS per week overall) from business-related services.
+ Treated individuals reported a significant increase in income (+8.5GHS per week overall,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:_channels-pooled"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Column 2) from business-related services.
  Similarly,
- treated individuals were less likely to report being emotionally- and socially-tired (-31% for the lumpsum credit group;
- -52% for the installment credit group) but were also more likely to stay at home during the pandemic.
- These show that improvements in professional networks and social inclusion are relevant explanations.
+ treated individuals were less likely to report being emotionally- and socially-tired (-31% for the lumpsum credit group relative to control and -52% for the installment credit group) but were also more likely to stay at home during the pandemic (See Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:_channels-separate"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ Columns 3 and 4).
+ These results show that improvements in professional networks and social inclusion are relevant explanations.
  We also examine heterogeneity in treatment effects along four dimensions:
  poverty,
  informality,
@@ -1804,7 +1889,7 @@ nolink "false"
 
  shows the pooled treatments effect for alternative communication outcomes.
  Relative to a control group,
- individuals inability to make unexpected calls for the previous 7 days decreased (-37pp = -74% of control mean),
+ individuals inability to make unexpected calls for the previous 7 days decreased (-36pp = -72% of control mean),
  inability to make unexpected calls due to COVID-19 decreased (-17pp = -38%),
  unexpected need to borrow SOS airtime decreased dramatically (-22pp = -78%),
  and seeking digital loans decreased (3.5pp = 44%) as a result of the communication programs.
@@ -1962,12 +2047,12 @@ nolink "false"
 \begin_inset Formula $\log$
 \end_inset
 
-K10) decreased by -9.8%.
- Individuals were -6.3% less likely to threaten their partners relative to the control group (Romano-Wolf 
+K10) decreased by -9.7%.
+ Individuals were -6.3% (=0.078/1.247) less likely to threaten their partners relative to the control group (Romano-Wolf 
 \shape italic
 p
 \shape default
--value=0.1247 which is only significant at the 13% level),
+-value=0.129 which is only significant at the 13% level),
  but with no effect on the likelihood of hitting their partners.
  Similarly,
  Table 
@@ -1989,11 +2074,11 @@ nolink "false"
 \begin_inset Formula $\approx$
 \end_inset
 
- -24%) to suffer the incidence of severe mental distress and -9.7% less likely to threaten their partners (Romano-Wolf 
+ -24%) to suffer the incidence of severe mental distress and -9.7% (=0.121/1.247) less likely to threaten their partners (Romano-Wolf 
 \shape italic
 p
 \shape default
--value=0.019 which is significant at conventional levels).
+-value=0.020 which is significant at conventional levels).
  There is limited effect of the lumpsum credit on severe mental distress.
  For consumption,
  the separate effects are null and indistinguishable across the two communication treatments,
@@ -2085,10 +2170,10 @@ Professional networks operate in form of affected individuals being able to stay
  2020).
  To measure this,
  we asked respondents about their total hours worked for income and the amount they received from business income-related activities at endline.
- Treated individuals reported (insignificant) increase in their hours worked but a very significant increase in incomes (+9.0GHS per week overall) from business-related services (Table 
+ Treated individuals reported (insignificant) increase in their hours worked but a very significant increase in incomes (+8.5GHS per week overall) from business-related services (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:_channels?"
+reference "tab:_channels-pooled"
 plural "false"
 caps "false"
 noprefix "false"
@@ -2110,11 +2195,11 @@ Social inclusion (reduced isolation) operates in form of individuals being able 
  Gelles and Straus 1979).
  To measure this,
  we asked respondents about whether they were emotionally- and socially-tired of staying at home at endline.
- We find very significant evidence that treated individuals were less likely to report being emotionally- and socially-tired (-31% for the lumpsum credit group;
- -52% for the installment credit group) but were also more likely to stay at home or seek shelter during the pandemic (Table 
+ We find very significant evidence that treated individuals were less likely to report being emotionally- and socially-tired (-31%=-0.159/0.519 for the lumpsum credit group;
+ -52%-0.265/0.519 for the installment credit group) but were also more likely to stay at home or seek shelter during the pandemic (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:_channels?"
+reference "tab:_channels-separate"
 plural "false"
 caps "false"
 noprefix "false"
@@ -2122,7 +2207,7 @@ nolink "false"
 
 \end_inset
 
-).
+ Columns 3 and 4).
  This shows that improvements in social inclusion is a meaningful,
  relevant explanation.
  
@@ -2159,7 +2244,7 @@ nolink "false"
  we do not find evidence for an impact of mobile credit on the negative consumption effect of the lockdown (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:_channels?"
+reference "tab:_channels-pooled"
 plural "false"
 caps "false"
 noprefix "false"
@@ -3983,7 +4068,7 @@ status collapsed
 \series bold
 M
 \size footnotesize
-ITIGATION OF COMMUNICATION CONSTRAINTS 
+ITIGATION OF COMMUNICATION CONSTRAINTS - POOLED TREATMENT 
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:mitigate_pooled_meta"
@@ -4166,7 +4251,7 @@ placement document
 alignment document
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -4530,10 +4615,14 @@ status collapsed
 \size small
 E
 \size scriptsize
-XPLAINING THE IMPACTS OF COMMUNICATION PROGRAMS 
+XPLAINING THE IMPACTS OF COMMUNICATION PROGRAMS
+\size footnotesize
+ - POOLED TREATMENT
+\size scriptsize
+ 
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:_channels?"
+name "tab:_channels-pooled"
 
 \end_inset
 
@@ -4553,6 +4642,102 @@ name "tab:_channels?"
 \begin_inset CommandInset include
 LatexCommand include
 filename "../3-replication-package/Output/Tables/table_7.tex"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size small
+Note:
+ 
+\size default
+District is the randomization strata.
+ The double-post LASSO specification considers all individual controls,
+ and individual district and survey date fixed effects in the possible control set.
+ Controls include:
+ individual’s age,
+ 0-1 indicator for whether married or not,
+ 0-1 indicator for whether belongs to akan ethnic group or not,
+ 0-1 indicator for whether self employed or not,
+ household size,
+ 0-1 indicator for whether operates in the informal sector,
+ monthly personal income over an ordinal scale of 1 to 5,
+ 0-1 indicator for whether attained junior high school (JHS) education,
+ and individual’s gender.
+ Observations are at the subject 
+\begin_inset Formula $\times$
+\end_inset
+
+ date level.
+ Clustered standard errors (at the individual level;
+ the level of treatment) are reported in parentheses.
+ *** p<0.01 (1% level),
+ ** p<0.05 (5% level),
+ * p<0.1 (10% level).
+ Romano-Wolf [2005] multiple hypothesis correction 
+\shape italic
+p
+\shape default
+-values reported for all communication network outcomes family (professional,
+ social,
+ and informal insurance).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\size large
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\size large
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\size small
+E
+\size scriptsize
+XPLAINING THE IMPACTS OF COMMUNICATION PROGRAMS 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:_channels-separate"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 0.5cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "../3-replication-package/Output/Tables/table_8.tex"
 literal "true"
 
 \end_inset
