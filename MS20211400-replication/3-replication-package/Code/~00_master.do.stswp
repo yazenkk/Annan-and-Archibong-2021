@@ -31,7 +31,7 @@ do "${replication_dir}/Code/00_programs.do"
 ** clean data
 do "${replication_dir}/Code/00_outcomes_clean.do"
 do "${replication_dir}/Code/00_outcomes_merge.do"
-
+e
 ** Run analysis
 // do "${replication_dir}/Code/01_fig_1.do"
 // do "${replication_dir}/Code/01_fig_A3-A5.do"

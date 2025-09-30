@@ -30,7 +30,6 @@ isid caseidx
 saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1_dedup", replace
 
 use "${replication_dir}/Data/01_raw/TrtList00", clear
-sort caseidx
 drop if caseidx == 84504 & ct2a == 90 // second submission correctly flips ct2a and ct2b
 drop if caseidx == 71110 & informal0 == 0 // second submission provides more info on work (d9)
 drop if caseidx == 95214 & i11 != . 	  // second submission provides info 
