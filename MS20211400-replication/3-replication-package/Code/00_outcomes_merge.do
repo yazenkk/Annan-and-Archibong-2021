@@ -70,8 +70,6 @@ tab round, gen(round)
 
 
 ** Consumption growth (used in Tables 3 and A10-A13 and Figure A10)
-order caseidx round
-e
 bys caseidx (round): gen xdif=totExp7days1[_n]-totExp7days1[_n-1]
 bys caseidx (round): gen xgrowth=(xdif/totExp7days1[_n])*100
 tab regionX

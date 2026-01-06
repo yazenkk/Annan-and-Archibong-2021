@@ -27,14 +27,14 @@ set graphics off
 use "${replication_dir}/Data/01_raw/MobileCredit20GHS_371list_Wave1.dta", clear
 duplicates drop
 isid caseidx
-saveold "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1_dedup", replace
+save "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1_dedup", replace
 
 use "${replication_dir}/Data/01_raw/TrtList00", clear
 drop if caseidx == 84504 & ct2a == 90 // second submission correctly flips ct2a and ct2b
 drop if caseidx == 71110 & informal0 == 0 // second submission provides more info on work (d9)
 drop if caseidx == 95214 & i11 != . 	  // second submission provides info 
 isid caseidx
-saveold "${replication_dir}/Data/02_intermediate/TrtList00_dedup", replace
+save "${replication_dir}/Data/02_intermediate/TrtList00_dedup", replace
 
 
 
@@ -139,7 +139,7 @@ gen Trust = (trustgovtCOVIDNos0>=3) if !missing(trustgovtCOVIDNos0)
 
 
 ** Save data for balance table
-saveold "${replication_dir}/Data/02_intermediate/round1_round2", replace
+save "${replication_dir}/Data/02_intermediate/round1_round2", replace
 
 
 **Attrition: Prepare stats
@@ -176,7 +176,7 @@ tab MobileCredit_attrition
 keep caseidx MobileCredit_attrition
 tab MobileCredit_attrition
 isid caseidx
-saveold "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replace
+save "${replication_dir}/Data/02_intermediate/MobileCredit_attrition", replace
 
 ** Wave 3, end 1
 use "${replication_dir}/Data/01_raw/round3_data_21.11.dta", clear
@@ -189,7 +189,7 @@ tab MobileCredit_attrition if dropouts==0
 gen ins=(dropouts==0)
 tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
 tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
-saveold "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", replace
+save "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition", replace
 
 
 ** Wave 4, end 2
@@ -204,4 +204,4 @@ gen ins=(dropouts==0)
 tabstat ins, stat(mean sd n) by(MobileCredit_attrition) //get means and sd
 tabstat dropouts, stat(mean sd n) by(MobileCredit_attrition)
 **estimation with attrition adjustments
-saveold "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", replace
+save "${replication_dir}/Data/02_intermediate/End2_MobileCredit_attrition", replace
