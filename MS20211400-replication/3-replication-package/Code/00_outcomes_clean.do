@@ -63,7 +63,7 @@ gen caseidX=caseidx
 merge m:1 caseidX using "${replication_dir}/Data/01_raw/select1396Final_sample.dta", ///
 	keepusing(districtX regionX pov_likelihood motherTogether noReligion spouseTogether ageMarried)
 drop if _merge==2
-
+sort caseidx round
 
 **i) communication?
 gen needToCOVID=(i9==1) if !missing(i9)
@@ -156,12 +156,14 @@ drop if caseidx == 95214 & d2 != . 	  // second submission provides info
 isid caseidx
 
 merge 1:1 caseidx using "${replication_dir}/Data/01_raw/MobileCredit40GHS_376list.dta" //(but 1:1 for 12/6)
+sort caseidx
 drop _merge
 gen MobileCredit40=MobileCredit
 drop MobileCredit
 tab MobileCredit40 
 merge 1:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit20GHS_371list_Wave1_dedup.dta"  //(but 1:m for 12/6)
 drop _merge
+sort caseidx
 gen MobileCredit20=MobileCredit
 drop MobileCredit
 tab MobileCredit20
@@ -183,6 +185,7 @@ use "${replication_dir}/Data/01_raw/round3_data_21.11.dta", clear
 keep if interviewn_result==1
 isid caseidx
 merge 1:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+sort caseidx
 tab _merge //83 no reachable
 gen dropouts = (_merge==2)
 tab MobileCredit_attrition if dropouts==0
@@ -197,6 +200,7 @@ use "${replication_dir}/Data/01_raw/round4_data_14.12.dta", clear
 keep if interviewn_result==1
 isid caseidx
 merge 1:1 caseidx using "${replication_dir}/Data/02_intermediate/MobileCredit_attrition" //just 1 repeat in Aftrition file so do m:m
+sort caseidx
 tab _merge //134 no reachable
 gen dropouts = (_merge==2)
 tab MobileCredit_attrition if dropouts==0

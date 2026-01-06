@@ -36,6 +36,7 @@ drop _merge
 **bring-In baseline data- (wave 1, round 1)
 isid caseidx round
 merge m:1 caseidx using "${replication_dir}/Data/02_intermediate/TrtList00_dedup.dta" //bring in round 1 = base	
+sort caseidx round
 drop _merge
 
 **bring-In baseline data- (wave 2, round 2)
@@ -48,7 +49,7 @@ preserve
 restore
 isid caseidx round
 merge m:1 caseidx using `wave2', keepusing(relocated0 digitborrow0 digitloan0)
-
+sort caseidx round
 
 
 **main outcomes
