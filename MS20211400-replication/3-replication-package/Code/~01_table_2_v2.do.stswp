@@ -277,6 +277,3 @@ esttab using "${replication_dir}/Output/Tables/table_2_esttab.tex", ///
 				 "Imbens-Manski 2004" ///
 				 "p-value: Romano-Wolf Correction" )) ///
 	replace
-
-	
-log close
