@@ -1,0 +1,2407 @@
+------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-re
+> plication-package/Output/table7_logfile.log
+  log type:  text
+ opened on:   1 Feb 2026, 21:17:58
+
+. set seed $project_seed
+
+. 
+. ***********************************
+. use "${replication_dir}/Data/03_clean/end1_end2.dta", clear
+
+. 
+. 
+. gen EmotSoc_Tired = (i8==1) if !missing(i8)
+(215 missing values generated)
+
+. sum EmotSoc_Tired
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+EmotSoc_Ti~d |      2,045    .3706601    .4830997          0          1
+
+. 
+. gen stayed5wks=(p3==1) if !missing(p3) //asked (@ end 2 only): Consider the last 5 weeks - are you s
+> taying home as much as possible because of the covid19 outbreak?
+(1,263 missing values generated)
+
+. tab round stayed5wks
+
+           |      stayed5wks
+     round |         0          1 |     Total
+-----------+----------------------+----------
+         4 |       632        365 |       997 
+-----------+----------------------+----------
+     Total |       632        365 |       997 
+
+. 
+. label var i1 "Professional/Business, Networks:, Hours worked, (last 7 days) (Hrs)"
+
+. label var i2 "Professional/Business, Networks:, Business Income, (last 7 days) (GHS)"
+
+. label var EmotSoc_Tired "Social Inclusion/, Networks:, Emotionally, -Tired 0-1"
+
+. label var stayed5wks "Social Inclusion/, Networks:, Stayed Home, (last 5 weeks) 0-1"
+
+. label var xgrowth "Insurance, Networks:, Consumption, Growth (%)"
+
+. label var previouslock "Locked-down 0-1, [Consumption shock]"
+
+. 
+. **get rwolf pvals?
+. gen tmt01xLock =tmt01*previouslock 
+
+. gen tmt02xLock =tmt02*previouslock
+
+. gen tmt_allxLock =tmt_all*previouslock
+
+. // rwolf i1 i2 EmotSoc_Tired stayed5wks xgrowth, indepvar(tmt01 tmt02) seed(124) reps(499)
+. // rwolf i1 i2 EmotSoc_Tired                xgrowth, indepvar(tmt01 tmt02 tmt01xLock tmt02xLock prev
+> iouslock) seed(124) reps(499) //get for interactions
+. *rwolf i1 i2 EmotSoc_Tired stayed5wks xgrowth, indepvar(tmt01 tmt02 tmt01xLock tmt02xLock previouslo
+> ck) seed(124)
+. 
+. *reply comment: 
+. *our conjecture was that this is related to the # of boots reps (of r=100) and it is not.
+. *the default # of bootstrap replications is 100 in STATA. 
+. *changing this to a larger number (which is usually recommended fo IV models) does not seem to chang
+> e our overall inference, so ended up keeping the default
+. 
+. **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction
+. local y_list5 i1 i2 EmotSoc_Tired stayed5wks xgrowth
+
+. local y_list6 i1 i2 EmotSoc_Tired xgrowth
+
+. local t_list1 tmt_all
+
+. local t_list4 tmt_all tmt_allxLock previouslock
+
+. // local t_list2 tmt01 tmt02
+. // local t_list3 tmt01 tmt02 tmt01xLock tmt02xLock previouslock
+.  
+. foreach y_list in y_list5 y_list6 { //  
+  2.         foreach t_list in t_list1 t_list4 { //
+  3.                 
+. //              local reps_option "reps(10)"
+.                 
+.                 ** calculate RW p-values
+.                 rwolf ``y_list'', indepvar(``t_list'') seed(124) `reps_option'
+  4.                 
+.                 ereturn list
+  5.                 ** collect outcomes
+.                 foreach y in ``y_list'' {
+  6.                         foreach t in ``t_list'' {
+  7.                                 dis "y: `y'. t: `t'"
+  8.                                 local rw_`y'_`t' = string(e(rw_`y'_`t'), "%15.3fc")
+  9.                         }
+ 10.                 }
+ 11.         }
+ 12. }
+Bootstrap replications (100). This may take some time.
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5
+..................................................     50
+..................................................     100
+
+
+
+
+Romano-Wolf step-down adjusted p-values
+
+
+Independent variable:  tmt_all
+Outcome variables:   i1 i2 EmotSoc_Tired stayed5wks xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |    0.0853             0.0792              0.1188
+                 i2 |    0.0114             0.0198              0.0495
+      EmotSoc_Tired |    0.0000             0.0099              0.0099
+         stayed5wks |    0.0000             0.0099              0.0099
+            xgrowth |    0.0666             0.0693              0.1188
+------------------------------------------------------------------------------
+
+scalars:
+                  e(N) =  982
+              e(sum_w) =  982
+               e(df_m) =  1
+               e(df_r) =  980
+                  e(F) =  2.85833642213247
+                 e(r2) =  .0029081875955161
+               e(rmse) =  333.2255163265941
+                e(mss) =  317387.5175010562
+                e(rss) =  108818459.8365027
+               e(r2_a) =  .0018907469706136
+                 e(ll) =  -7096.657356099018
+               e(ll_0) =  -7098.087356572563
+               e(rank) =  2
+              e(rw_i1) =  .1188118811881188
+              e(rw_i2) =  .0495049504950495
+   e(rw_EmotSoc_Tired) =  .0099009900990099
+      e(rw_stayed5wks) =  .0099009900990099
+         e(rw_xgrowth) =  .1188118811881188
+
+macros:
+            e(cmdline) : "regress xgrowth tmt_all     [ ], "
+              e(title) : "Linear regression"
+          e(marginsok) : "XB default"
+                e(vce) : "ols"
+             e(depvar) : "xgrowth"
+                e(cmd) : "regress"
+         e(properties) : "b V"
+            e(predict) : "regres_p"
+              e(model) : "ols"
+          e(estat_cmd) : "regress_estat"
+
+matrices:
+                  e(b) :  1 x 2
+                  e(V) :  2 x 2
+                 e(RW) :  5 x 3
+               e(beta) :  1 x 1
+
+functions:
+             e(sample)   
+y: i1. t: tmt_all
+y: i2. t: tmt_all
+y: EmotSoc_Tired. t: tmt_all
+y: stayed5wks. t: tmt_all
+y: xgrowth. t: tmt_all
+Bootstrap replications (100). This may take some time.
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5
+..................................................     50
+..................................................     100
+
+
+
+
+Romano-Wolf step-down adjusted p-values
+
+
+Independent variable:  tmt_all
+Outcome variables:   i1 i2 EmotSoc_Tired stayed5wks xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |     0.1888             0.2079              0.2178
+                 i2 |     0.0193             0.0198              0.0891
+      EmotSoc_Tired |     0.0000             0.0099              0.0099
+         stayed5wks |     0.0000             0.0099              0.0099
+            xgrowth |     0.1166             0.1089              0.2178
+------------------------------------------------------------------------------
+
+
+Independent variable:  tmt_allxLock
+Outcome variables:   i1 i2 EmotSoc_Tired stayed5wks xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |     0.5504             0.5149              0.9307
+                 i2 |     0.9426             0.9208              0.9307
+      EmotSoc_Tired |     0.2286             0.2277              0.6535
+         stayed5wks |     0.5420             0.5941              0.9307
+            xgrowth |     0.8580             0.6832              0.9307
+------------------------------------------------------------------------------
+
+
+Independent variable:  previouslock
+Outcome variables:   i1 i2 EmotSoc_Tired stayed5wks xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |     0.0613             0.0495              0.1584
+                 i2 |     0.0121             0.0594              0.0891
+      EmotSoc_Tired |     0.6795             0.6634              0.7426
+         stayed5wks |     0.1034             0.0297              0.1584
+            xgrowth |     0.8178             0.4257              0.7426
+------------------------------------------------------------------------------
+
+
+
+scalars:
+                  e(N) =  982
+              e(sum_w) =  982
+               e(df_m) =  3
+               e(df_r) =  978
+                  e(F) =  1.180560238485503
+                 e(r2) =  .0036082835655792
+               e(rmse) =  333.4489384443645
+                e(mss) =  393793.0844230056
+                e(rss) =  108742054.2695808
+               e(r2_a) =  .0005518672574981
+                 e(ll) =  -7096.312485293256
+               e(ll_0) =  -7098.087356572563
+               e(rank) =  4
+      e(rw_i1_tmt_all) =  .2178217821782178
+      e(rw_i2_tmt_all) =  .0891089108910891
+  e(rw_EmotSoc_Tired_
+    tmt_all)           =  .0099009900990099
+  e(rw_stayed5wks_tmt
+    _all)              =  .0099009900990099
+  e(rw_xgrowth_tmt_al
+    l)                 =  .2178217821782178
+  e(rw_i1_tmt_allxLoc
+    k)                 =  .9306930693069307
+  e(rw_i2_tmt_allxLoc
+    k)                 =  .9306930693069307
+  e(rw_xgrowth_previo
+    uslock)            =  .7425742574257426
+  e(rw_stayed5wks_pre
+    viouslock)         =  .1584158415841584
+  e(rw_EmotSoc_Tired_
+    previouslock)      =  .7425742574257426
+  e(rw_i2_previousloc
+    k)                 =  .0891089108910891
+  e(rw_i1_previousloc
+    k)                 =  .1584158415841584
+  e(rw_xgrowth_tmt_al
+    lxLock)            =  .9306930693069307
+  e(rw_stayed5wks_tmt
+    _allxLock)         =  .9306930693069307
+  e(rw_EmotSoc_Tired_
+    tmt_allxLock)      =  .6534653465346535
+
+macros:
+            e(cmdline) : "regress xgrowth tmt_all tmt_allxLock previouslock     [ ], "
+              e(title) : "Linear regression"
+          e(marginsok) : "XB default"
+                e(vce) : "ols"
+             e(depvar) : "xgrowth"
+                e(cmd) : "regress"
+         e(properties) : "b V"
+            e(predict) : "regres_p"
+              e(model) : "ols"
+          e(estat_cmd) : "regress_estat"
+
+matrices:
+                  e(b) :  1 x 4
+                  e(V) :  4 x 4
+    e(RW_previouslock) :  5 x 3
+    e(RW_tmt_allxLock) :  5 x 3
+         e(RW_tmt_all) :  5 x 3
+               e(beta) :  1 x 3
+
+functions:
+             e(sample)   
+y: i1. t: tmt_all
+y: i1. t: tmt_allxLock
+y: i1. t: previouslock
+y: i2. t: tmt_all
+y: i2. t: tmt_allxLock
+y: i2. t: previouslock
+y: EmotSoc_Tired. t: tmt_all
+y: EmotSoc_Tired. t: tmt_allxLock
+y: EmotSoc_Tired. t: previouslock
+y: stayed5wks. t: tmt_all
+y: stayed5wks. t: tmt_allxLock
+y: stayed5wks. t: previouslock
+y: xgrowth. t: tmt_all
+y: xgrowth. t: tmt_allxLock
+y: xgrowth. t: previouslock
+Bootstrap replications (100). This may take some time.
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5
+..................................................     50
+..................................................     100
+
+
+
+
+Romano-Wolf step-down adjusted p-values
+
+
+Independent variable:  tmt_all
+Outcome variables:   i1 i2 EmotSoc_Tired xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |    0.0853             0.0792              0.1188
+                 i2 |    0.0114             0.0198              0.0495
+      EmotSoc_Tired |    0.0000             0.0099              0.0099
+            xgrowth |    0.0666             0.0693              0.1188
+------------------------------------------------------------------------------
+
+scalars:
+                  e(N) =  982
+              e(sum_w) =  982
+               e(df_m) =  1
+               e(df_r) =  980
+                  e(F) =  2.85833642213247
+                 e(r2) =  .0029081875955161
+               e(rmse) =  333.2255163265941
+                e(mss) =  317387.5175010562
+                e(rss) =  108818459.8365027
+               e(r2_a) =  .0018907469706136
+                 e(ll) =  -7096.657356099018
+               e(ll_0) =  -7098.087356572563
+               e(rank) =  2
+              e(rw_i1) =  .1188118811881188
+              e(rw_i2) =  .0495049504950495
+   e(rw_EmotSoc_Tired) =  .0099009900990099
+         e(rw_xgrowth) =  .1188118811881188
+
+macros:
+            e(cmdline) : "regress xgrowth tmt_all     [ ], "
+              e(title) : "Linear regression"
+          e(marginsok) : "XB default"
+                e(vce) : "ols"
+             e(depvar) : "xgrowth"
+                e(cmd) : "regress"
+         e(properties) : "b V"
+            e(predict) : "regres_p"
+              e(model) : "ols"
+          e(estat_cmd) : "regress_estat"
+
+matrices:
+                  e(b) :  1 x 2
+                  e(V) :  2 x 2
+                 e(RW) :  4 x 3
+               e(beta) :  1 x 1
+
+functions:
+             e(sample)   
+y: i1. t: tmt_all
+y: i2. t: tmt_all
+y: EmotSoc_Tired. t: tmt_all
+y: xgrowth. t: tmt_all
+Bootstrap replications (100). This may take some time.
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5
+..................................................     50
+..................................................     100
+
+
+
+
+Romano-Wolf step-down adjusted p-values
+
+
+Independent variable:  tmt_all
+Outcome variables:   i1 i2 EmotSoc_Tired xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |     0.1888             0.2079              0.2178
+                 i2 |     0.0193             0.0198              0.0891
+      EmotSoc_Tired |     0.0000             0.0099              0.0099
+            xgrowth |     0.1166             0.1089              0.2178
+------------------------------------------------------------------------------
+
+
+Independent variable:  tmt_allxLock
+Outcome variables:   i1 i2 EmotSoc_Tired xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |     0.5504             0.5149              0.8416
+                 i2 |     0.9426             0.9208              0.9307
+      EmotSoc_Tired |     0.2286             0.2277              0.5842
+            xgrowth |     0.8580             0.6832              0.9307
+------------------------------------------------------------------------------
+
+
+Independent variable:  previouslock
+Outcome variables:   i1 i2 EmotSoc_Tired xgrowth
+Number of resamples: 100
+
+
+------------------------------------------------------------------------------
+   Outcome Variable | Model p-value    Resample p-value    Romano-Wolf p-value
+--------------------+---------------------------------------------------------
+                 i1 |     0.0613             0.0495              0.1485
+                 i2 |     0.0121             0.0594              0.0891
+      EmotSoc_Tired |     0.6795             0.6634              0.7426
+            xgrowth |     0.8178             0.4257              0.7426
+------------------------------------------------------------------------------
+
+
+
+scalars:
+                  e(N) =  982
+              e(sum_w) =  982
+               e(df_m) =  3
+               e(df_r) =  978
+                  e(F) =  1.180560238485503
+                 e(r2) =  .0036082835655792
+               e(rmse) =  333.4489384443645
+                e(mss) =  393793.0844230056
+                e(rss) =  108742054.2695808
+               e(r2_a) =  .0005518672574981
+                 e(ll) =  -7096.312485293256
+               e(ll_0) =  -7098.087356572563
+               e(rank) =  4
+      e(rw_i1_tmt_all) =  .2178217821782178
+      e(rw_i2_tmt_all) =  .0891089108910891
+  e(rw_EmotSoc_Tired_
+    tmt_all)           =  .0099009900990099
+  e(rw_xgrowth_tmt_al
+    l)                 =  .2178217821782178
+  e(rw_i1_tmt_allxLoc
+    k)                 =  .8415841584158416
+  e(rw_i2_tmt_allxLoc
+    k)                 =  .9306930693069307
+  e(rw_EmotSoc_Tired_
+    tmt_allxLock)      =  .5841584158415841
+  e(rw_xgrowth_previo
+    uslock)            =  .7425742574257426
+  e(rw_EmotSoc_Tired_
+    previouslock)      =  .7425742574257426
+  e(rw_i2_previousloc
+    k)                 =  .0891089108910891
+  e(rw_i1_previousloc
+    k)                 =  .1485148514851485
+  e(rw_xgrowth_tmt_al
+    lxLock)            =  .9306930693069307
+
+macros:
+            e(cmdline) : "regress xgrowth tmt_all tmt_allxLock previouslock     [ ], "
+              e(title) : "Linear regression"
+          e(marginsok) : "XB default"
+                e(vce) : "ols"
+             e(depvar) : "xgrowth"
+                e(cmd) : "regress"
+         e(properties) : "b V"
+            e(predict) : "regres_p"
+              e(model) : "ols"
+          e(estat_cmd) : "regress_estat"
+
+matrices:
+                  e(b) :  1 x 4
+                  e(V) :  4 x 4
+    e(RW_previouslock) :  4 x 3
+    e(RW_tmt_allxLock) :  4 x 3
+         e(RW_tmt_all) :  4 x 3
+               e(beta) :  1 x 3
+
+functions:
+             e(sample)   
+y: i1. t: tmt_all
+y: i1. t: tmt_allxLock
+y: i1. t: previouslock
+y: i2. t: tmt_all
+y: i2. t: tmt_allxLock
+y: i2. t: previouslock
+y: EmotSoc_Tired. t: tmt_all
+y: EmotSoc_Tired. t: tmt_allxLock
+y: EmotSoc_Tired. t: previouslock
+y: xgrowth. t: tmt_all
+y: xgrowth. t: tmt_allxLock
+y: xgrowth. t: previouslock
+
+. 
+. **framework-channels?
+. *ssc install lassopack
+. sum tmt01 tmt02 tmt_all
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       tmt01 |      2,260    .3327434    .4712998          0          1
+       tmt02 |      2,260    .3274336    .4693808          0          1
+     tmt_all |      2,260     .660177    .4737538          0          1
+
+. set more off
+
+. 
+. ** Table 7 column 1
+. *1. professional networks: cc improved business-related services? we measure: use c.wages and c.inco
+> me?
+. sum i1 //hrs worked for income (last 7days)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          i1 |      2,045     19.3687    22.75278          0         96
+
+. sum i2 //amt received from business income-related activites (last 7days)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          i2 |      2,045    68.68802     119.141          0        999
+
+. *separate?
+. pdslasso i1 tmt_all (i.districtX i.dateinterviewend i1b female0 akan0 married0 ageYrs0 jhs0 hhsize0 
+> selfEmploy0 informal0 incomegrp0), ///
+>     partial(i.districtX) ///
+>     cluster(caseidx) ///
+>     rlasso
+Partialling out unpenalized controls...
+1.  (PDS/CHS) Selecting HD controls for dep var i1...
+Selected: i1b incomegrp0
+2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
+Selected: 5122020.dateinterviewend 30112020.dateinterviewend
+
+
+Estimation results:
+
+Specification:
+Regularization method:                 lasso
+Penalty loadings:                      cluster-lasso
+Number of observations:                2,018
+Number of clusters:                    1,049
+Exogenous (1):                         tmt_all
+High-dim controls (33):                1112020b.dateinterviewend 1122020.dateinterviewend
+                                       2112020.dateinterviewend 2122020.dateinterviewend
+                                       3112020.dateinterviewend 3122020.dateinterviewend
+                                       4112020.dateinterviewend 4122020.dateinterviewend
+                                       5112020.dateinterviewend 5122020.dateinterviewend
+                                       6112020.dateinterviewend 6122020.dateinterviewend
+                                       7112020.dateinterviewend 7122020.dateinterviewend
+                                       8112020.dateinterviewend 8122020.dateinterviewend
+                                       9112020.dateinterviewend 9122020.dateinterviewend
+                                       10112020.dateinterviewend 11112020.dateinterviewend
+                                       28112020.dateinterviewend 29112020.dateinterviewend
+                                       30112020.dateinterviewend i1b female0 akan0 married0 ageYrs0
+                                       jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
+Selected controls (4):                 5122020.dateinterviewend 30112020.dateinterviewend i1b
+                                       incomegrp0
+Partialled-out controls (192):         101b.districtX 102.districtX 103.districtX 104.districtX
+                                       105.districtX 106.districtX 107.districtX 108.districtX
+                                       109.districtX 110.districtX 111.districtX 112.districtX
+                                       113.districtX 114.districtX 115.districtX 116.districtX
+                                       117.districtX 201.districtX 202.districtX 203.districtX
+                                       204.districtX 205.districtX 206.districtX 207.districtX
+                                       208.districtX 209.districtX 210.districtX 211.districtX
+                                       212.districtX 213.districtX 214.districtX 215.districtX
+                                       217.districtX 218.districtX 219.districtX 220.districtX
+                                       301.districtX 302.districtX 303.districtX 304.districtX
+                                       305.districtX 306.districtX 307.districtX 308.districtX
+                                       309.districtX 310.districtX 311.districtX 312.districtX
+                                       313.districtX 314.districtX 315.districtX 316.districtX
+                                       401.districtX 402.districtX 403.districtX 404.districtX
+                                       405.districtX 406.districtX 408.districtX 410.districtX
+                                       411.districtX 412.districtX 413.districtX 414.districtX
+                                       415.districtX 417.districtX 418.districtX 419.districtX
+                                       421.districtX 422.districtX 423.districtX 424.districtX
+                                       425.districtX 501.districtX 502.districtX 503.districtX
+                                       504.districtX 505.districtX 506.districtX 507.districtX
+                                       508.districtX 509.districtX 510.districtX 512.districtX
+                                       513.districtX 514.districtX 515.districtX 516.districtX
+                                       517.districtX 518.districtX 519.districtX 522.districtX
+                                       523.districtX 524.districtX 525.districtX 526.districtX
+                                       601.districtX 602.districtX 603.districtX 604.districtX
+                                       605.districtX 606.districtX 608.districtX 609.districtX
+                                       611.districtX 612.districtX 613.districtX 614.districtX
+                                       615.districtX 616.districtX 618.districtX 619.districtX
+                                       621.districtX 622.districtX 623.districtX 627.districtX
+                                       628.districtX 701.districtX 702.districtX 703.districtX
+                                       704.districtX 705.districtX 706.districtX 707.districtX
+                                       708.districtX 709.districtX 710.districtX 711.districtX
+                                       712.districtX 713.districtX 714.districtX 715.districtX
+                                       716.districtX 717.districtX 718.districtX 719.districtX
+                                       720.districtX 721.districtX 722.districtX 723.districtX
+                                       724.districtX 725.districtX 726.districtX 727.districtX
+                                       801.districtX 803.districtX 804.districtX 805.districtX
+                                       806.districtX 807.districtX 808.districtX 809.districtX
+                                       810.districtX 811.districtX 812.districtX 813.districtX
+                                       814.districtX 815.districtX 816.districtX 817.districtX
+                                       818.districtX 819.districtX 820.districtX 821.districtX
+                                       822.districtX 823.districtX 825.districtX 826.districtX
+                                       901.districtX 902.districtX 903.districtX 904.districtX
+                                       905.districtX 906.districtX 907.districtX 908.districtX
+                                       909.districtX 910.districtX 911.districtX 912.districtX
+                                       913.districtX 1001.districtX 1002.districtX 1003.districtX
+                                       1004.districtX 1005.districtX 1006.districtX 1007.districtX
+                                       1008.districtX 1009.districtX 1010.districtX 1011.districtX
+
+lasso estimation(s):
+
+_pdslasso_step1_i1
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+              i1b |       0.7075755      0.7501316
+       incomegrp0 |       0.0388029      0.9067644
+---------------------------------------------------
+
+_pdslasso_step2_tmt_all
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+         5122020  |      -0.0076704     -0.1618655
+        30112020  |       0.0389208      0.1464320
+---------------------------------------------------
+
+Structural equation:
+
+OLS using CHS lasso-orthogonalized vars
+                            (Std. err. adjusted for 1,049 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+          i1 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |   .3335464   .5068804     0.66   0.511     -.659921    1.327014
+------------------------------------------------------------------------------
+
+OLS using CHS post-lasso-orthogonalized vars
+                            (Std. err. adjusted for 1,049 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+          i1 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |   .2755655   .5043259     0.55   0.585    -.7128951    1.264026
+------------------------------------------------------------------------------
+
+OLS with PDS-selected variables and full regressor set
+                                (Std. err. adjusted for 1,049 clusters in caseidx)
+----------------------------------------------------------------------------------
+                 |               Robust
+              i1 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+         tmt_all |   .2757318   .5079699     0.54   0.587    -.7198709    1.271335
+                 |
+dateinterviewend |
+        5122020  |   .1916097   .8435351     0.23   0.820    -1.461689    1.844908
+       30112020  |  -.0902692   .6850633    -0.13   0.895    -1.432969     1.25243
+                 |
+             i1b |   .7499728   .0130073    57.66   0.000      .724479    .7754666
+      incomegrp0 |   .9064962   .3044856     2.98   0.003     .3097154    1.503277
+                 |
+       districtX |
+            102  |  -1.460442   1.644703    -0.89   0.375    -4.684001    1.763116
+            103  |  -.6291264   4.205794    -0.15   0.881    -8.872331    7.614078
+            104  |  -5.061646   3.633103    -1.39   0.164     -12.1824    2.059106
+            105  |  -.3785001    1.97184    -0.19   0.848    -4.243235    3.486235
+            106  |   .8187404   4.074867     0.20   0.841    -7.167853    8.805334
+            107  |    .030301   1.275677     0.02   0.981    -2.469981    2.530583
+            108  |   .8286563   2.562489     0.32   0.746    -4.193731    5.851043
+            109  |  -6.986964   4.234621    -1.65   0.099    -15.28667     1.31274
+            110  |  -6.615802   3.732393    -1.77   0.076    -13.93116    .6995524
+            111  |  -1.903779    2.42583    -0.78   0.433    -6.658318    2.850759
+            112  |  -1.588334   1.496956    -1.06   0.289    -4.522314    1.345646
+            113  |  -5.928851   2.104749    -2.82   0.005    -10.05408    -1.80362
+            114  |   1.475175   2.478827     0.60   0.552    -3.383236    6.333585
+            115  |   -.533666   2.315792    -0.23   0.818    -5.072534    4.005202
+            116  |   1.255874   1.293021     0.97   0.331    -1.278402     3.79015
+            117  |  -1.863938   1.321237    -1.41   0.158    -4.453514    .7256381
+            201  |  -2.818313   3.835689    -0.73   0.462    -10.33613      4.6995
+            202  |  -1.245582   3.040133    -0.41   0.682    -7.204133    4.712969
+            203  |  -6.351264    3.72987    -1.70   0.089    -13.66168    .9591466
+            204  |  -4.980036   4.088844    -1.22   0.223    -12.99402    3.033951
+            205  |   2.561693   2.288564     1.12   0.263    -1.923809    7.047196
+            206  |  -7.145166   4.556552    -1.57   0.117    -16.07584    1.785512
+            207  |   3.549737   3.570857     0.99   0.320    -3.449014    10.54849
+            208  |   -.785762    2.23055    -0.35   0.725     -5.15756    3.586036
+            209  |   3.414756   4.085057     0.84   0.403    -4.591809    11.42132
+            210  |  -8.138674   3.495045    -2.33   0.020    -14.98884   -1.288511
+            211  |  -2.961361   2.386037    -1.24   0.215    -7.637908    1.715185
+            212  |  -4.115527    2.55316    -1.61   0.107    -9.119629    .8885747
+            213  |  -.8210939   1.449742    -0.57   0.571    -3.662535    2.020347
+            214  |  -2.216235   2.382993    -0.93   0.352    -6.886816    2.454346
+            215  |  -4.472141   3.104946    -1.44   0.150    -10.55772    1.613442
+            217  |  -.8910635   3.913226    -0.23   0.820    -8.560845    6.778718
+            218  |  -1.233756   1.263334    -0.98   0.329    -3.709846    1.242334
+            219  |  -2.720857   6.167926    -0.44   0.659    -14.80977    9.368056
+            220  |    1.35358   2.346674     0.58   0.564    -3.245817    5.952977
+            301  |  -3.886622   2.612553    -1.49   0.137    -9.007132    1.233888
+            302  |  -1.985194   3.630974    -0.55   0.585    -9.101772    5.131383
+            303  |   1.644159   1.251455     1.31   0.189    -.8086475    4.096966
+            304  |  -1.918318   1.627468    -1.18   0.239    -5.108097     1.27146
+            305  |  -3.948162   3.136029    -1.26   0.208    -10.09467    2.198342
+            306  |  -1.825523   2.508075    -0.73   0.467     -6.74126    3.090214
+            307  |  -8.018402   3.951015    -2.03   0.042    -15.76225   -.2745546
+            308  |   -.677327     1.9761    -0.34   0.732    -4.550413    3.195759
+            309  |  -2.994316   1.267608    -2.36   0.018    -5.478783   -.5098498
+            310  |  -1.469862   1.288875    -1.14   0.254    -3.996011    1.056287
+            311  |  -2.245876     2.6526    -0.85   0.397    -7.444877    2.953125
+            312  |  -6.793184   4.659533    -1.46   0.145     -15.9257    2.339334
+            313  |  -.6283911   2.246857    -0.28   0.780    -5.032151    3.775369
+            314  |   3.345131   2.509272     1.33   0.182    -1.572952    8.263214
+            315  |   8.439613   7.639807     1.10   0.269    -6.534134    23.41336
+            316  |   2.103121   1.967309     1.07   0.285    -1.752735    5.958976
+            401  |   -1.34009    1.31049    -1.02   0.307    -3.908604    1.228423
+            402  |  -2.258143    2.67844    -0.84   0.399     -7.50779    2.991503
+            403  |  -7.210941   8.286695    -0.87   0.384    -23.45256    9.030682
+            404  |  -1.109375   1.435432    -0.77   0.440     -3.92277     1.70402
+            405  |  -1.071866    1.58503    -0.68   0.499    -4.178467    2.034735
+            406  |   -10.4919   5.608071    -1.87   0.061    -21.48351    .4997199
+            408  |   -1.35671   1.593952    -0.85   0.395    -4.480799    1.767379
+            410  |  -4.766288   5.364673    -0.89   0.374    -15.28085    5.748278
+            411  |  -1.013697   2.426187    -0.42   0.676    -5.768936    3.741543
+            412  |   -1.98724   3.745881    -0.53   0.596    -9.329033    5.354553
+            413  |  -.5339765   1.326817    -0.40   0.687    -3.134489    2.066536
+            414  |    2.05817   4.381243     0.47   0.639    -6.528909    10.64525
+            415  |   .1747446   1.242838     0.14   0.888    -2.261172    2.610661
+            417  |  -5.880319    2.95462    -1.99   0.047    -11.67127   -.0893696
+            418  |   1.312817    1.76177     0.75   0.456     -2.14019    4.765823
+            419  |  -.8479315   1.397337    -0.61   0.544    -3.586661    1.890798
+            421  |  -1.086202   1.280112    -0.85   0.396    -3.595177    1.422772
+            422  |  -.1603567   1.236652    -0.13   0.897    -2.584149    2.263436
+            423  |   -5.61723   2.894769    -1.94   0.052    -11.29087    .0564119
+            424  |  -52.27707   2.889336   -18.09   0.000    -57.94007   -46.61408
+            425  |  -1.841399   1.283859    -1.43   0.151    -4.357716    .6749181
+            501  |  -3.772516   2.657414    -1.42   0.156    -8.980952     1.43592
+            502  |  -12.33052   5.694353    -2.17   0.030    -23.49124   -1.169791
+            503  |   .8256828   6.609946     0.12   0.901    -12.12957    13.78094
+            504  |  -9.855957   9.913158    -0.99   0.320    -29.28539    9.573475
+            505  |  -17.35557   5.920173    -2.93   0.003    -28.95889   -5.752242
+            506  |  -5.965953   6.240274    -0.96   0.339    -18.19667    6.264759
+            507  |  -5.178118   4.459854    -1.16   0.246    -13.91927    3.563035
+            508  |  -1.661472   1.418552    -1.17   0.242    -4.441782    1.118839
+            509  |   5.326777   6.246609     0.85   0.394    -6.916352    17.56991
+            510  |    -35.544   11.85027    -3.00   0.003    -58.77011   -12.31789
+            512  |   .3606786   2.968253     0.12   0.903     -5.45699    6.178348
+            513  |  -19.36922    11.5542    -1.68   0.094    -42.01503    3.276587
+            514  |   13.96009   2.964093     4.71   0.000     8.150575    19.76961
+            515  |  -3.905635    3.41075    -1.15   0.252    -10.59058    2.779313
+            516  |   .4651297   2.322176     0.20   0.841    -4.086253    5.016512
+            517  |      -18.7   4.927917    -3.79   0.000    -28.35854    -9.04146
+            518  |   1.165677   3.064241     0.38   0.704    -4.840124    7.171478
+            519  |   .0661341    1.68606     0.04   0.969    -3.238482     3.37075
+            522  |   2.386553   2.749012     0.87   0.385    -3.001413    7.774518
+            523  |   11.37514   1.343869     8.46   0.000     8.741201    14.00907
+            524  |  -.3378906   3.401984    -0.10   0.921    -7.005657    6.329876
+            525  |  -5.341891   3.391463    -1.58   0.115    -11.98904    1.305255
+            526  |  -1.172525   1.910531    -0.61   0.539    -4.917096    2.572046
+            601  |  -4.820628   2.873477    -1.68   0.093    -10.45254    .8112838
+            602  |   .8935224   2.705345     0.33   0.741    -4.408857    6.195902
+            603  |  -13.74977   1.357249   -10.13   0.000    -16.40993   -11.08961
+            604  |  -.4008669   1.278818    -0.31   0.754    -2.907304     2.10557
+            605  |   4.688352   2.373793     1.98   0.048     .0358028    9.340901
+            606  |   1.712141    2.29871     0.74   0.456    -2.793247     6.21753
+            608  |  -2.670543   1.484606    -1.80   0.072    -5.580318    .2392325
+            609  |  -38.49426   1.274257   -30.21   0.000    -40.99176   -35.99676
+            611  |  -5.378767   4.123059    -1.30   0.192    -13.45981    2.702279
+            612  |   7.255385    1.24019     5.85   0.000     4.824657    9.686112
+            613  |   8.255928   1.301362     6.34   0.000     5.705306    10.80655
+            614  |   1.233411   1.651189     0.75   0.455    -2.002861    4.469682
+            615  |   3.505738   1.274257     2.75   0.006      1.00824    6.003236
+            616  |   1.830581   1.444936     1.27   0.205    -1.001443    4.662604
+            618  |  -1.631679   1.241692    -1.31   0.189    -4.065351    .8019927
+            619  |  -1.607728   1.255143    -1.28   0.200    -4.067764    .8523077
+            621  |  -6.718584   1.312287    -5.12   0.000    -9.290619    -4.14655
+            622  |  -1.653683   1.252321    -1.32   0.187    -4.108188    .8008214
+            623  |   .9160557   2.082123     0.44   0.660    -3.164831    4.996942
+            627  |  -2.247311   1.306368    -1.72   0.085    -4.807745    .3131224
+            628  |   2.823649   2.493597     1.13   0.257    -2.063712    7.711009
+            701  |   .9343331   1.287966     0.73   0.468    -1.590034      3.4587
+            702  |  -3.368736   1.998056    -1.69   0.092    -7.284853    .5473814
+            703  |  -2.610719   1.455075    -1.79   0.073    -5.462613    .2411752
+            704  |  -3.767975   2.115244    -1.78   0.075    -7.913777    .3778263
+            705  |  -1.696291   1.865286    -0.91   0.363    -5.352184    1.959602
+            706  |  -2.951832    1.62092    -1.82   0.069    -6.128778    .2251129
+            707  |   2.229653   5.853015     0.38   0.703    -9.242046    13.70135
+            708  |  -6.797111   2.668718    -2.55   0.011     -12.0277    -1.56652
+            709  |   -5.80124   2.033395    -2.85   0.004    -9.786621   -1.815858
+            710  |   1.565047    1.70315     0.92   0.358    -1.773066    4.903159
+            711  |  -1.836768   1.299995    -1.41   0.158    -4.384712    .7111762
+            712  |  -6.814464   2.942873    -2.32   0.021    -12.58239   -1.046539
+            713  |   4.263238   6.739277     0.63   0.527    -8.945502    17.47198
+            714  |  -6.810161   4.759136    -1.43   0.152     -16.1379    2.517575
+            715  |  -4.264179   3.380467    -1.26   0.207    -10.88977    2.361415
+            716  |  -4.958621   2.445179    -2.03   0.043    -9.751083   -.1661582
+            717  |  -1.138859   1.362101    -0.84   0.403    -3.808528     1.53081
+            718  |  -4.736718   2.175458    -2.18   0.029    -9.000537   -.4728986
+            719  |   -2.80927    3.18415    -0.88   0.378     -9.05009     3.43155
+            720  |  -1.266956   1.717186    -0.74   0.461    -4.632579    2.098668
+            721  |   -3.30124   1.652196    -2.00   0.046    -6.539484   -.0629954
+            722  |  -1.912688   1.365953    -1.40   0.161    -4.589908    .7645316
+            723  |   -2.79699   2.088488    -1.34   0.180     -6.89035    1.296371
+            724  |   -2.37039   1.245145    -1.90   0.057     -4.81083    .0700499
+            725  |   .7773811   2.144619     0.36   0.717    -3.425995    4.980757
+            726  |  -8.900595   1.305539    -6.82   0.000     -11.4594   -6.341785
+            727  |  -2.522083   1.721559    -1.46   0.143    -5.896277    .8521105
+            801  |   .7063135   2.052163     0.34   0.731    -3.315852    4.728479
+            803  |  -1.469862   1.288875    -1.14   0.254    -3.996011    1.056287
+            804  |   4.856321   4.222252     1.15   0.250    -3.419141    13.13178
+            805  |  -2.059882   1.563379    -1.32   0.188    -5.124048    1.004284
+            806  |  -2.831125   1.923269    -1.47   0.141    -6.600664    .9384139
+            807  |  -5.849242   5.249796    -1.11   0.265    -16.13865    4.440169
+            808  |   .5438293   2.300764     0.24   0.813    -3.965585    5.053244
+            809  |  -2.967472   1.418259    -2.09   0.036    -5.747208   -.1877363
+            810  |    -1.9979   1.322032    -1.51   0.131    -4.589035    .5932357
+            811  |   .5880974   2.462392     0.24   0.811    -4.238102    5.414296
+            812  |   .5592945   3.045785     0.18   0.854    -5.410334    6.528923
+            813  |  -2.309258   1.294064    -1.78   0.074    -4.845576    .2270605
+            814  |  -4.189351   1.606618    -2.61   0.009    -7.338264   -1.040437
+            815  |  -1.256474   5.014693    -0.25   0.802    -11.08509    8.572143
+            816  |  -1.871747   1.264502    -1.48   0.139    -4.350125    .6066315
+            817  |  -1.863938   1.321237    -1.41   0.158    -4.453514    .7256381
+            818  |  -4.465082   1.608642    -2.78   0.006    -7.617962   -1.312203
+            819  |   -.232268   2.045643    -0.11   0.910    -4.241654    3.777118
+            820  |   1.439109   3.246329     0.44   0.658    -4.923579    7.801797
+            821  |    8.71845    1.39506     6.25   0.000     5.984182    11.45272
+            822  |  -1.745594   1.264638    -1.38   0.167    -4.224239    .7330507
+            823  |  -1.883273   2.371905    -0.79   0.427    -6.532121    2.765575
+            825  |   -1.55362   1.302512    -1.19   0.233    -4.106497     .999258
+            826  |  -2.376358   1.335084    -1.78   0.075    -4.993076    .2403591
+            901  |    9.36462   1.442395     6.49   0.000     6.537579    12.19166
+            902  |  -1.516437   1.561991    -0.97   0.332    -4.577883    1.545008
+            903  |   2.533652   2.010451     1.26   0.208     -1.40676    6.474063
+            904  |   4.565242    1.76593     2.59   0.010     1.104083    8.026401
+            905  |   4.489678   2.427618     1.85   0.064    -.2683661    9.247722
+            906  |   3.216506   2.020845     1.59   0.111     -.744277     7.17729
+            907  |  -.5734252   2.309272    -0.25   0.804    -5.099515    3.952665
+            908  |   6.460265   1.974419     3.27   0.001     2.590474    10.33006
+            909  |   8.902044   1.501221     5.93   0.000     5.959705    11.84438
+            910  |    6.34098   3.377118     1.88   0.060    -.2780491    12.96001
+            911  |   7.629126   2.222129     3.43   0.001     3.273833    11.98442
+            912  |   3.280447   2.264559     1.45   0.147    -1.158008    7.718902
+            913  |   4.312007    2.25161     1.92   0.055    -.1010679    8.725081
+           1001  |  -1.819915   1.835532    -0.99   0.321    -5.417492    1.777662
+           1002  |  -7.956842   3.588111    -2.22   0.027    -14.98941   -.9242741
+           1003  |  -2.845242   1.882812    -1.51   0.131    -6.535486     .845002
+           1004  |  -3.058395   6.562501    -0.47   0.641    -15.92066    9.803871
+           1005  |  -4.637718   2.808427    -1.65   0.099    -10.14213    .8666976
+           1006  |  -2.104852   2.209664    -0.95   0.341    -6.435713     2.22601
+           1007  |  -1.381339   1.809392    -0.76   0.445    -4.927682    2.165004
+           1008  |  -1.556653   4.915848    -0.32   0.752    -11.19154    8.078231
+           1009  |  -.3704444   1.249629    -0.30   0.767    -2.819671    2.078783
+           1010  |  -3.503381   1.821358    -1.92   0.054    -7.073178    .0664153
+           1011  |   5.142145   5.526456     0.93   0.352    -5.689509     15.9738
+                 |
+           _cons |   .5633659   1.313534     0.43   0.668    -2.011113    3.137845
+----------------------------------------------------------------------------------
+Standard errors and test statistics valid for the following variables only:
+    tmt_all
+------------------------------------------------------------------------------
+
+. sum i1 if tmt_all==0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          i1 |        668    18.12575    21.69336          0         80
+
+. local control_mean = string(`r(mean)', "%15.3fc")
+
+. outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt_all) ///
+>         addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
+>                         Mean of dep. variable, `control_mean', ///
+>                         p-value: Romano-Wolf Correction $\beta$, `rw_i1_tmt_all', ///
+>                         Treatment,                                                                  
+>             "-", ///
+>                         \hspace{0.5cm} x Locked-down 0-1 $\delta$,              "-", ///
+>                         p-value: Romano-Wolf Correction $\delta$,               "-", ///
+>                         p-value: Romano-Wolf Correction Lockdown,               "-") ///
+>         replace tex(frag) nonotes label nocons
+/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replication-pac
+> kage/Output/Tables/table_7.tex
+dir : seeout
+
+. // ejSepEffectsXChannels
+. 
+. ** Table 7 column 2
+. pdslasso i2 tmt_all (i.districtX i.dateinterviewend i2c female0 akan0 married0 ageYrs0 jhs0 hhsize0 
+> selfEmploy0 informal0 incomegrp0), ///
+>     partial(i.districtX) ///
+>     cluster(caseidx) ///
+>     rlasso
+Partialling out unpenalized controls...
+1.  (PDS/CHS) Selecting HD controls for dep var i2...
+Selected: 2112020.dateinterviewend i2c incomegrp0
+2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
+Selected: 5122020.dateinterviewend 30112020.dateinterviewend
+
+
+Estimation results:
+
+Specification:
+Regularization method:                 lasso
+Penalty loadings:                      cluster-lasso
+Number of observations:                2,018
+Number of clusters:                    1,049
+Exogenous (1):                         tmt_all
+High-dim controls (33):                1112020b.dateinterviewend 1122020.dateinterviewend
+                                       2112020.dateinterviewend 2122020.dateinterviewend
+                                       3112020.dateinterviewend 3122020.dateinterviewend
+                                       4112020.dateinterviewend 4122020.dateinterviewend
+                                       5112020.dateinterviewend 5122020.dateinterviewend
+                                       6112020.dateinterviewend 6122020.dateinterviewend
+                                       7112020.dateinterviewend 7122020.dateinterviewend
+                                       8112020.dateinterviewend 8122020.dateinterviewend
+                                       9112020.dateinterviewend 9122020.dateinterviewend
+                                       10112020.dateinterviewend 11112020.dateinterviewend
+                                       28112020.dateinterviewend 29112020.dateinterviewend
+                                       30112020.dateinterviewend i2c female0 akan0 married0 ageYrs0
+                                       jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
+Selected controls (5):                 2112020.dateinterviewend 5122020.dateinterviewend
+                                       30112020.dateinterviewend i2c incomegrp0
+Partialled-out controls (192):         101b.districtX 102.districtX 103.districtX 104.districtX
+                                       105.districtX 106.districtX 107.districtX 108.districtX
+                                       109.districtX 110.districtX 111.districtX 112.districtX
+                                       113.districtX 114.districtX 115.districtX 116.districtX
+                                       117.districtX 201.districtX 202.districtX 203.districtX
+                                       204.districtX 205.districtX 206.districtX 207.districtX
+                                       208.districtX 209.districtX 210.districtX 211.districtX
+                                       212.districtX 213.districtX 214.districtX 215.districtX
+                                       217.districtX 218.districtX 219.districtX 220.districtX
+                                       301.districtX 302.districtX 303.districtX 304.districtX
+                                       305.districtX 306.districtX 307.districtX 308.districtX
+                                       309.districtX 310.districtX 311.districtX 312.districtX
+                                       313.districtX 314.districtX 315.districtX 316.districtX
+                                       401.districtX 402.districtX 403.districtX 404.districtX
+                                       405.districtX 406.districtX 408.districtX 410.districtX
+                                       411.districtX 412.districtX 413.districtX 414.districtX
+                                       415.districtX 417.districtX 418.districtX 419.districtX
+                                       421.districtX 422.districtX 423.districtX 424.districtX
+                                       425.districtX 501.districtX 502.districtX 503.districtX
+                                       504.districtX 505.districtX 506.districtX 507.districtX
+                                       508.districtX 509.districtX 510.districtX 512.districtX
+                                       513.districtX 514.districtX 515.districtX 516.districtX
+                                       517.districtX 518.districtX 519.districtX 522.districtX
+                                       523.districtX 524.districtX 525.districtX 526.districtX
+                                       601.districtX 602.districtX 603.districtX 604.districtX
+                                       605.districtX 606.districtX 608.districtX 609.districtX
+                                       611.districtX 612.districtX 613.districtX 614.districtX
+                                       615.districtX 616.districtX 618.districtX 619.districtX
+                                       621.districtX 622.districtX 623.districtX 627.districtX
+                                       628.districtX 701.districtX 702.districtX 703.districtX
+                                       704.districtX 705.districtX 706.districtX 707.districtX
+                                       708.districtX 709.districtX 710.districtX 711.districtX
+                                       712.districtX 713.districtX 714.districtX 715.districtX
+                                       716.districtX 717.districtX 718.districtX 719.districtX
+                                       720.districtX 721.districtX 722.districtX 723.districtX
+                                       724.districtX 725.districtX 726.districtX 727.districtX
+                                       801.districtX 803.districtX 804.districtX 805.districtX
+                                       806.districtX 807.districtX 808.districtX 809.districtX
+                                       810.districtX 811.districtX 812.districtX 813.districtX
+                                       814.districtX 815.districtX 816.districtX 817.districtX
+                                       818.districtX 819.districtX 820.districtX 821.districtX
+                                       822.districtX 823.districtX 825.districtX 826.districtX
+                                       901.districtX 902.districtX 903.districtX 904.districtX
+                                       905.districtX 906.districtX 907.districtX 908.districtX
+                                       909.districtX 910.districtX 911.districtX 912.districtX
+                                       913.districtX 1001.districtX 1002.districtX 1003.districtX
+                                       1004.districtX 1005.districtX 1006.districtX 1007.districtX
+                                       1008.districtX 1009.districtX 1010.districtX 1011.districtX
+
+lasso estimation(s):
+
+_pdslasso_step1_i2
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+         2112020  |      -6.6412474    -46.0009204
+                  |
+              i2c |       0.2611655      0.3760634
+       incomegrp0 |       3.4823960     13.4534180
+---------------------------------------------------
+
+_pdslasso_step2_tmt_all
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+         5122020  |      -0.0076704     -0.1618655
+        30112020  |       0.0389208      0.1464320
+---------------------------------------------------
+
+Structural equation:
+
+OLS using CHS lasso-orthogonalized vars
+                            (Std. err. adjusted for 1,049 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+          i2 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |   8.850337   4.619631     1.92   0.055    -.2039728    17.90465
+------------------------------------------------------------------------------
+
+OLS using CHS post-lasso-orthogonalized vars
+                            (Std. err. adjusted for 1,049 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+          i2 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |   8.449444    4.28216     1.97   0.048     .0565644    16.84232
+------------------------------------------------------------------------------
+
+OLS with PDS-selected variables and full regressor set
+                                (Std. err. adjusted for 1,049 clusters in caseidx)
+----------------------------------------------------------------------------------
+                 |               Robust
+              i2 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+         tmt_all |   8.459173   4.302636     1.97   0.049     .0261604    16.89219
+                 |
+dateinterviewend |
+        2112020  |  -44.46823   9.001901    -4.94   0.000    -62.11163   -26.82483
+        5122020  |   13.86465    8.46461     1.64   0.101    -2.725683    30.45498
+       30112020  |   2.193031   7.784284     0.28   0.778    -13.06389    17.44995
+                 |
+             i2c |    .376124   .0303701    12.38   0.000     .3165996    .4356484
+      incomegrp0 |   13.52067   3.314696     4.08   0.000     7.023985    20.01736
+                 |
+       districtX |
+            102  |  -89.05106   42.98801    -2.07   0.038     -173.306   -4.796098
+            103  |   113.0905   56.47873     2.00   0.045     2.394175    223.7867
+            104  |  -64.03505    47.4823    -1.35   0.177    -157.0987    29.02855
+            105  |  -50.71862    45.1304    -1.12   0.261    -139.1726    37.73533
+            106  |  -24.28347   49.08721    -0.49   0.621    -120.4926    71.92569
+            107  |   12.72317   38.68502     0.33   0.742    -63.09808    88.54442
+            108  |  -19.98907   59.13238    -0.34   0.735    -135.8864    95.90826
+            109  |  -98.29009   43.69537    -2.25   0.024    -183.9314   -12.64874
+            110  |   -67.0884   39.37239    -1.70   0.088    -144.2569    10.08006
+            111  |  -75.93277   44.51324    -1.71   0.088    -163.1771    11.31157
+            112  |  -41.19741   46.18134    -0.89   0.372    -131.7112    49.31637
+            113  |  -56.48309   40.76971    -1.39   0.166    -136.3903    23.42406
+            114  |  -10.92613   45.56438    -0.24   0.810    -100.2307    78.37842
+            115  |  -34.83096   45.53258    -0.76   0.444    -124.0732    54.41126
+            116  |   19.46013   39.21473     0.50   0.620    -57.39933    96.31959
+            117  |  -64.55849   39.31114    -1.64   0.101    -141.6069    12.48993
+            201  |   34.70369   62.49359     0.56   0.579    -87.78149    157.1889
+            202  |   6.284009   50.72567     0.12   0.901    -93.13649    105.7045
+            203  |  -23.32972   44.45746    -0.52   0.600    -110.4647     63.8053
+            204  |  -27.92028   62.62208    -0.45   0.656    -150.6573    94.81674
+            205  |  -62.45912   40.11513    -1.56   0.119    -141.0833    16.16508
+            206  |  -109.3904   65.73692    -1.66   0.096    -238.2324     19.4516
+            207  |   96.24876   45.14789     2.13   0.033     7.760533     184.737
+            208  |  -2.001262   53.55497    -0.04   0.970    -106.9671    102.9646
+            209  |    41.2671   78.78914     0.52   0.600    -113.1568     195.691
+            210  |  -3.563145    65.5782    -0.05   0.957    -132.0941    124.9678
+            211  |  -98.44099   54.07869    -1.82   0.069    -204.4333    7.551291
+            212  |  -25.61505   62.59413    -0.41   0.682    -148.2973    97.06718
+            213  |  -31.53297   41.57342    -0.76   0.448    -113.0154    49.94944
+            214  |  -52.86475   47.75075    -1.11   0.268    -146.4545      40.725
+            215  |   3.997712   63.21552     0.06   0.950    -119.9024    127.8978
+            217  |   28.53302    74.3242     0.38   0.701    -117.1397    174.2058
+            218  |  -46.80036   40.74362    -1.15   0.251    -126.6564    33.05567
+            219  |  -25.27765   47.02194    -0.54   0.591     -117.439    66.88367
+            220  |  -17.90801    57.0652    -0.31   0.754    -129.7538    93.93773
+            301  |  -48.77517   45.58099    -1.07   0.285    -138.1123    40.56193
+            302  |  -22.41301   43.23855    -0.52   0.604     -107.159    62.33299
+            303  |  -180.7578   41.92941    -4.31   0.000     -262.938    -98.5777
+            304  |  -18.49825     42.918    -0.43   0.666     -102.616    65.61949
+            305  |  -161.7808   70.83046    -2.28   0.022     -300.606   -22.95569
+            306  |  -37.09288   43.32617    -0.86   0.392    -122.0106    47.82485
+            307  |  -10.65148   43.29931    -0.25   0.806    -95.51657    74.21361
+            308  |  -48.13497   41.55817    -1.16   0.247    -129.5875    33.31755
+            309  |  -134.9468    41.2473    -3.27   0.001    -215.7901   -54.10363
+            310  |  -57.23187   38.64614    -1.48   0.139    -132.9769    18.51318
+            311  |   4.752505   44.44096     0.11   0.915    -82.35017    91.85518
+            312  |  -39.47102   44.35888    -0.89   0.374    -126.4128    47.47079
+            313  |  -72.36673   42.47604    -1.70   0.088    -155.6182    10.88478
+            314  |   101.0234   111.4005     0.91   0.364    -117.3176    319.3644
+            315  |   -54.5852   39.70308    -1.37   0.169    -132.4018     23.2314
+            316  |  -46.93917    41.6537    -1.13   0.260    -128.5789    34.70058
+            401  |  -74.00783    39.4399    -1.88   0.061    -151.3086    3.292953
+            402  |  -84.15164   43.59775    -1.93   0.054    -169.6017    1.298383
+            403  |  -88.66434   51.61577    -1.72   0.086    -189.8294    12.50072
+            404  |  -67.88409   39.97751    -1.70   0.089    -146.2386    10.47038
+            405  |  -61.96988   39.84943    -1.56   0.120    -140.0733    16.13357
+            406  |  -81.73691   40.33172    -2.03   0.043    -160.7856   -2.688198
+            408  |  -51.81024   40.17845    -1.29   0.197    -130.5586    26.93807
+            410  |  -99.39186   88.34276    -1.13   0.261    -272.5405    73.75676
+            411  |  -21.78305   45.01146    -0.48   0.628    -110.0039    66.43779
+            412  |  -47.89829   41.77799    -1.15   0.252    -129.7816    33.98507
+            413  |  -75.25626   39.77421    -1.89   0.058    -153.2123    2.699766
+            414  |  -71.42401   41.88774    -1.71   0.088    -153.5225    10.67446
+            415  |  -44.55345   39.85594    -1.12   0.264    -122.6696    33.56275
+            417  |  -82.51663   41.18924    -2.00   0.045    -163.2461   -1.787193
+            418  |  -44.98269   42.25286    -1.06   0.287    -127.7968     37.8314
+            419  |  -42.62225   42.46999    -1.00   0.316    -125.8619     40.6174
+            421  |  -61.11916   39.17689    -1.56   0.119    -137.9045    15.66614
+            422  |   -66.2393   39.17624    -1.69   0.091    -143.0233    10.54471
+            423  |  -57.36163   40.18883    -1.43   0.153    -136.1303    21.40702
+            424  |  -136.5645   42.26598    -3.23   0.001    -219.4043   -53.72465
+            425  |  -72.62337   38.72859    -1.88   0.061      -148.53    3.283264
+            501  |  -56.42689   42.59818    -1.32   0.185    -139.9178    27.06401
+            502  |  -63.46959   40.56751    -1.56   0.118    -142.9805    16.04127
+            503  |  -74.09488   41.54633    -1.78   0.075    -155.5242    7.334427
+            504  |   -104.845   109.6082    -0.96   0.339    -319.6732    109.9832
+            505  |  -40.79822   45.08912    -0.90   0.366    -129.1713    47.57482
+            506  |  -63.17988   44.83919    -1.41   0.159    -151.0631    24.70333
+            507  |  -42.13692   44.27305    -0.95   0.341    -128.9105    44.63668
+            508  |  -71.09652    38.9857    -1.82   0.068    -147.5071    5.314047
+            509  |  -71.36701   40.48984    -1.76   0.078    -150.7256    7.991625
+            510  |  -106.5963   38.89026    -2.74   0.006    -182.8198   -30.37283
+            512  |  -57.30418   39.20074    -1.46   0.144    -134.1362    19.52786
+            513  |  -66.44531   46.22143    -1.44   0.151    -157.0376    24.14703
+            514  |   29.27399   83.05936     0.35   0.725    -133.5194    192.0674
+            515  |  -52.25819   42.43655    -1.23   0.218    -135.4323    30.91591
+            516  |  -38.09841   41.21879    -0.92   0.355    -118.8858    42.68893
+            517  |   -81.4134   46.35217    -1.76   0.079     -172.262    9.435188
+            518  |  -46.55264   39.19237    -1.19   0.235    -123.3683    30.26299
+            519  |  -53.58163   49.46026    -1.08   0.279     -150.522     43.3587
+            522  |  -54.62896   39.09087    -1.40   0.162    -131.2457    21.98774
+            523  |  -70.75254   38.94432    -1.82   0.069     -147.082     5.57692
+            524  |  -98.54333   76.46622    -1.29   0.197    -248.4144     51.3277
+            525  |  -78.59914   40.12896    -1.96   0.050    -157.2504    .0521705
+            526  |  -25.82759   42.81126    -0.60   0.546    -109.7361    58.08093
+            601  |  -50.28795   39.14402    -1.28   0.199    -127.0088    26.43291
+            602  |  -37.76766   43.49289    -0.87   0.385    -123.0122    47.47684
+            603  |   3.493196   39.14935     0.09   0.929    -73.23811     80.2245
+            604  |   -14.7024   39.55193    -0.37   0.710    -92.22276    62.81796
+            605  |  -24.12281   40.95713    -0.59   0.556    -104.3973    56.15168
+            606  |  -54.52667   39.35629    -1.39   0.166    -131.6636    22.61025
+            608  |  -37.31043   41.43977    -0.90   0.368    -118.5309    43.91003
+            609  |  -182.2895   39.98337    -4.56   0.000    -260.6555   -103.9235
+            611  |   -2.42418   39.40418    -0.06   0.951    -79.65496     74.8066
+            612  |  -33.90035   38.82799    -0.87   0.383    -110.0018    42.20113
+            613  |  -50.09415   38.74768    -1.29   0.196    -126.0382    25.84991
+            614  |  -21.26096   40.36806    -0.53   0.598    -100.3809    57.85898
+            615  |  -44.49725   38.78043    -1.15   0.251    -120.5055    31.51099
+            616  |  -2.956803   45.58049    -0.06   0.948    -92.29292    86.37931
+            618  |  -63.19454   38.61694    -1.64   0.102    -138.8823    12.49326
+            619  |  -61.46146   38.74539    -1.59   0.113     -137.401     14.4781
+            621  |   1.923946   39.19259     0.05   0.961    -74.89212    78.74002
+            622  |  -62.87132   38.71821    -1.62   0.104    -138.7576    13.01497
+            623  |  -50.04705   40.82442    -1.23   0.220    -130.0614    29.96734
+            627  |  -53.52911   39.96106    -1.34   0.180    -131.8513    24.79312
+            628  |  -56.37672   39.98468    -1.41   0.159    -134.7453    21.99183
+            701  |   -39.1642   38.58487    -1.02   0.310    -114.7892    36.46076
+            702  |  -42.25402   40.15301    -1.05   0.293    -120.9525    36.44444
+            703  |   -44.1809   39.98001    -1.11   0.269    -122.5403    34.17848
+            704  |  -60.23219   38.88443    -1.55   0.121    -136.4443    15.97989
+            705  |  -55.47247    39.3894    -1.41   0.159    -132.6743    21.72934
+            706  |  -59.81114   38.81813    -1.54   0.123    -135.8933      16.271
+            707  |  -61.70302   40.87094    -1.51   0.131    -141.8086    18.40255
+            708  |  -52.14226   40.22109    -1.30   0.195    -130.9742    26.68963
+            709  |  -63.10146   42.77757    -1.48   0.140     -146.944    20.74104
+            710  |  -60.33559   39.08367    -1.54   0.123    -136.9382      16.267
+            711  |  -65.17001   38.84294    -1.68   0.093    -141.3008    10.96076
+            712  |  -54.27244   41.05976    -1.32   0.186    -134.7481    26.20322
+            713  |  -57.10758   39.49551    -1.45   0.148    -134.5174     20.3022
+            714  |  -65.38418    40.1117    -1.63   0.103    -144.0017    13.23332
+            715  |   -28.8088   43.92615    -0.66   0.512    -114.9025    57.28487
+            716  |  -65.72801   41.68648    -1.58   0.115     -147.432      15.976
+            717  |  -55.29479   39.13472    -1.41   0.158    -131.9974    21.40786
+            718  |  -65.63773   39.25393    -1.67   0.094     -142.574    11.29856
+            719  |  -33.37554   45.16769    -0.74   0.460    -121.9026    55.15151
+            720  |  -63.50697   38.82782    -1.64   0.102    -139.6081    12.59415
+            721  |  -56.32005   39.16129    -1.44   0.150    -133.0748    20.43468
+            722  |  -57.75811   39.14081    -1.48   0.140    -134.4727    18.95647
+            723  |  -41.69046   39.62091    -1.05   0.293     -119.346    35.96509
+            724  |  -63.85539     38.759    -1.65   0.099    -139.8216    12.11085
+            725  |  -59.74705   39.56364    -1.51   0.131    -137.2904    17.79626
+            726  |   124.7883    39.0385     3.20   0.001     48.27423    201.3023
+            727  |  -53.65933   41.75199    -1.29   0.199    -135.4917    28.17307
+            801  |  -49.11637    40.4384    -1.21   0.225    -128.3742    30.14144
+            803  |  -57.23187   38.64614    -1.48   0.139    -132.9769    18.51318
+            804  |  -10.87949   55.50493    -0.20   0.845    -119.6671    97.90817
+            805  |  -76.05258   39.68915    -1.92   0.055    -153.8419    1.736725
+            806  |  -75.67839   39.91394    -1.90   0.058    -153.9083    2.551496
+            807  |  -63.85181   40.88904    -1.56   0.118    -143.9929    16.28924
+            808  |  -47.86705   43.35251    -1.10   0.270    -132.8364    37.10231
+            809  |  -81.74246   39.96226    -2.05   0.041    -160.0671   -3.417873
+            810  |  -67.71564   39.28856    -1.72   0.085    -144.7198    9.288526
+            811  |  -40.45427   48.29939    -0.84   0.402    -135.1193     54.2108
+            812  |  -63.98679     40.358    -1.59   0.113     -143.087    15.11344
+            813  |  -74.00859   39.20729    -1.89   0.059    -150.8535    2.836296
+            814  |  -97.79388   40.35907    -2.42   0.015    -176.8962   -18.69156
+            815  |  -43.67904   43.90866    -0.99   0.320    -129.7384    42.38034
+            816  |  -66.70335   38.72657    -1.72   0.085     -142.606    9.199346
+            817  |  -64.55849   39.31114    -1.64   0.101    -141.6069    12.48993
+            818  |  -106.2531   40.47151    -2.63   0.009    -185.5758   -26.93035
+            819  |  -65.71637   39.48585    -1.66   0.096    -143.1072    11.67447
+            820  |  -95.26314   41.50817    -2.30   0.022    -176.6177   -13.90862
+            821  |  -21.88561   39.67113    -0.55   0.581    -99.63959    55.86836
+            822  |  -65.69105    38.7298    -1.70   0.090       -141.6    10.21796
+            823  |  -59.22415   41.43649    -1.43   0.153    -140.4382    21.98987
+            825  |  -66.85798   39.15856    -1.71   0.088    -143.6073    9.891396
+            826  |  -70.75254   38.94432    -1.82   0.069     -147.082     5.57692
+            901  |   -69.0307   41.15326    -1.68   0.093    -149.6896    11.62821
+            902  |  -44.56097   40.98201    -1.09   0.277    -124.8842     35.7623
+            903  |  -52.20548   39.82461    -1.31   0.190    -130.2603    25.84932
+            904  |  -45.67185   39.49479    -1.16   0.248    -123.0802    31.73651
+            905  |  -17.73111     41.807    -0.42   0.671    -99.67132     64.2091
+            906  |  -44.23776   39.60852    -1.12   0.264     -121.869    33.39352
+            907  |  -50.77041   41.88975    -1.21   0.226    -132.8728    31.33199
+            908  |  -54.05528   42.22899    -1.28   0.201    -136.8226    28.71203
+            909  |  -29.68425   39.68407    -0.75   0.454    -107.4636     48.0951
+            910  |  -36.62521   43.84761    -0.84   0.404    -122.5649    49.31453
+            911  |  -83.52282   58.07189    -1.44   0.150    -197.3416    30.29599
+            912  |  -60.98384   45.26896    -1.35   0.178    -149.7094     27.7417
+            913  |  -37.22969   40.73657    -0.91   0.361    -117.0719    42.61253
+           1001  |  -108.0212   59.42389    -1.82   0.069    -224.4899    8.447486
+           1002  |  -60.19434   41.22408    -1.46   0.144     -140.992    20.60337
+           1003  |  -61.68424   38.90085    -1.59   0.113    -137.9285    14.56002
+           1004  |  -1.346856   44.69525    -0.03   0.976    -88.94793    86.25422
+           1005  |  -57.40794   52.26944    -1.10   0.272    -159.8541    45.03827
+           1006  |  -34.05575   41.43827    -0.82   0.411    -115.2733    47.16176
+           1007  |  -28.44892   41.33572    -0.69   0.491    -109.4654     52.5676
+           1008  |  -41.06451   40.29416    -1.02   0.308    -120.0396    37.91058
+           1009  |  -65.69105    38.7298    -1.70   0.090       -141.6    10.21796
+           1010  |  -59.33881   39.51604    -1.50   0.133    -136.7888     18.1112
+           1011  |  -28.67548   42.54637    -0.67   0.500    -112.0648    54.71387
+                 |
+           _cons |    43.7112   38.63112     1.13   0.258     -32.0044    119.4268
+----------------------------------------------------------------------------------
+Standard errors and test statistics valid for the following variables only:
+    tmt_all
+------------------------------------------------------------------------------
+
+. sum i2 if tmt_all==0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          i2 |        668    59.11677    109.8714          0        999
+
+. local control_mean = string(`r(mean)', "%15.3fc")
+
+. outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt_all) ///
+>         addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
+>                         Mean of dep. variable, `control_mean', ///
+>                         p-value: Romano-Wolf Correction $\beta$, `rw_i2_tmt_all', ///
+>                         Treatment,                                                                  
+>             "-", ///
+>                         \hspace{0.5cm} x Locked-down 0-1 $\delta$,              "-", ///
+>                         p-value: Romano-Wolf Correction $\delta$,               "-", ///
+>                         p-value: Romano-Wolf Correction Lockdown,               "-") ///
+>         append tex(frag) nonotes label nocons
+/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replication-pac
+> kage/Output/Tables/table_7.tex
+dir : seeout
+
+. 
+. 
+. ** Table 7 column 3
+. *2. social networks #1-inclusion: cc help indivs stay in touch with friends-related (social inclusio
+> n)? we measure: c.emotion and c. socinclusion?
+. tab i8 //emotionally + socially tired of staying home q= Are you tired (emotionally or socially) of 
+> staying home due to COVID19, its lockdown restrictions and other personal avoidance steps you have t
+> aken??
+
+    Are you |
+      tired |
+ (mentally, |
+emotionally |
+       , or |
+  socially) |
+ of staying |
+home due to |
+     COVID1 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+        Yes |        758       37.07       37.07
+         No |      1,287       62.93      100.00
+------------+-----------------------------------
+      Total |      2,045      100.00
+
+. *no baseline?
+. *separate?
+. pdslasso EmotSoc_Tired tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 h
+> hsize0 selfEmploy0 informal0 incomegrp0), ///
+>     partial(i.districtX) ///
+>     cluster(caseidx) ///
+>     rlasso
+Partialling out unpenalized controls...
+1.  (PDS/CHS) Selecting HD controls for dep var EmotSoc_Tired...
+Warning: unable to store lasso estimation
+Selected: 1122020.dateinterviewend 5112020.dateinterviewend 30112020.dateinterviewend
+2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
+Selected: 5122020.dateinterviewend 30112020.dateinterviewend
+
+
+Estimation results:
+
+Specification:
+Regularization method:                 lasso
+Penalty loadings:                      cluster-lasso
+Number of observations:                2,018
+Number of clusters:                    1,049
+Exogenous (1):                         tmt_all
+High-dim controls (32):                1112020b.dateinterviewend 1122020.dateinterviewend
+                                       2112020.dateinterviewend 2122020.dateinterviewend
+                                       3112020.dateinterviewend 3122020.dateinterviewend
+                                       4112020.dateinterviewend 4122020.dateinterviewend
+                                       5112020.dateinterviewend 5122020.dateinterviewend
+                                       6112020.dateinterviewend 6122020.dateinterviewend
+                                       7112020.dateinterviewend 7122020.dateinterviewend
+                                       8112020.dateinterviewend 8122020.dateinterviewend
+                                       9112020.dateinterviewend 9122020.dateinterviewend
+                                       10112020.dateinterviewend 11112020.dateinterviewend
+                                       28112020.dateinterviewend 29112020.dateinterviewend
+                                       30112020.dateinterviewend female0 akan0 married0 ageYrs0 jhs0
+                                       hhsize0 selfEmploy0 informal0 incomegrp0
+Selected controls (4):                 1122020.dateinterviewend 5112020.dateinterviewend
+                                       5122020.dateinterviewend 30112020.dateinterviewend
+Partialled-out controls (192):         101b.districtX 102.districtX 103.districtX 104.districtX
+                                       105.districtX 106.districtX 107.districtX 108.districtX
+                                       109.districtX 110.districtX 111.districtX 112.districtX
+                                       113.districtX 114.districtX 115.districtX 116.districtX
+                                       117.districtX 201.districtX 202.districtX 203.districtX
+                                       204.districtX 205.districtX 206.districtX 207.districtX
+                                       208.districtX 209.districtX 210.districtX 211.districtX
+                                       212.districtX 213.districtX 214.districtX 215.districtX
+                                       217.districtX 218.districtX 219.districtX 220.districtX
+                                       301.districtX 302.districtX 303.districtX 304.districtX
+                                       305.districtX 306.districtX 307.districtX 308.districtX
+                                       309.districtX 310.districtX 311.districtX 312.districtX
+                                       313.districtX 314.districtX 315.districtX 316.districtX
+                                       401.districtX 402.districtX 403.districtX 404.districtX
+                                       405.districtX 406.districtX 408.districtX 410.districtX
+                                       411.districtX 412.districtX 413.districtX 414.districtX
+                                       415.districtX 417.districtX 418.districtX 419.districtX
+                                       421.districtX 422.districtX 423.districtX 424.districtX
+                                       425.districtX 501.districtX 502.districtX 503.districtX
+                                       504.districtX 505.districtX 506.districtX 507.districtX
+                                       508.districtX 509.districtX 510.districtX 512.districtX
+                                       513.districtX 514.districtX 515.districtX 516.districtX
+                                       517.districtX 518.districtX 519.districtX 522.districtX
+                                       523.districtX 524.districtX 525.districtX 526.districtX
+                                       601.districtX 602.districtX 603.districtX 604.districtX
+                                       605.districtX 606.districtX 608.districtX 609.districtX
+                                       611.districtX 612.districtX 613.districtX 614.districtX
+                                       615.districtX 616.districtX 618.districtX 619.districtX
+                                       621.districtX 622.districtX 623.districtX 627.districtX
+                                       628.districtX 701.districtX 702.districtX 703.districtX
+                                       704.districtX 705.districtX 706.districtX 707.districtX
+                                       708.districtX 709.districtX 710.districtX 711.districtX
+                                       712.districtX 713.districtX 714.districtX 715.districtX
+                                       716.districtX 717.districtX 718.districtX 719.districtX
+                                       720.districtX 721.districtX 722.districtX 723.districtX
+                                       724.districtX 725.districtX 726.districtX 727.districtX
+                                       801.districtX 803.districtX 804.districtX 805.districtX
+                                       806.districtX 807.districtX 808.districtX 809.districtX
+                                       810.districtX 811.districtX 812.districtX 813.districtX
+                                       814.districtX 815.districtX 816.districtX 817.districtX
+                                       818.districtX 819.districtX 820.districtX 821.districtX
+                                       822.districtX 823.districtX 825.districtX 826.districtX
+                                       901.districtX 902.districtX 903.districtX 904.districtX
+                                       905.districtX 906.districtX 907.districtX 908.districtX
+                                       909.districtX 910.districtX 911.districtX 912.districtX
+                                       913.districtX 1001.districtX 1002.districtX 1003.districtX
+                                       1004.districtX 1005.districtX 1006.districtX 1007.districtX
+                                       1008.districtX 1009.districtX 1010.districtX 1011.districtX
+
+lasso estimation(s):
+
+_pdslasso_step2_tmt_all
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+         5122020  |      -0.0080418     -0.1618655
+        30112020  |       0.0391798      0.1464320
+---------------------------------------------------
+
+Structural equation:
+
+OLS using CHS lasso-orthogonalized vars
+                            (Std. err. adjusted for 1,049 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+EmotSoc_Ti~d | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |  -.2181088   .0248687    -8.77   0.000    -.2668506   -.1693671
+------------------------------------------------------------------------------
+
+OLS using CHS post-lasso-orthogonalized vars
+                            (Std. err. adjusted for 1,049 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+EmotSoc_Ti~d | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |  -.2121469   .0251539    -8.43   0.000    -.2614475   -.1628462
+------------------------------------------------------------------------------
+
+OLS with PDS-selected variables and full regressor set
+                                (Std. err. adjusted for 1,049 clusters in caseidx)
+----------------------------------------------------------------------------------
+                 |               Robust
+   EmotSoc_Tired | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+         tmt_all |   -.212846   .0253846    -8.38   0.000    -.2625988   -.1630931
+                 |
+dateinterviewend |
+        1122020  |  -.1420434   .0324666    -4.38   0.000    -.2056767   -.0784101
+        5112020  |    .177211   .0471969     3.75   0.000     .0847067    .2697153
+        5122020  |  -.0356744    .045478    -0.78   0.433    -.1248096    .0534609
+       30112020  |   -.237158   .0314071    -7.55   0.000    -.2987148   -.1756012
+                 |
+       districtX |
+            102  |   .4220495   .1492555     2.83   0.005     .1295141    .7145848
+            103  |   .1896478   .1394681     1.36   0.174    -.0837047    .4630002
+            104  |  -.3753666   .1454789    -2.58   0.010    -.6605001   -.0902331
+            105  |   .0765946     .15966     0.48   0.631    -.2363332    .3895224
+            106  |   .2323057   .2730891     0.85   0.395    -.3029392    .7675505
+            107  |    .506337   .1392205     3.64   0.000     .2334699    .7792041
+            108  |   -.175768   .1600569    -1.10   0.272    -.4894737    .1379376
+            109  |    .013856   .1971346     0.07   0.944    -.3725207    .4002328
+            110  |  -.2029505   .2119417    -0.96   0.338    -.6183487    .2124476
+            111  |    .095865   .2314651     0.41   0.679    -.3577983    .5495283
+            112  |  -.2148399   .1964983    -1.09   0.274    -.5999694    .1702897
+            113  |   .1720495   .3503301     0.49   0.623    -.5145849    .8586838
+            114  |  -.0483321   .1811421    -0.27   0.790    -.4033642    .3066999
+            115  |   -.095829   .1765078    -0.54   0.587    -.4417779    .2501199
+            116  |   .2191829   .1371752     1.60   0.110    -.0496756    .4880414
+            117  |  -.4227144   .1536086    -2.75   0.006    -.7237816   -.1216471
+            201  |   .4032664   .1930272     2.09   0.037       .02494    .7815927
+            202  |   .2643786   .1967555     1.34   0.179     -.121255    .6500123
+            203  |   .2759776   .1686071     1.64   0.102    -.0544863    .6064414
+            204  |   .1668772   .1690373     0.99   0.324    -.1644297    .4981841
+            205  |   .2541042   .1909508     1.33   0.183    -.1201524    .6283609
+            206  |   .2519184   .1899586     1.33   0.185    -.1203935    .6242303
+            207  |   .3191829   .1689952     1.89   0.059    -.0120416    .6504075
+            208  |   .1270891   .1899441     0.67   0.503    -.2451944    .4993726
+            209  |   .2814762   .2005435     1.40   0.160    -.1115819    .6745342
+            210  |   .3370282   .1475719     2.28   0.022     .0477926    .6262637
+            211  |    .214678   .1826992     1.18   0.240    -.1434059    .5727618
+            212  |   .2406061     .16489     1.46   0.145    -.0825724    .5637845
+            213  |   .1543661   .1710774     0.90   0.367    -.1809394    .4896717
+            214  |   .2718543   .1661008     1.64   0.102    -.0536973    .5974059
+            215  |   .1937063   .2099312     0.92   0.356    -.2177513     .605164
+            217  |   .5706162   .1717246     3.32   0.001     .2340422    .9071902
+            218  |   .1216785   .3177581     0.38   0.702     -.501116     .744473
+            219  |   .3427047   .1689787     2.03   0.043     .0115125     .673897
+            220  |  -.0900765   .1712833    -0.53   0.599    -.4257856    .2456326
+            301  |   .1995602    .158949     1.26   0.209    -.1119742    .5110946
+            302  |   .3957312   .1586924     2.49   0.013     .0846997    .7067626
+            303  |   .3377619   .1355055     2.49   0.013     .0721761    .6033478
+            304  |   .1088753   .1481231     0.74   0.462    -.1814406    .3991912
+            305  |   .1748802   .1411946     1.24   0.216    -.1018562    .4516165
+            306  |   .0860285   .1643863     0.52   0.601    -.2361626    .4082197
+            307  |   .3584487   .1492891     2.40   0.016     .0658475    .6510499
+            308  |   .1845679   .2095551     0.88   0.378    -.2261526    .5952884
+            309  |   .7191829   .1371752     5.24   0.000     .4503244    .9880414
+            310  |   .5773587   .1400535     4.12   0.000     .3028588    .8518585
+            311  |   .2014823    .149567     1.35   0.178    -.0916637    .4946283
+            312  |   .3087269   .2419113     1.28   0.202    -.1654105    .7828643
+            313  |   .2933137   .2013126     1.46   0.145    -.1012517    .6878792
+            314  |  -.1726242   .3109778    -0.56   0.579    -.7821295    .4368811
+            315  |   .0111872   .2458216     0.05   0.964    -.4706142    .4929886
+            316  |   .2075603   .1658123     1.25   0.211    -.1174259    .5325465
+            401  |  -1.93e-14   .1829845    -0.00   1.000     -.358643     .358643
+            402  |   .2518602   .1588485     1.59   0.113     -.059477    .5631975
+            403  |   .0738292   .2080964     0.35   0.723    -.3340321    .4816906
+            404  |    .016672   .1881062     0.09   0.929    -.3520095    .3853535
+            405  |  -.1508848   .1972325    -0.77   0.444    -.5374533    .2356838
+            406  |  -.1880297   .1908992    -0.98   0.325    -.5621852    .1861258
+            408  |   .0104011   .1836433     0.06   0.955    -.3495332    .3703355
+            410  |    .227011   .1900274     1.19   0.232    -.1454358    .5994579
+            411  |   .1268335   .1676608     0.76   0.449    -.2017757    .4554427
+            412  |  -.3221461   .1430571    -2.25   0.024    -.6025329   -.0417593
+            413  |   .2674047   .2131198     1.25   0.210    -.1503024    .6851118
+            414  |  -.3003479   .1559358    -1.93   0.054    -.6059765    .0052806
+            415  |   .3377619   .1355055     2.49   0.013     .0721761    .6033478
+            417  |  -.2045693   .1884776    -1.09   0.278    -.5739785      .16484
+            418  |   .1470131   .1692894     0.87   0.385    -.1847881    .4788143
+            419  |  -.0158303   .2863831    -0.06   0.956    -.5771308    .5454702
+            421  |   -.069032   .3202682    -0.22   0.829    -.6967462    .5586823
+            422  |   .2784724   .1425233     1.95   0.051     -.000868    .5578129
+            423  |  -.1017235    .198768    -0.51   0.609    -.4913017    .2878547
+            424  |  -.2629799   .1370777    -1.92   0.055    -.5316472    .0056874
+            425  |   .1484146   .1390813     1.07   0.286    -.1241798     .421009
+            501  |  -.0254971   .2001113    -0.13   0.899     -.417708    .3667138
+            502  |  -.1683665   .1885394    -0.89   0.372    -.5378969    .2011639
+            503  |   -.203797     .14376    -1.42   0.156    -.4855614    .0779674
+            504  |   .0210939   .2433738     0.09   0.931      -.45591    .4980979
+            505  |   .1615755   .1882565     0.86   0.391    -.2074005    .5305515
+            506  |  -.3659555   .1452346    -2.52   0.012    -.6506101   -.0813008
+            507  |  -.3026362    .141248    -2.14   0.032    -.5794771   -.0257952
+            508  |  -.4579887   .1420836    -3.22   0.001    -.7364674     -.17951
+            509  |  -.3453026   .1458465    -2.37   0.018    -.6311565   -.0594486
+            510  |    -.38724   .1571162    -2.46   0.014    -.6951821    -.079298
+            512  |  -.3669461   .1469453    -2.50   0.013    -.6549536   -.0789385
+            513  |  -.0751198   .2505555    -0.30   0.764    -.5661996      .41596
+            514  |  -.4227144   .1536086    -2.75   0.006    -.7237816   -.1216471
+            515  |  -.0901113   .2037986    -0.44   0.658    -.4895493    .3093266
+            516  |  -.3001667   .1385465    -2.17   0.030    -.5717129   -.0286205
+            517  |    .177894   .1994031     0.89   0.372    -.2129289     .568717
+            518  |  -.1375468   .2315679    -0.59   0.553    -.5914115     .316318
+            519  |  -.0129799    .223723    -0.06   0.954    -.4514689    .4255092
+            522  |  -.2985177   .1515614    -1.97   0.049    -.5955725   -.0014629
+            523  |   -.493663   .1392205    -3.55   0.000    -.7665301   -.2207959
+            524  |  -.2511503   .1498306    -1.68   0.094     -.544813    .0425123
+            525  |   -.272713   .1452292    -1.88   0.060     -.557357    .0119309
+            526  |  -.1588206   .1597931    -0.99   0.320    -.4720094    .1543682
+            601  |  -.3516813   .1633021    -2.15   0.031    -.6717474   -.0316151
+            602  |    -.38724   .1571162    -2.46   0.014    -.6951821    -.079298
+            603  |    .006337   .1392205     0.05   0.964    -.2665301    .2792041
+            604  |  -.2808171   .1371752    -2.05   0.041    -.5496756   -.0119586
+            605  |  -.0951623    .183216    -0.52   0.603    -.4542591    .2639345
+            606  |  -.3720368   .1476847    -2.52   0.012    -.6614934   -.0825801
+            608  |  -.3783215   .1597584    -2.37   0.018    -.6914422   -.0652008
+            609  |  -.2808171   .1371752    -2.05   0.041    -.5496756   -.0119586
+            611  |   .0188201   .1669374     0.11   0.910    -.3083713    .3460114
+            612  |  -.2097954   .1377917    -1.52   0.128    -.4798622    .0602714
+            613  |  -.2808171   .1371752    -2.05   0.041    -.5496756   -.0119586
+            614  |  -.1300708   .1528318    -0.85   0.395    -.4296157     .169474
+            615  |  -.2808171   .1371752    -2.05   0.041    -.5496756   -.0119586
+            616  |   .3982708   .3112417     1.28   0.201    -.2117517    1.008293
+            618  |  -.3827808   .1465299    -2.61   0.009    -.6699742   -.0955873
+            619  |    -.38724   .1571162    -2.46   0.014    -.6951821    -.079298
+            621  |    .506337   .1392205     3.64   0.000     .2334699    .7792041
+            622  |  -.3517657   .1492202    -2.36   0.018    -.6442319   -.0592996
+            623  |   -.391636   .1573755    -2.49   0.013    -.7000863   -.0831857
+            627  |  -.0479676   .2670172    -0.18   0.857    -.5713117    .4753766
+            628  |  -.3527659    .144373    -2.44   0.015    -.6357317   -.0698001
+            701  |   .4355686    .140813     3.09   0.002     .1595801    .7115571
+            702  |   .2004075   .1989992     1.01   0.314    -.1896237    .5904387
+            703  |    .054746   .1876109     0.29   0.770    -.3129647    .4224567
+            704  |   .1541718   .2092192     0.74   0.461    -.2558903    .5642339
+            705  |   .0706162   .2652078     0.27   0.790    -.4491814    .5904138
+            706  |   .1349747   .2082517     0.65   0.517    -.2731911    .5431405
+            707  |  -.0756295   .2071572    -0.37   0.715    -.4816501    .3303911
+            708  |   .0894171   .1738002     0.51   0.607     -.251225    .4300592
+            709  |    .314974   .2569668     1.23   0.220    -.1886717    .8186197
+            710  |   .1340445   .2809422     0.48   0.633    -.4165921    .6846812
+            711  |   .0282068   .2097526     0.13   0.893    -.3829008    .4393144
+            712  |   .1153053   .1794654     0.64   0.521    -.2364405    .4670511
+            713  |  -.0899288    .188883    -0.48   0.634    -.4601326     .280275
+            714  |    .033767   .1923332     0.18   0.861    -.3431993    .4107332
+            715  |   .0222187   .1655847     0.13   0.893    -.3023213    .3467588
+            716  |  -.1147165   .1725449    -0.66   0.506    -.4528983    .2234653
+            717  |   .1305154   .2828868     0.46   0.645    -.4239326    .6849633
+            718  |   .2853658   .3060999     0.93   0.351    -.3145791    .8853106
+            719  |   .3943855    .217935     1.81   0.070    -.0327593    .8215303
+            720  |   .1035348   .1890551     0.55   0.584    -.2670065     .474076
+            721  |   .0188201   .2596425     0.07   0.942    -.4900699      .52771
+            722  |  -.1770835   .1867361    -0.95   0.343    -.5430796    .1889126
+            723  |  -.2368323   .1664576    -1.42   0.155    -.5630831    .0894186
+            724  |   .2191829   .1371752     1.60   0.110    -.0496756    .4880414
+            725  |   .2341697   .3137928     0.75   0.456    -.3808529    .8491923
+            726  |   .2191829   .1371752     1.60   0.110    -.0496756    .4880414
+            727  |   .6720495   .1407461     4.77   0.000     .3961922    .9479067
+            801  |   .1837269   .2821629     0.65   0.515    -.3693022     .736756
+            803  |   -.493663   .1392205    -3.55   0.000    -.7665301   -.2207959
+            804  |  -.2367601   .1437102    -1.65   0.099    -.5184269    .0449067
+            805  |   .0869412   .2116659     0.41   0.681    -.3279163    .5017988
+            806  |  -.0494556   .2093379    -0.24   0.813    -.4597504    .3608392
+            807  |   .0344864   .2282934     0.15   0.880    -.4129605    .4819332
+            808  |   .0033523   .2098582     0.02   0.987    -.4079622    .4146668
+            809  |    .353968   .1453289     2.44   0.015     .0691287    .6388074
+            810  |   .4624532   .2642862     1.75   0.080    -.0555383    .9804447
+            811  |  -.0178558   .1679029    -0.11   0.915    -.3469396    .3112279
+            812  |     .15418   .2813707     0.55   0.584    -.3972964    .7056564
+            813  |   -.059801   .1800496    -0.33   0.740    -.4126917    .2930897
+            814  |   -.493663   .1392205    -3.55   0.000    -.7665301   -.2207959
+            815  |  -.0848589   .1843013    -0.46   0.645    -.4460829     .276365
+            816  |   .3050224   .2697606     1.13   0.258    -.2236986    .8337434
+            817  |   .2439523   .2849749     0.86   0.392    -.3145882    .8024928
+            818  |  -.2097954   .1377917    -1.52   0.128    -.4798622    .0602714
+            819  |   .3029241   .2399489     1.26   0.207    -.1673671    .7732153
+            820  |   .0684572   .4834581     0.14   0.887    -.8791033    1.016018
+            821  |   -.493663   .1392205    -3.55   0.000    -.7665301   -.2207959
+            822  |   .2902046   .1377917     2.11   0.035     .0201378    .5602714
+            823  |   .0993677     .19486     0.51   0.610    -.2825509    .4812862
+            825  |   .0950679    .269143     0.35   0.724    -.4324426    .6225784
+            826  |   -.493663   .1392205    -3.55   0.000    -.7665301   -.2207959
+            901  |   .2191829   .3816679     0.57   0.566    -.5288725    .9672384
+            902  |  -.1517511   .1842337    -0.82   0.410    -.5128426    .2093403
+            903  |   .1441739    .170922     0.84   0.399    -.1908272    .4791749
+            904  |  -.0173888   .1609438    -0.11   0.914    -.3328328    .2980553
+            905  |  -.0692062   .1543576    -0.45   0.654    -.3717416    .2333292
+            906  |   .1255194   .1619226     0.78   0.438     -.191843    .4428818
+            907  |   -.178469   .1548866    -1.15   0.249    -.4820411    .1251032
+            908  |   .0420075   .1561476     0.27   0.788    -.2640361    .3480512
+            909  |   .1313962   .1540334     0.85   0.394    -.1705037    .4332961
+            910  |   .2450874   .1681931     1.46   0.145    -.0845651    .5747398
+            911  |   .0409714   .2184849     0.19   0.851    -.3872511     .469194
+            912  |   .0858536   .1778891     0.48   0.629    -.2628025    .4345097
+            913  |   .0529058   .1601692     0.33   0.741    -.2610201    .3668317
+           1001  |   .1482343   .1492202     0.99   0.321    -.1442319    .4407004
+           1002  |   .0132251   .2132651     0.06   0.951    -.4047669    .4312171
+           1003  |  -.0543205   .1642979    -0.33   0.741    -.3763384    .2676975
+           1004  |   .1659714   .1980155     0.84   0.402    -.2221318    .5540746
+           1005  |   .0728458   .1859722     0.39   0.695     -.291653    .4373447
+           1006  |  -.1568081    .189139    -0.83   0.407    -.5275138    .2138975
+           1007  |  -.0045182    .201682    -0.02   0.982    -.3998077    .3907713
+           1008  |  -.0783312   .2306307    -0.34   0.734    -.5303592    .3736967
+           1009  |  -.2097954   .1377917    -1.52   0.128    -.4798622    .0602714
+           1010  |   .1937063    .264671     0.73   0.464    -.3250392    .7124519
+           1011  |  -.0121767   .2110897    -0.06   0.954     -.425905    .4015515
+                 |
+           _cons |    .493663   .1392205     3.55   0.000     .2207959    .7665301
+----------------------------------------------------------------------------------
+Standard errors and test statistics valid for the following variables only:
+    tmt_all
+------------------------------------------------------------------------------
+
+. sum EmotSoc_Tired if tmt_all==0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+EmotSoc_Ti~d |        668    .5194611    .4999955          0          1
+
+. local control_mean = string(`r(mean)', "%15.3fc")
+
+. outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt_all) ///
+>         addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
+>                         Mean of dep. variable, `control_mean', ///
+>                         p-value: Romano-Wolf Correction $\beta$, `rw_EmotSoc_Tired_tmt_all', ///
+>                         Treatment,                                                                  
+>             "-", ///
+>                         \hspace{0.5cm} x Locked-down 0-1 $\delta$,              "-", ///
+>                         p-value: Romano-Wolf Correction $\delta$,               "-", ///
+>                         p-value: Romano-Wolf Correction Lockdown,               "-") ///
+>         append tex(frag) nonotes label nocons
+/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replication-pac
+> kage/Output/Tables/table_7.tex
+dir : seeout
+
+. 
+. 
+. ** Table 7 column 4
+. *separate?
+. pdslasso stayed5wks tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsi
+> ze0 selfEmploy0 informal0 incomegrp0), ///
+>     partial(i.districtX) ///
+>     cluster(caseidx) ///
+>     rlasso
+Partialling out unpenalized controls...
+1.  (PDS/CHS) Selecting HD controls for dep var stayed5wks...
+Selected: 
+2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
+Selected: 5122020.dateinterviewend 30112020.dateinterviewend
+
+
+Estimation results:
+
+Specification:
+Regularization method:                 lasso
+Penalty loadings:                      cluster-lasso
+Number of observations:                986
+Number of clusters:                    986
+Exogenous (1):                         tmt_all
+High-dim controls (21):                1122020b.dateinterviewend 2122020.dateinterviewend
+                                       3122020.dateinterviewend 4122020.dateinterviewend
+                                       5122020.dateinterviewend 6122020.dateinterviewend
+                                       7122020.dateinterviewend 8122020.dateinterviewend
+                                       9122020.dateinterviewend 28112020.dateinterviewend
+                                       29112020.dateinterviewend 30112020.dateinterviewend female0
+                                       akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
+                                       incomegrp0
+Selected controls (2):                 5122020.dateinterviewend 30112020.dateinterviewend
+Partialled-out controls (188):         101b.districtX 102.districtX 103.districtX 104.districtX
+                                       105.districtX 106.districtX 107.districtX 108.districtX
+                                       109.districtX 110.districtX 111.districtX 112.districtX
+                                       113.districtX 114.districtX 115.districtX 116.districtX
+                                       117.districtX 201.districtX 202.districtX 203.districtX
+                                       204.districtX 205.districtX 206.districtX 207.districtX
+                                       208.districtX 209.districtX 210.districtX 211.districtX
+                                       212.districtX 213.districtX 214.districtX 215.districtX
+                                       217.districtX 218.districtX 219.districtX 220.districtX
+                                       301.districtX 302.districtX 303.districtX 304.districtX
+                                       305.districtX 306.districtX 307.districtX 308.districtX
+                                       309.districtX 310.districtX 311.districtX 312.districtX
+                                       313.districtX 314.districtX 315.districtX 316.districtX
+                                       401.districtX 402.districtX 403.districtX 404.districtX
+                                       405.districtX 406.districtX 408.districtX 410.districtX
+                                       411.districtX 412.districtX 413.districtX 414.districtX
+                                       415.districtX 417.districtX 418.districtX 419.districtX
+                                       421.districtX 422.districtX 423.districtX 424.districtX
+                                       425.districtX 501.districtX 502.districtX 503.districtX
+                                       504.districtX 505.districtX 506.districtX 507.districtX
+                                       508.districtX 509.districtX 510.districtX 512.districtX
+                                       513.districtX 514.districtX 515.districtX 516.districtX
+                                       517.districtX 518.districtX 519.districtX 522.districtX
+                                       523.districtX 524.districtX 525.districtX 526.districtX
+                                       601.districtX 602.districtX 603.districtX 604.districtX
+                                       605.districtX 606.districtX 608.districtX 609.districtX
+                                       611.districtX 612.districtX 613.districtX 614.districtX
+                                       615.districtX 616.districtX 618.districtX 619.districtX
+                                       621.districtX 622.districtX 623.districtX 627.districtX
+                                       628.districtX 701.districtX 702.districtX 703.districtX
+                                       704.districtX 705.districtX 706.districtX 707.districtX
+                                       708.districtX 709.districtX 710.districtX 711.districtX
+                                       712.districtX 713.districtX 714.districtX 715.districtX
+                                       716.districtX 717.districtX 718.districtX 719.districtX
+                                       720.districtX 721.districtX 722.districtX 723.districtX
+                                       724.districtX 725.districtX 726.districtX 727.districtX
+                                       801.districtX 804.districtX 805.districtX 806.districtX
+                                       807.districtX 808.districtX 809.districtX 810.districtX
+                                       811.districtX 812.districtX 813.districtX 815.districtX
+                                       816.districtX 817.districtX 818.districtX 819.districtX
+                                       820.districtX 822.districtX 823.districtX 825.districtX
+                                       901.districtX 902.districtX 903.districtX 904.districtX
+                                       905.districtX 906.districtX 907.districtX 908.districtX
+                                       909.districtX 910.districtX 911.districtX 912.districtX
+                                       913.districtX 1001.districtX 1002.districtX 1003.districtX
+                                       1004.districtX 1005.districtX 1006.districtX 1007.districtX
+                                       1008.districtX 1009.districtX 1010.districtX 1011.districtX
+
+lasso estimation(s):
+
+_pdslasso_step1_stayed5wks
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+---------------------------------------------------
+
+_pdslasso_step2_tmt_all
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+         5122020  |      -0.0264122     -0.1947872
+        30112020  |       0.0435767      0.1608272
+---------------------------------------------------
+
+Structural equation:
+
+OLS using CHS lasso-orthogonalized vars
+                              (Std. err. adjusted for 986 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+  stayed5wks | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |   .1755346   .0293964     5.97   0.000     .1179188    .2331504
+------------------------------------------------------------------------------
+
+OLS using CHS post-lasso-orthogonalized vars
+                              (Std. err. adjusted for 986 clusters in caseidx)
+------------------------------------------------------------------------------
+             |               Robust
+  stayed5wks | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     tmt_all |   .1778398   .0300989     5.91   0.000      .118847    .2368326
+------------------------------------------------------------------------------
+
+OLS with PDS-selected variables and full regressor set
+                                  (Std. err. adjusted for 986 clusters in caseidx)
+----------------------------------------------------------------------------------
+                 |               Robust
+      stayed5wks | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+         tmt_all |   .1778398   .0304033     5.85   0.000     .1182503    .2374292
+                 |
+dateinterviewend |
+        5122020  |  -.1191118   .0466025    -2.56   0.011     -.210451   -.0277727
+       30112020  |  -.1681256   .0426401    -3.94   0.000    -.2516986   -.0845526
+                 |
+       districtX |
+            102  |   .0875141   .4111707     0.21   0.831    -.7183656    .8933938
+            103  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            104  |  -.4076288   .1934339    -2.11   0.035    -.7867523   -.0285053
+            105  |  -.0124677   .2216885    -0.06   0.955    -.4469691    .4220337
+            106  |  -.0924531   .2965373    -0.31   0.755    -.6736555    .4887493
+            107  |   .5923712   .1934339     3.06   0.002     .2132477    .9714947
+            108  |   -.058828   .2602514    -0.23   0.821    -.5689113    .4512553
+            109  |   .0667282   .2588445     0.26   0.797    -.4405977     .574054
+            110  |  -.1624859   .2979052    -0.55   0.585    -.7463694    .4213977
+            111  |   .0430542    .304201     0.14   0.887    -.5531688    .6392771
+            112  |   .0454827   .3377769     0.13   0.893    -.6165478    .7075132
+            113  |   .5875141   .2281557     2.58   0.010     .1403372    1.034691
+            114  |   .0426016   .2485941     0.17   0.864    -.4446339     .529837
+            115  |  -.3143327   .2567419    -1.22   0.221    -.8175376    .1888723
+            116  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            117  |  -.4965487   .2026368    -2.45   0.014    -.8937095   -.0993879
+            201  |  -.3018611   .2349933    -1.28   0.199    -.7624395    .1587173
+            202  |   .3439129   .2194213     1.57   0.117     -.086145    .7739708
+            203  |  -.1637002   .2370309    -0.69   0.490    -.6282722    .3008718
+            204  |  -.1013655   .2388925    -0.42   0.671    -.5695862    .3668551
+            205  |    .109219     .26364     0.41   0.679    -.4075058    .6259439
+            206  |  -.0134573   .2507229    -0.05   0.957    -.5048652    .4779506
+            207  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            208  |   .0642854   .2477291     0.26   0.795    -.4212548    .5498256
+            209  |  -.4124859   .1910591    -2.16   0.031    -.7869548    -.038017
+            210  |  -.1473899   .2895912    -0.51   0.611    -.7149783    .4201985
+            211  |   .0446732   .2361755     0.19   0.850    -.4182222    .5075686
+            212  |   .1057471   .2757064     0.38   0.701    -.4346276    .6461217
+            213  |  -.0095733   .2355816    -0.04   0.968    -.4713048    .4521582
+            214  |   .2024799   .2317089     0.87   0.382    -.2516612     .656621
+            215  |  -.0971095   .3242783    -0.30   0.765    -.7326832    .5384642
+            217  |   .2510228   .2399975     1.05   0.296    -.2193638    .7214093
+            218  |   .0630072    .317691     0.20   0.843    -.5596557    .6856702
+            219  |   .1965199   .3182591     0.62   0.537    -.4272564    .8202962
+            220  |  -.0650519   .2883613    -0.23   0.822    -.6302297     .500126
+            301  |  -.0517238   .2266944    -0.23   0.820    -.4960366     .392589
+            302  |  -.2232601   .2696781    -0.83   0.408    -.7518194    .3052993
+            303  |    .582657   .1917932     3.04   0.002     .2067492    .9585648
+            304  |  -.0154826   .2046916    -0.08   0.940    -.4166708    .3857056
+            305  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            306  |  -.1521773   .2268414    -0.67   0.502    -.5967783    .2924237
+            307  |  -.0490253    .284783    -0.17   0.863    -.6071897    .5091391
+            308  |  -.1017473   .2746556    -0.37   0.711    -.6400624    .4365678
+            309  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            310  |   .5923712   .1934339     3.06   0.002     .2132477    .9714947
+            311  |   .2089914   .3049011     0.69   0.493    -.3886037    .8065865
+            312  |   .4589914   .1960422     2.34   0.019     .0747558    .8432269
+            313  |   .1192925    .302601     0.39   0.693    -.4737945    .7123794
+            314  |  -.4369928   .2193678    -1.99   0.046    -.8669457   -.0070398
+            315  |   .5135153   .1962428     2.62   0.009     .1288864    .8981442
+            316  |  -.4124859   .1910591    -2.16   0.031    -.7869548    -.038017
+            401  |  -.1428571   .2493087    -0.57   0.567    -.6314932    .3457789
+            402  |   -.224925   .2628562    -0.86   0.392    -.7401137    .2902638
+            403  |   .1094897   .2841933     0.39   0.700    -.4475189    .6664983
+            404  |  -.3050991   .2543916    -1.20   0.230    -.8036974    .1934992
+            405  |  -.1654873   .2533188    -0.65   0.514    -.6619831    .3310084
+            406  |  -.5261886   .1952272    -2.70   0.007     -.908827   -.1435503
+            408  |  -.2022199   .2381871    -0.85   0.396    -.6690581    .2646184
+            410  |  -.1928553   .3204735    -0.60   0.547    -.8209719    .4352613
+            411  |  -.3034256    .217652    -1.39   0.163    -.7300156    .1231644
+            412  |  -.4864847   .1962428    -2.48   0.013    -.8711136   -.1018558
+            413  |   .2954827   .2872951     1.03   0.304    -.2676054    .8585709
+            414  |  -.3907389   .1961929    -1.99   0.046      -.77527   -.0062078
+            415  |   -.417343   .1917932    -2.18   0.030    -.7932508   -.0414352
+            417  |  -.2612307   .2826518    -0.92   0.355     -.815218    .2927567
+            418  |   -.207909   .2463183    -0.84   0.399    -.6906839    .2748659
+            419  |  -.5014058   .2002129    -2.50   0.012    -.8938158   -.1089957
+            421  |    -.35293   .1963209    -1.80   0.072    -.7377118    .0318518
+            422  |  -.5014058   .2002129    -2.50   0.012    -.8938158   -.1089957
+            423  |    -.33967   .2597824    -1.31   0.191    -.8488342    .1694942
+            424  |  -.4663567   .1943013    -2.40   0.016    -.8471802   -.0855333
+            425  |  -.4663567   .1943013    -2.40   0.016    -.8471802   -.0855333
+            501  |  -.2687787   .2523443    -1.07   0.287    -.7633643     .225807
+            502  |  -.2521352   .3376382    -0.75   0.455    -.9138939    .4096234
+            503  |  -.5261886   .1983235    -2.65   0.008    -.9148955   -.1374818
+            504  |  -.1368134   .2985411    -0.46   0.647    -.7219432    .4483163
+            505  |  -.0410086   .3031071    -0.14   0.892    -.6350875    .5530703
+            506  |   .2856673   .2788255     1.02   0.306    -.2608206    .8321553
+            507  |   .2775047   .2518642     1.10   0.271    -.2161401    .7711495
+            508  |    .711483   .1939245     3.67   0.000      .331398    1.091568
+            509  |   .0856673   .2923269     0.29   0.769    -.4872829    .6586176
+            510  |   .5034513   .2026368     2.48   0.013     .1062905    .9006121
+            512  |  -.1928553   .3204735    -0.60   0.547    -.8209719    .4352613
+            513  |  -.0854686   .4086261    -0.21   0.834     -.886361    .7154239
+            514  |  -.4076288   .1934339    -2.11   0.035    -.7867523   -.0285053
+            515  |   .0500994   .2810641     0.18   0.859    -.5007762    .6009749
+            516  |  -.1854686   .2947472    -0.63   0.529    -.7631625    .3922254
+            517  |   -.190893    .242989    -0.79   0.432    -.6671427    .2853567
+            518  |   .0034513   .3533321     0.01   0.992    -.6890669    .6959696
+            519  |   .5336433   .1943013     2.75   0.006     .1528198    .9144667
+            522  |  -.1928553   .3204735    -0.60   0.547    -.8209719    .4352613
+            523  |  -.4076288   .1934339    -2.11   0.035    -.7867523   -.0285053
+            524  |  -.0905103   .2716915    -0.33   0.739    -.6230159    .4419953
+            525  |  -.4141049   .2082781    -1.99   0.047    -.8223224   -.0058874
+            526  |   .0630072    .389696     0.16   0.872    -.7007829    .8267974
+            601  |  -.1531514   .3122949    -0.49   0.624    -.7652382    .4589355
+            602  |  -.4965487   .2026368    -2.45   0.014    -.8937095   -.0993879
+            603  |   .5923712   .1934339     3.06   0.002     .2132477    .9714947
+            604  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            605  |   -.190893   .2532493    -0.75   0.451    -.6872526    .3054666
+            606  |  -.1928553   .3791531    -0.51   0.611    -.9359817     .550271
+            608  |   .0630072    .389696     0.16   0.872    -.7007829    .8267974
+            609  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            611  |   .2089914   .3049011     0.69   0.493    -.3886037    .8065865
+            612  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            613  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            614  |   -.070584   .2194793    -0.32   0.748    -.5007555    .3595876
+            615  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            616  |  -.4965487   .2026368    -2.45   0.014    -.8937095   -.0993879
+            618  |   .0332293   .3130116     0.11   0.915    -.5802622    .6467207
+            619  |  -.4965487   .2026368    -2.45   0.014    -.8937095   -.0993879
+            621  |  -.4076288   .1934339    -2.11   0.035    -.7867523   -.0285053
+            622  |  -.1928553   .3204735    -0.60   0.547    -.8209719    .4352613
+            623  |   .0034513   .2844229     0.01   0.990    -.5540073    .5609099
+            627  |   .4738114   .1983235     2.39   0.017     .0851045    .8625182
+            628  |  -.4981677   .1948223    -2.56   0.011    -.8800124    -.116323
+            701  |   -.288517   .1939245    -1.49   0.137     -.668602     .091568
+            702  |  -.1321166   .2486133    -0.53   0.595    -.6193898    .3551565
+            703  |  -.0038897   .2567189    -0.02   0.988    -.5070495    .4992702
+            704  |  -.1928553   .2425775    -0.80   0.427    -.6682985    .2825879
+            705  |   .2510228   .2744354     0.91   0.360    -.2868606    .7889062
+            706  |  -.2167707   .3114038    -0.70   0.486    -.8271111    .3935696
+            707  |  -.2489429   .2526978    -0.99   0.325    -.7442215    .2463356
+            708  |  -.1082943   .2521336    -0.43   0.668     -.602467    .3858785
+            709  |   .5330913   .1987465     2.68   0.007     .1435553    .9226272
+            710  |  -.3143327   .2567419    -1.22   0.221    -.8175376    .1888723
+            711  |  -.2319269   .2599891    -0.89   0.372    -.7414962    .2776423
+            712  |   .3478913   .2277594     1.53   0.127    -.0985088    .7942915
+            713  |  -.1928553   .2829451    -0.68   0.495    -.7474175    .3617069
+            714  |  -.2065213   .2615878    -0.79   0.430     -.719224    .3061814
+            715  |  -.0341823   .2295465    -0.15   0.882    -.4840851    .4157206
+            716  |   .0024799   .2483909     0.01   0.992    -.4843573    .4893171
+            717  |  -.2465487   .2763025    -0.89   0.372    -.7880916    .2949942
+            718  |    .140478   .3606944     0.39   0.697      -.56647    .8474261
+            719  |   .2739218   .2578552     1.06   0.288    -.2314652    .7793087
+            720  |  -.0112307   .2582178    -0.04   0.965    -.5173283    .4948669
+            721  |  -.2910086   .2852898    -1.02   0.308    -.8501664    .2681492
+            722  |  -.2167707   .3114038    -0.70   0.486    -.8271111    .3935696
+            723  |  -.1648344    .276638    -0.60   0.551     -.707035    .3773662
+            724  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            725  |  -.0014058   .3555185    -0.00   0.997    -.6982093    .6953977
+            726  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            727  |   .0875141    .521593     0.17   0.867    -.9347893    1.109818
+            801  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            804  |  -.5294267   .1966542    -2.69   0.007    -.9148619   -.1439915
+            805  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            806  |  -.2636592   .2776015    -0.95   0.342    -.8077482    .2804298
+            807  |  -.3499006   .2612265    -1.34   0.180    -.8618951    .1620939
+            808  |  -.5182183   .1945725    -2.66   0.008    -.8995734   -.1368633
+            809  |   .0034513   .3533321     0.01   0.992    -.6890669    .6959696
+            810  |  -.1928553   .3204735    -0.60   0.547    -.8209719    .4352613
+            811  |  -.2588165   .2380407    -1.09   0.277    -.7253676    .2077346
+            812  |  -.0259127   .4468314    -0.06   0.954    -.9016861    .8498608
+            813  |  -.2934372   .2846336    -1.03   0.303    -.8513088    .2644345
+            815  |   -.458828   .1973665    -2.32   0.020    -.8456592   -.0719968
+            816  |  -.0854686   .4086261    -0.21   0.834     -.886361    .7154239
+            817  |  -.4076288   .1934339    -2.11   0.035    -.7867523   -.0285053
+            818  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+            819  |  -.4897228   .1951589    -2.51   0.012    -.8722271   -.1072184
+            820  |   .0034513   .4662002     0.01   0.994    -.9102843    .9171869
+            822  |   .4145314   .1922078     2.16   0.031      .037811    .7912519
+            823  |  -.1422594   .2433974    -0.58   0.559    -.6193096    .3347908
+            825  |  -.4667707   .2019999    -2.31   0.021    -.8626833   -.0708582
+            901  |  -.0854686   .4086261    -0.21   0.834     -.886361    .7154239
+            902  |  -.3143327   .2567419    -1.22   0.221    -.8175376    .1888723
+            903  |  -.4218207   .2045299    -2.06   0.039    -.8226919   -.0209495
+            904  |  -.3336844   .2088419    -1.60   0.110     -.743007    .0756383
+            905  |  -.2699929   .2399646    -1.13   0.261    -.7403149    .2003291
+            906  |  -.2508263   .2192814    -1.14   0.253      -.68061    .1789573
+            907  |   -.260434   .2189199    -1.19   0.234    -.6895091    .1686412
+            908  |    -.31364   .2147297    -1.46   0.144    -.7345024    .1072225
+            909  |  -.3146527   .2123323    -1.48   0.138    -.7308164     .101511
+            910  |  -.2016748   .2941582    -0.69   0.493    -.7782141    .3748646
+            911  |  -.0410086   .3031071    -0.14   0.892    -.6350875    .5530703
+            912  |  -.1905103   .2315898    -0.82   0.411     -.644418    .2633974
+            913  |  -.4150775   .2182042    -1.90   0.057      -.84275    .0125949
+           1001  |  -.1928553   .3204735    -0.60   0.547    -.8209719    .4352613
+           1002  |  -.4271837   .1986713    -2.15   0.032    -.8165724    -.037795
+           1003  |  -.4691993   .1939741    -2.42   0.016    -.8493816    -.089017
+           1004  |  -.0410086   .3031071    -0.14   0.892    -.6350875    .5530703
+           1005  |  -.3590882   .2206277    -1.63   0.104    -.7915106    .0733341
+           1006  |  -.1344674   .2633636    -0.51   0.610    -.6506506    .3817157
+           1007  |  -.4386118   .1975522    -2.22   0.026     -.825807   -.0514166
+           1008  |   .1313692   .2892568     0.45   0.650    -.4355637    .6983022
+           1009  |  -.5854686   .1922078    -3.05   0.002     -.962189   -.2087481
+           1010  |  -.4304428   .1910558    -2.25   0.024    -.8049053   -.0559804
+           1011  |  -.2167707   .2722251    -0.80   0.426    -.7503222    .3167808
+                 |
+           _cons |   .4076288   .1934339     2.11   0.035     .0285053    .7867523
+----------------------------------------------------------------------------------
+Standard errors and test statistics valid for the following variables only:
+    tmt_all
+------------------------------------------------------------------------------
+
+. sum stayed5wks if tmt_all==0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  stayed5wks |        319    .2570533    .4376956          0          1
+
+. local control_mean = string(`r(mean)', "%15.3fc")
+
+. outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt_all) ///
+>         addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
+>                         Mean of dep. variable, `control_mean', ///
+>                         p-value: Romano-Wolf Correction $\beta$, `rw_stayed5wks_tmt_all', ///
+>                         Treatment,                                                                  
+>             "-", ///
+>                         \hspace{0.5cm} x Locked-down 0-1 $\delta$,              "-", ///
+>                         p-value: Romano-Wolf Correction $\delta$,               "-", ///
+>                         p-value: Romano-Wolf Correction Lockdown,               "-") ///
+>         append tex(frag) nonotes label nocons
+/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replication-pac
+> kage/Output/Tables/table_7.tex
+dir : seeout
+
+. 
+. 
+. 
+. ** Table 7 column 5
+. *[rejuvination] test: what happens when combined with communication credit trts?
+. **//interact w COVID CASES in district?**
+. *separate?
+. pdslasso xgrowth c.tmt_all##c.previouslock (i.districtX i.dateinterviewend totExp7days female0 akan0
+>  married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0) if (xgrowth>=-300 & xgrowth<=100), 
+> ///
+>     partial(i.districtX) ///
+>     cluster(caseidx) ///
+>     rlasso
+Partialling out unpenalized controls...
+1.  (PDS/CHS) Selecting HD controls for dep var xgrowth...
+Selected: 6122020.dateinterviewend 9122020.dateinterviewend
+2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
+Selected: 30112020.dateinterviewend
+2.  (PDS/CHS) Selecting HD controls for exog regressor previouslock...
+Warning: unable to store lasso estimation
+Selected: 
+2.  (PDS/CHS) Selecting HD controls for exog regressor c.tmt_all#c.previouslock...
+Warning: unable to store lasso estimation
+Selected: 
+
+
+Estimation results:
+
+Specification:
+Regularization method:                 lasso
+Penalty loadings:                      cluster-lasso
+Number of observations:                906
+Number of clusters:                    906
+Exogenous (3):                         tmt_all previouslock c.tmt_all#c.previouslock
+High-dim controls (22):                1122020b.dateinterviewend 2122020.dateinterviewend
+                                       3122020.dateinterviewend 4122020.dateinterviewend
+                                       5122020.dateinterviewend 6122020.dateinterviewend
+                                       7122020.dateinterviewend 8122020.dateinterviewend
+                                       9122020.dateinterviewend 28112020.dateinterviewend
+                                       29112020.dateinterviewend 30112020.dateinterviewend totExp7days
+                                       female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0
+                                       informal0 incomegrp0
+Selected controls (3):                 6122020.dateinterviewend 9122020.dateinterviewend
+                                       30112020.dateinterviewend
+Partialled-out controls (185):         101b.districtX 102.districtX 103.districtX 104.districtX
+                                       105.districtX 106.districtX 107.districtX 108.districtX
+                                       109.districtX 110.districtX 111.districtX 112.districtX
+                                       113.districtX 114.districtX 115.districtX 116.districtX
+                                       117.districtX 201.districtX 202.districtX 203.districtX
+                                       204.districtX 205.districtX 206.districtX 207.districtX
+                                       208.districtX 209.districtX 210.districtX 211.districtX
+                                       212.districtX 213.districtX 214.districtX 215.districtX
+                                       217.districtX 218.districtX 219.districtX 220.districtX
+                                       301.districtX 302.districtX 303.districtX 304.districtX
+                                       305.districtX 306.districtX 307.districtX 308.districtX
+                                       309.districtX 310.districtX 311.districtX 312.districtX
+                                       313.districtX 314.districtX 315.districtX 316.districtX
+                                       401.districtX 402.districtX 403.districtX 404.districtX
+                                       405.districtX 406.districtX 408.districtX 410.districtX
+                                       411.districtX 412.districtX 413.districtX 414.districtX
+                                       415.districtX 417.districtX 418.districtX 419.districtX
+                                       421.districtX 422.districtX 423.districtX 424.districtX
+                                       425.districtX 501.districtX 502.districtX 503.districtX
+                                       504.districtX 505.districtX 506.districtX 507.districtX
+                                       509.districtX 510.districtX 512.districtX 513.districtX
+                                       514.districtX 515.districtX 516.districtX 517.districtX
+                                       518.districtX 519.districtX 522.districtX 523.districtX
+                                       524.districtX 525.districtX 526.districtX 601.districtX
+                                       602.districtX 603.districtX 604.districtX 605.districtX
+                                       606.districtX 608.districtX 611.districtX 612.districtX
+                                       613.districtX 614.districtX 615.districtX 616.districtX
+                                       618.districtX 619.districtX 621.districtX 622.districtX
+                                       623.districtX 627.districtX 628.districtX 702.districtX
+                                       703.districtX 704.districtX 705.districtX 706.districtX
+                                       707.districtX 708.districtX 709.districtX 710.districtX
+                                       711.districtX 712.districtX 713.districtX 714.districtX
+                                       715.districtX 716.districtX 717.districtX 718.districtX
+                                       719.districtX 720.districtX 721.districtX 722.districtX
+                                       723.districtX 724.districtX 725.districtX 726.districtX
+                                       727.districtX 801.districtX 804.districtX 805.districtX
+                                       806.districtX 807.districtX 808.districtX 809.districtX
+                                       810.districtX 811.districtX 812.districtX 813.districtX
+                                       815.districtX 816.districtX 817.districtX 818.districtX
+                                       819.districtX 820.districtX 822.districtX 823.districtX
+                                       825.districtX 901.districtX 902.districtX 903.districtX
+                                       904.districtX 905.districtX 906.districtX 907.districtX
+                                       908.districtX 909.districtX 910.districtX 911.districtX
+                                       912.districtX 913.districtX 1001.districtX 1002.districtX
+                                       1003.districtX 1004.districtX 1005.districtX 1006.districtX
+                                       1007.districtX 1008.districtX 1009.districtX 1010.districtX
+                                       1011.districtX
+
+lasso estimation(s):
+
+_pdslasso_step1_xgrowth
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+         6122020  |      13.4690000     46.1303323
+         9122020  |    -208.6802292   -208.6802292
+---------------------------------------------------
+
+_pdslasso_step2_tmt_all
+---------------------------------------------------
+         Selected |           Lasso   Post-est OLS
+------------------+--------------------------------
+ dateinterviewend |
+        30112020  |       0.0228297      0.1778291
+---------------------------------------------------
+
+Structural equation:
+
+OLS using CHS lasso-orthogonalized vars
+                                          (Std. err. adjusted for 906 clusters in caseidx)
+------------------------------------------------------------------------------------------
+                         |               Robust
+                 xgrowth | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------------------+----------------------------------------------------------------
+                 tmt_all |  -11.06144   5.715129    -1.94   0.053    -22.26288    .1400089
+            previouslock |          0  (omitted)
+                         |
+c.tmt_all#c.previouslock |  -6.931637   13.10276    -0.53   0.597    -32.61257     18.7493
+------------------------------------------------------------------------------------------
+Warning: some coefficients unidentified.
+
+OLS using CHS post-lasso-orthogonalized vars
+                                          (Std. err. adjusted for 906 clusters in caseidx)
+------------------------------------------------------------------------------------------
+                         |               Robust
+                 xgrowth | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------------------+----------------------------------------------------------------
+                 tmt_all |   -8.94004   5.700943    -1.57   0.117    -20.11368    2.233602
+            previouslock |          0  (omitted)
+                         |
+c.tmt_all#c.previouslock |  -6.274909   12.99722    -0.48   0.629    -31.74899    19.19917
+------------------------------------------------------------------------------------------
+Warning: some coefficients unidentified.
+
+OLS with PDS-selected variables and full regressor set
+                                          (Std. err. adjusted for 906 clusters in caseidx)
+------------------------------------------------------------------------------------------
+                         |               Robust
+                 xgrowth | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------------------+----------------------------------------------------------------
+                 tmt_all |   -9.14313   5.818975    -1.57   0.116    -20.54811    2.261851
+            previouslock |   81.60858    32.7022     2.50   0.013     17.51345    145.7037
+                         |
+c.tmt_all#c.previouslock |  -6.144294   13.26811    -0.46   0.643    -32.14932    19.86073
+                         |
+        dateinterviewend |
+                6122020  |   43.73814   8.931219     4.90   0.000     26.23327    61.24301
+                9122020  |  -199.5371   5.818975   -34.29   0.000    -210.9421   -188.1321
+               30112020  |   -.006511   8.493371    -0.00   0.999    -16.65321    16.64019
+                         |
+               districtX |
+                    102  |   9.867167   47.14082     0.21   0.834    -82.52713    102.2615
+                    103  |   69.15923   29.62371     2.33   0.020     11.09782    127.2206
+                    104  |   65.31353   29.60773     2.21   0.027     7.283454    123.3436
+                    105  |   32.87708   31.80737     1.03   0.301    -29.46422    95.21837
+                    106  |   69.95949    29.3179     2.39   0.017     12.49746    127.4215
+                    107  |  -8.029129   30.27816    -0.27   0.791    -67.37322    51.31497
+                    108  |   66.92241   31.07946     2.15   0.031     6.007789     127.837
+                    109  |   -14.4103   41.33634    -0.35   0.727    -95.42803    66.60744
+                    110  |    31.3502   35.01154     0.90   0.371    -37.27115    99.97155
+                    111  |   16.28354   48.58823     0.34   0.738    -78.94764    111.5147
+                    112  |   70.26033   43.80482     1.60   0.109    -15.59554    156.1162
+                    113  |   66.10412   38.40121     1.72   0.085    -9.160859    141.3691
+                    114  |   9.674887   52.97237     0.18   0.855    -94.14906    113.4988
+                    115  |  -47.63861    49.6393    -0.96   0.337    -144.9299    49.65262
+                    116  |   108.6905   29.31918     3.71   0.000       51.226    166.1551
+                    117  |  -17.62432   29.60773    -0.60   0.552     -75.6544    40.40576
+                    201  |  -7.649361   33.14677    -0.23   0.817    -72.61583    57.31711
+                    202  |   37.35591    31.9483     1.17   0.242    -25.26161    99.97343
+                    203  |   43.32004   36.85036     1.18   0.240    -28.90533    115.5454
+                    204  |   75.74671   32.22388     2.35   0.019     12.58906    138.9044
+                    205  |   25.09521   44.15682     0.57   0.570    -61.45056     111.641
+                    206  |   46.15414   33.90449     1.36   0.173    -20.29744    112.6057
+                    207  |   61.31048   30.15782     2.03   0.042     2.202236    120.4187
+                    208  |   81.91405   32.59015     2.51   0.012     18.03853    145.7896
+                    209  |   53.76598   33.46163     1.61   0.108    -11.81762    119.3496
+                    210  |    53.0737   32.90153     1.61   0.107    -11.41211    117.5595
+                    211  |  -7.568037    38.5494    -0.20   0.844    -83.12348     67.9874
+                    212  |  -27.05617   41.68183    -0.65   0.516    -108.7511    54.63871
+                    213  |   46.22868   42.17342     1.10   0.273    -36.42969    128.8871
+                    214  |   53.49828    36.1055     1.48   0.138     -17.2672    124.2638
+                    215  |     19.403   31.52106     0.62   0.538    -42.37713    81.18314
+                    217  |   15.66694   46.17911     0.34   0.734    -74.84245    106.1763
+                    218  |   80.00366   29.31918     2.73   0.006     22.53913    137.4682
+                    219  |   44.64659   28.96509     1.54   0.123    -12.12394    101.4171
+                    220  |  -1.759441   48.87359    -0.04   0.971    -97.54991    94.03103
+                    301  |  -71.91732    23.6072    -3.05   0.002    -118.1866   -25.64807
+                    302  |  -65.39707     51.043    -1.28   0.200    -165.4395    34.64537
+                    303  |   -61.0223   11.66216    -5.23   0.000    -83.87971   -38.16488
+                    304  |  -85.71744   18.18438    -4.71   0.000    -121.3582   -50.07671
+                    305  |  -163.4327   39.85207    -4.10   0.000    -241.5413   -85.32402
+                    306  |  -53.62703   25.26845    -2.12   0.034    -103.1523   -4.101766
+                    307  |  -27.47303   40.56481    -0.68   0.498    -106.9786    52.03253
+                    308  |   -79.4316   47.82799    -1.66   0.097    -173.1727    14.30953
+                    309  |  -117.2788   8.931219   -13.13   0.000    -134.7837   -99.77394
+                    310  |  -8.408928   15.29128    -0.55   0.582    -38.37929    21.56143
+                    311  |  -41.38597   36.88943    -1.12   0.262    -113.6879    30.91598
+                    312  |   -147.378   43.13562    -3.42   0.001    -231.9223   -62.83371
+                    313  |  -138.5043   57.96115    -2.39   0.017     -252.106    -24.9025
+                    314  |  -100.7643    21.5057    -4.69   0.000    -142.9147   -58.61388
+                    315  |  -28.12026   54.96025    -0.51   0.609    -135.8404    79.59985
+                    316  |  -77.69704   30.75487    -2.53   0.012    -137.9755   -17.41861
+                    401  |   -8.76612   36.53434    -0.24   0.810    -80.37211    62.83987
+                    402  |  -2.549966   44.35206    -0.06   0.954    -89.47841    84.37848
+                    403  |  -34.78224   67.93348    -0.51   0.609    -167.9294    98.36494
+                    404  |  -2.179309   54.00013    -0.04   0.968    -108.0176     103.659
+                    405  |   49.46577   31.73785     1.56   0.119    -12.73928    111.6708
+                    406  |   24.81513   33.60561     0.74   0.460    -41.05064    90.68091
+                    408  |   24.79706   31.69402     0.78   0.434    -37.32208     86.9162
+                    410  |  -63.24324   122.0701    -0.52   0.604    -302.4962    176.0097
+                    411  |  -10.19035   38.42108    -0.27   0.791    -85.49427    65.11358
+                    412  |   48.91809   29.41229     1.66   0.096    -8.728947    106.5651
+                    413  |   41.34542   47.48147     0.87   0.384    -51.71656    134.4074
+                    414  |   60.88574   29.81669     2.04   0.041      2.44611    119.3254
+                    415  |  -41.80801   28.96584    -1.44   0.149    -98.58002      14.964
+                    417  |   51.26021    38.1282     1.34   0.179    -23.46969    125.9901
+                    418  |   9.311797   43.98242     0.21   0.832    -76.89216    95.51575
+                    419  |  -36.45412   72.91645    -0.50   0.617    -179.3677    106.4595
+                    421  |   25.19909   37.72189     0.67   0.504    -48.73447    99.13264
+                    422  |  -83.06127   31.12421    -2.67   0.008    -144.0636   -22.05893
+                    423  |   43.40547   30.65346     1.42   0.157     -16.6742    103.4851
+                    424  |   30.70693     29.461     1.04   0.297    -27.03556    88.44942
+                    425  |   83.55861   29.31918     2.85   0.004     26.09408    141.0231
+                    501  |   19.80979    49.7242     0.40   0.690    -77.64785    117.2674
+                    502  |   81.48199   35.89487     2.27   0.023     11.12935    151.8346
+                    503  |   24.37376   35.78528     0.68   0.496     -45.7641    94.51162
+                    504  |    66.7844   41.09863     1.62   0.104    -13.76743    147.3362
+                    505  |   19.45342   39.58044     0.49   0.623    -58.12283    97.02966
+                    506  |   87.92979   30.81544     2.85   0.004     27.53264    148.3269
+                    507  |   104.6189   31.55898     3.32   0.001     42.76445    166.4734
+                    509  |   56.42038   38.03807     1.48   0.138    -18.13287    130.9736
+                    510  |     86.294   29.60773     2.91   0.004     28.26392    144.3241
+                    512  |   34.12953    47.2259     0.72   0.470    -58.43152    126.6906
+                    513  |   99.92245   29.31953     3.41   0.001     42.45723    157.3877
+                    514  |   87.17366   29.60773     2.94   0.003     29.14358    145.2037
+                    515  |   51.66987   44.51771     1.16   0.246    -35.58323     138.923
+                    516  |    91.0443   32.74178     2.78   0.005     26.87159     155.217
+                    517  |   13.69257   35.57184     0.38   0.700    -56.02697     83.4121
+                    518  |   81.65254    46.7923     1.74   0.081    -10.05868    173.3638
+                    519  |    104.222   34.06158     3.06   0.002     37.46251    170.9814
+                    522  |   22.60495   29.31918     0.77   0.441    -34.85958    80.06948
+                    523  |   53.69351   29.60773     1.81   0.070     -4.33657    111.7236
+                    524  |    86.7064   31.02224     2.79   0.005     25.90393    147.5089
+                    525  |  -.6283754   56.49847    -0.01   0.991    -111.3633    110.1066
+                    526  |  -41.73331   88.77241    -0.47   0.638     -215.724    132.2574
+                    601  |  -22.64216   8.964349    -2.53   0.012    -40.21196   -5.072359
+                    602  |  -48.93961   14.36726    -3.41   0.001    -77.09892    -20.7803
+                    603  |   30.54209   15.29128     2.00   0.046     .5717315    60.51245
+                    604  |          0  (omitted)
+                    605  |  -40.77736   21.23267    -1.92   0.055    -82.39262    .8379073
+                    606  |   1.613212   11.06965     0.15   0.884    -20.08289    23.30932
+                    608  |   -134.352   8.931219   -15.04   0.000    -151.8568   -116.8471
+                    611  |  -117.4304   55.14252    -2.13   0.033    -225.5078   -9.353069
+                    612  |   25.02889   8.931219     2.80   0.005     7.524019    42.53376
+                    613  |  -84.38407   8.931219    -9.45   0.000    -101.8889    -66.8792
+                    614  |  -27.59466   13.74785    -2.01   0.045    -54.53996   -.6493609
+                    615  |   7.721194   8.931219     0.86   0.387    -9.783674    25.22606
+                    616  |  -17.27308   20.40057    -0.85   0.397    -57.25745     22.7113
+                    618  |  -109.1458   42.81863    -2.55   0.011    -193.0687   -25.22279
+                    619  |  -26.43415   16.02468    -1.65   0.099    -57.84194    4.973646
+                    621  |  -98.52659   11.89908    -8.28   0.000    -121.8484   -75.20482
+                    622  |  -191.8036   80.85297    -2.37   0.018    -350.2725   -33.33466
+                    623  |  -51.55256   18.85402    -2.73   0.006    -88.50575   -14.59936
+                    627  |   13.13263   14.81315     0.89   0.375    -15.90062    42.16588
+                    628  |  -54.55914   37.29891    -1.46   0.144    -127.6637    18.54538
+                    702  |   61.38125   34.97541     1.75   0.079    -7.169297    129.9318
+                    703  |   80.27878   30.82974     2.60   0.009      19.8536     140.704
+                    704  |   33.37073   33.86453     0.99   0.324    -33.00254    99.74399
+                    705  |   52.58024   29.18499     1.80   0.072    -4.621289    109.7818
+                    706  |   23.09151   40.17355     0.57   0.565     -55.6472    101.8302
+                    707  |   16.98925    46.1508     0.37   0.713    -73.46465    107.4431
+                    708  |   16.15232   41.14607     0.39   0.695     -64.4925    96.79714
+                    709  |   54.62974   33.40866     1.64   0.102    -10.85003    120.1095
+                    710  |  -24.96703   45.06141    -0.55   0.580    -113.2858    63.35172
+                    711  |  -17.73187   42.79298    -0.41   0.679    -101.6046    66.14083
+                    712  |   73.88517   31.20053     2.37   0.018     12.73325    135.0371
+                    713  |  -3.596554   44.96616    -0.08   0.936    -91.72861     84.5355
+                    714  |   50.44584   36.93158     1.37   0.172    -21.93873    122.8304
+                    715  |   16.64577   45.62945     0.36   0.715    -72.78632    106.0779
+                    716  |   41.44297   30.47951     1.36   0.174    -18.29577    101.1817
+                    717  |   -19.1425   74.30764    -0.26   0.797    -164.7828    126.4978
+                    718  |   54.17476   33.44299     1.62   0.105    -11.37231    119.7218
+                    719  |   24.05382   38.93907     0.62   0.537    -52.26535     100.373
+                    720  |   10.51685   45.83562     0.23   0.819    -79.31933     100.353
+                    721  |   4.749956   36.52238     0.13   0.897     -66.8326    76.33251
+                    722  |    1.15179   34.38625     0.03   0.973    -66.24401    68.54759
+                    723  |   17.98418   43.36888     0.41   0.678    -67.01726    102.9856
+                    724  |   58.18548   29.31918     1.98   0.047     .7209475      115.65
+                    725  |   101.0459   33.56025     3.01   0.003     35.26899    166.8228
+                    726  |  -191.8145   29.31918    -6.54   0.000    -249.2791     -134.35
+                    727  |   50.75394   32.50081     1.56   0.118    -12.94647    114.4544
+                    801  |   73.45333   41.72561     1.76   0.078    -8.327353     155.234
+                    804  |   100.7684    29.6301     3.40   0.001     42.69448    158.8423
+                    805  |   53.01306   29.31918     1.81   0.071    -4.451466    110.4776
+                    806  |  -21.81882   39.63661    -0.55   0.582    -99.50515    55.86751
+                    807  |   65.38592   31.87026     2.05   0.040     2.921352    127.8505
+                    808  |  -43.81871   67.32155    -0.65   0.515    -175.7665     88.1291
+                    809  |   50.28058   29.86905     1.68   0.092    -8.261674    108.8228
+                    810  |   18.02833   79.41214     0.23   0.820    -137.6166    173.6733
+                    811  |  -4.750491   41.10474    -0.12   0.908     -85.3143    75.81332
+                    812  |   64.15305   42.18443     1.52   0.128    -18.52691     146.833
+                    813  |   75.11722   37.94702     1.98   0.048     .7424193     149.492
+                    815  |   61.35202   30.60684     2.00   0.045     1.363711    121.3403
+                    816  |   74.74208   37.11725     2.01   0.044     1.993602    147.4906
+                    817  |   102.5635   29.60773     3.46   0.001     44.53339    160.5936
+                    818  |   130.5539   29.31918     4.45   0.000     73.08937    188.0184
+                    819  |   5.679447   38.55484     0.15   0.883    -69.88665    81.24555
+                    820  |   90.19654   32.55956     2.77   0.006     26.38098    154.0121
+                    822  |   30.00366   29.31918     1.02   0.306    -27.46087    87.46819
+                    823  |  -8.363911   42.39675    -0.20   0.844       -91.46    74.73218
+                    825  |  -15.20635   45.37931    -0.34   0.738    -104.1482    73.73547
+                    901  |   -8.95738   44.89818    -0.20   0.842    -96.95619    79.04143
+                    902  |  -28.08894   64.89498    -0.43   0.665    -155.2808    99.10288
+                    903  |   46.61782   31.96945     1.46   0.145    -16.04115    109.2768
+                    904  |   49.48298   31.65172     1.56   0.118    -12.55325    111.5192
+                    905  |   72.88264   37.32811     1.95   0.051    -.2791125    146.0444
+                    906  |   63.02217   33.45296     1.88   0.060    -2.544433    128.5888
+                    907  |   52.70447   36.81712     1.43   0.152    -19.45577    124.8647
+                    908  |   36.07898   39.59284     0.91   0.362    -41.52156    113.6795
+                    909  |   22.25201   30.26107     0.74   0.462     -37.0586    81.56262
+                    910  |  -45.33905   39.00471    -1.16   0.245    -121.7869    31.10877
+                    911  |   18.44696   33.10784     0.56   0.577    -46.44321    83.33714
+                    912  |   26.11855   40.85541     0.64   0.523    -53.95659    106.1937
+                    913  |   46.28258   38.69874     1.20   0.232    -29.56556    122.1307
+                   1001  |   62.03163   75.29695     0.82   0.410    -85.54768    209.6109
+                   1002  |   7.543567   54.87953     0.14   0.891    -100.0183    115.1055
+                   1003  |   94.27037   60.47401     1.56   0.119    -24.25652    212.7973
+                   1004  |  -29.11981    47.3948    -0.61   0.539    -122.0119    63.77229
+                   1005  |  -3.473202   59.46616    -0.06   0.953    -120.0247    113.0783
+                   1006  |    90.7022   39.87648     2.27   0.023     12.54574    168.8587
+                   1007  |   129.0854   37.95407     3.40   0.001     54.69681     203.474
+                   1008  |    36.4697   31.63403     1.15   0.249    -25.53185    98.47125
+                   1009  |    78.8204   29.31918     2.69   0.007     21.35587    136.2849
+                   1010  |   78.61391   58.65307     1.34   0.180      -36.344    193.5718
+                   1011  |   40.28058   54.25312     0.74   0.458    -66.05359    146.6147
+                         |
+                   _cons |  -49.04235   29.60773    -1.66   0.098    -107.0724    8.987733
+------------------------------------------------------------------------------------------
+Standard errors and test statistics valid for the following variables only:
+    tmt_all previouslock c.tmt_all#c.previouslock
+------------------------------------------------------------------------------
+
+. ** collect interaction terms to include in addtext
+. mat M = r(table)
+
+. local het_dimension previouslock
+
+.         
+. loc b_`het_dimension'  = string(M[rownumb(matrix(M), "b"),          colnumb(matrix(M), "c.tmt_all#c.
+> `het_dimension'")], "%15.3fc")
+
+. loc se_`het_dimension' = string(M[rownumb(matrix(M), "se"),     colnumb(matrix(M), "c.tmt_all#c.`het
+> _dimension'")], "%12.3fc")
+
+. loc se_`het_dimension' = "[`se_`het_dimension'']"
+
+. loc p_`het_dimension'  = string(M[rownumb(matrix(M), "pvalue"), colnumb(matrix(M), "c.tmt_all#c.`het
+> _dimension'")], "%12.3fc")
+
+. loc st_`het_dimension' = cond(`p_`het_dimension''<=.01,"***", ///
+>                                                                   cond(`p_`het_dimension''<=.05,"**"
+> , ///
+>                                                                            cond(`p_`het_dimension''<
+> =.1,"*","")))
+
+. loc bs_`het_dimension' "`b_`het_dimension''`st_`het_dimension''" // combine b with star
+
+. 
+. 
+. sum xgrowth if tmt_all==0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     xgrowth |        301    -29.7407     116.507  -1042.857        100
+
+. local control_mean = string(`r(mean)', "%15.3fc")
+
+. outreg2 using "${replication_dir}/Output/Tables/table_7.tex", ///
+>         keep(c.tmt_all c.previouslock) ///
+>         sortvar(tmt_all previouslock) ///
+>         addtext(District FE, Yes, Date FE, Yes, Controls, PD LASSO, ///
+>                         Mean of dep. variable, `control_mean', ///
+>                         p-value: Romano-Wolf Correction $\beta$,        `rw_stayed5wks_tmt_all', ///
+>                         Treatment,                                                                  
+>     `b_previouslock', ///
+>                         \hspace{0.5cm} x Locked-down 0-1 $\delta$,      `se_previouslock', ///
+>                         p-value: Romano-Wolf Correction $\delta$,       `rw_xgrowth_tmt_allxLock', /
+> //
+>                         p-value: Romano-Wolf Correction Lockdown,       `rw_xgrowth_previouslock') /
+> //
+>         append tex(frag) nonotes label nocons
+/Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replication-pac
+> kage/Output/Tables/table_7.tex
+dir : seeout
+
+. 
+. ** import table to drop one row
+. import delimited "${replication_dir}/Output/Tables/table_7.tex", clear delimiters("<>")
+(encoding automatically selected: ISO-8859-1)
+(1 var, 24 obs)
+
+. drop if strpos(v1, "Number of groups") > 0
+(1 observation deleted)
+
+. outfile v1 using  "${replication_dir}/Output/Tables/table_7.tex", replace noquote
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-re
+> plication-package/Output/table7_logfile.log
+  log type:  text
+ closed on:   1 Feb 2026, 21:18:11
+------------------------------------------------------------------------------------------------------

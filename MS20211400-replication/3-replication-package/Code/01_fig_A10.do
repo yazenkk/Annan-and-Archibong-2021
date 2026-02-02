@@ -3,7 +3,6 @@ Figure A10
 */
 
 ***********************************
-clear all
 use "${replication_dir}/Data/03_clean/end1_end2.dta", clear
 
 ** Figure A10

@@ -4,9 +4,10 @@ Table 8
 
 
 
+log using "${replication_dir}/Output/table8_logfile.log", replace
 
 ***********************************
-clear all
+set seed $project_seed
 use "${replication_dir}/Data/03_clean/end1_end2.dta", clear
 
 
@@ -240,3 +241,5 @@ outreg2 using "${replication_dir}/Output/Tables/table_8.tex", ///
 import delimited "${replication_dir}/Output/Tables/table_8.tex", clear delimiters("<>")
 drop if strpos(v1, "Number of groups") > 0
 outfile v1 using  "${replication_dir}/Output/Tables/table_8.tex", replace noquote
+
+log close

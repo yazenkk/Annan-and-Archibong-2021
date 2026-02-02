@@ -2,7 +2,7 @@
 Table 2 and Figure A6
 */
 
-
+set seed $project_seed
 cap log close
 log using "${replication_dir}/Output/table2_logfile.log", replace
 

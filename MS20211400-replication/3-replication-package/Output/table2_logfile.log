@@ -1,9 +1,9 @@
-----------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-
-> replication-package/Output/table2_logfile.log
+       log:  /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-re
+> plication-package/Output/table2_logfile.log
   log type:  text
- opened on:   6 Jan 2026, 16:48:59
+ opened on:   1 Feb 2026, 21:17:14
 
 . 
 . 
@@ -19,11 +19,11 @@
 . 
 .         
 . **Comment: MHT Correction - The Romano-Wolf Multiple Hypothesis Correction
-. **Calculates Romano-Wolf stepdown adjusted p-values, which control the FWER and allows for depende
-> nce among p-values by bootstrap resampling
-. *NOTE:  The Romano-Wolf correction (asymptotically) controls the familywise error rate (FWER), tha
-> t is, the probability of rejecting at least one true null hypothesis in a family of hypotheses und
-> er test (Clarke et al. 2020)
+. **Calculates Romano-Wolf stepdown adjusted p-values, which control the FWER and allows for dependenc
+> e among p-values by bootstrap resampling
+. *NOTE:  The Romano-Wolf correction (asymptotically) controls the familywise error rate (FWER), that 
+> is, the probability of rejecting at least one true null hypothesis in a family of hypotheses under t
+> est (Clarke et al. 2020)
 . 
 . local y_list1 unableCall7days1 unableToCOVID1 digitborrow1 digitloan1
 
@@ -39,8 +39,8 @@
   2.         foreach t_list in t_list1 { // t_list2
   3.                 
 .                 ** more reps for some tests
-.                 if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" l
-> ocal reps_option "reps(499)"
+.                 if ("`y_list'" == "y_list1" | "`y_list'" == "y_list2") & "`t_list'" == "t_list1" loc
+> al reps_option "reps(499)"
   4.                 else local reps_option ""
   5.                 
 .                 ** calculate RW p-values
@@ -51,10 +51,10 @@
 .                 foreach y in ``y_list'' {
   8.                         foreach t in ``t_list'' {
   9.                                 dis "y: `y'. t: `t'"
- 10.                                 if "`t_list'" == "t_list1" local rw_`y'         = string(e(rw_`
-> y'),     "%15.3fc")
- 11.                                 if "`t_list'" == "t_list2" local rw_`y'_`t' = string(e(rw_`y'_`
-> t'), "%15.3fc")
+ 10.                                 if "`t_list'" == "t_list1" local rw_`y'         = string(e(rw_`y'
+> ),     "%15.3fc")
+ 11.                                 if "`t_list'" == "t_list2" local rw_`y'_`t' = string(e(rw_`y'_`t'
+> ), "%15.3fc")
  12.                         }
  13.                 }
  14.         }
@@ -389,8 +389,8 @@ added macro:
 
 . 
 .         
-. eststo: pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 
-> akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. eststo: pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 ak
+> an0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -423,8 +423,7 @@ High-dim controls (33):                1112020b.dateinterviewend 1122020.dateint
                                        10112020.dateinterviewend 11112020.dateinterviewend
                                        28112020.dateinterviewend 29112020.dateinterviewend
                                        30112020.dateinterviewend unableCall7days female0 akan0
-                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
-                                       incomegrp0
+                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
 Selected controls (6):                 5122020.dateinterviewend 8122020.dateinterviewend
                                        9112020.dateinterviewend 10112020.dateinterviewend
                                        30112020.dateinterviewend unableCall7days
@@ -768,8 +767,8 @@ added macro:
 
 . 
 . *dyna fig
-. pdslasso unableCall7days1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend un
-> ableCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso unableCall7days1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unab
+> leCall7days female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -812,8 +811,7 @@ High-dim controls (33):                1112020b.dateinterviewend 1122020.dateint
                                        10112020.dateinterviewend 11112020.dateinterviewend
                                        28112020.dateinterviewend 29112020.dateinterviewend
                                        30112020.dateinterviewend unableCall7days female0 akan0
-                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
-                                       incomegrp0
+                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
 Selected controls (21):                1122020.dateinterviewend 2112020.dateinterviewend
                                        2122020.dateinterviewend 3112020.dateinterviewend
                                        3122020.dateinterviewend 4112020.dateinterviewend
@@ -1131,22 +1129,22 @@ Standard errors and test statistics valid for the following variables only:
     c.tmt_all#c.round1 c.tmt_all#c.round2
 ------------------------------------------------------------------------------
 
-. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) ve
-> rtical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(whi
-> te)) ylab(, nogrid) ///
-> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2
-> ): Assignment") title("Survey-level: unable to communicate or call in past 7 days 0-1", size(med))
+. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vert
+> ical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white))
+>  ylab(, nogrid) ///
+> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2):
+>  Assignment") title("Survey-level: unable to communicate or call in past 7 days 0-1", size(med))
 (note:  named style med not found in class gsize, default attributes used)
 
 . gr export "${replication_dir}/Output/Figures/figure_a6_1.eps", replace // meta_unableCall7days
 file
-    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replica
-    > tion-package/Output/Figures/figure_a6_1.eps saved as EPS format
+    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replicati
+    > on-package/Output/Figures/figure_a6_1.eps saved as EPS format
 
 . 
 . *robust-indivi-level clustering?
-. pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 ma
-> rried0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso unableCall7days1 tmt_all (i.districtX i.dateinterviewend unableCall7days female0 akan0 marr
+> ied0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -1179,8 +1177,7 @@ High-dim controls (33):                1112020b.dateinterviewend 1122020.dateint
                                        10112020.dateinterviewend 11112020.dateinterviewend
                                        28112020.dateinterviewend 29112020.dateinterviewend
                                        30112020.dateinterviewend unableCall7days female0 akan0
-                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
-                                       incomegrp0
+                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
 Selected controls (6):                 5122020.dateinterviewend 8122020.dateinterviewend
                                        9112020.dateinterviewend 10112020.dateinterviewend
                                        30112020.dateinterviewend unableCall7days
@@ -1572,16 +1569,15 @@ added macro:
           e(im_bounds) : "[-0.273; -0.149]"
 
 . 
-. eststo: pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan
-> 0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. eststo: pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan0 
+> married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
 Partialling out unpenalized controls...
 1.  (PDS/CHS) Selecting HD controls for dep var unableToCOVID1...
 Warning: unable to store lasso estimation
-Selected: 3112020.dateinterviewend 10112020.dateinterviewend 30112020.dateinterviewend
-          unableToCOVID
+Selected: 3112020.dateinterviewend 10112020.dateinterviewend 30112020.dateinterviewend unableToCOVID
 2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
 Selected: 5122020.dateinterviewend 30112020.dateinterviewend
 
@@ -1605,9 +1601,8 @@ High-dim controls (33):                1112020b.dateinterviewend 1122020.dateint
                                        9112020.dateinterviewend 9122020.dateinterviewend
                                        10112020.dateinterviewend 11112020.dateinterviewend
                                        28112020.dateinterviewend 29112020.dateinterviewend
-                                       30112020.dateinterviewend unableToCOVID female0 akan0
-                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
-                                       incomegrp0
+                                       30112020.dateinterviewend unableToCOVID female0 akan0 married0
+                                       ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
 Selected controls (5):                 3112020.dateinterviewend 5122020.dateinterviewend
                                        10112020.dateinterviewend 30112020.dateinterviewend
                                        unableToCOVID
@@ -1950,16 +1945,15 @@ added macro:
 
 . 
 . *dyna fig
-. pdslasso unableToCOVID1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unab
-> leToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso unableToCOVID1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend unable
+> ToCOVID female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
 Partialling out unpenalized controls...
 1.  (PDS/CHS) Selecting HD controls for dep var unableToCOVID1...
 Warning: unable to store lasso estimation
-Selected: 3112020.dateinterviewend 10112020.dateinterviewend 30112020.dateinterviewend
-          unableToCOVID
+Selected: 3112020.dateinterviewend 10112020.dateinterviewend 30112020.dateinterviewend unableToCOVID
 2.  (PDS/CHS) Selecting HD controls for exog regressor c.tmt_all#c.round1...
 Warning: unable to store lasso estimation
 Selected: 1122020.dateinterviewend 2122020.dateinterviewend 3122020.dateinterviewend
@@ -1993,9 +1987,8 @@ High-dim controls (33):                1112020b.dateinterviewend 1122020.dateint
                                        9112020.dateinterviewend 9122020.dateinterviewend
                                        10112020.dateinterviewend 11112020.dateinterviewend
                                        28112020.dateinterviewend 29112020.dateinterviewend
-                                       30112020.dateinterviewend unableToCOVID female0 akan0
-                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
-                                       incomegrp0
+                                       30112020.dateinterviewend unableToCOVID female0 akan0 married0
+                                       ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
 Selected controls (20):                1122020.dateinterviewend 2112020.dateinterviewend
                                        2122020.dateinterviewend 3112020.dateinterviewend
                                        3122020.dateinterviewend 4112020.dateinterviewend
@@ -2311,30 +2304,29 @@ Standard errors and test statistics valid for the following variables only:
     c.tmt_all#c.round1 c.tmt_all#c.round2
 ------------------------------------------------------------------------------
 
-. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) ve
-> rtical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(whi
-> te)) ylab(, nogrid) ///
-> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2
-> ): Assignment") title("Survey-level: unable to communicate or call due to COVID19 0-1", size(med))
+. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vert
+> ical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white))
+>  ylab(, nogrid) ///
+> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2):
+>  Assignment") title("Survey-level: unable to communicate or call due to COVID19 0-1", size(med))
 (note:  named style med not found in class gsize, default attributes used)
 
 . gr export "${replication_dir}/Output/Figures/figure_a6_2.eps", replace // meta_unableToCOVID
 file
-    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replica
-    > tion-package/Output/Figures/figure_a6_2.eps saved as EPS format
+    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replicati
+    > on-package/Output/Figures/figure_a6_2.eps saved as EPS format
 
 .         
 . *robust-indivi-level clustering?
-. pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan0 marrie
-> d0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso unableToCOVID1 tmt_all (i.districtX i.dateinterviewend unableToCOVID female0 akan0 married0
+>  ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
 Partialling out unpenalized controls...
 1.  (PDS/CHS) Selecting HD controls for dep var unableToCOVID1...
 Warning: unable to store lasso estimation
-Selected: 3112020.dateinterviewend 10112020.dateinterviewend 30112020.dateinterviewend
-          unableToCOVID
+Selected: 3112020.dateinterviewend 10112020.dateinterviewend 30112020.dateinterviewend unableToCOVID
 2.  (PDS/CHS) Selecting HD controls for exog regressor tmt_all...
 Selected: 5122020.dateinterviewend 30112020.dateinterviewend
 
@@ -2358,9 +2350,8 @@ High-dim controls (33):                1112020b.dateinterviewend 1122020.dateint
                                        9112020.dateinterviewend 9122020.dateinterviewend
                                        10112020.dateinterviewend 11112020.dateinterviewend
                                        28112020.dateinterviewend 29112020.dateinterviewend
-                                       30112020.dateinterviewend unableToCOVID female0 akan0
-                                       married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0
-                                       incomegrp0
+                                       30112020.dateinterviewend unableToCOVID female0 akan0 married0
+                                       ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0
 Selected controls (5):                 3112020.dateinterviewend 5122020.dateinterviewend
                                        10112020.dateinterviewend 30112020.dateinterviewend
                                        unableToCOVID
@@ -2751,8 +2742,8 @@ added macro:
           e(im_bounds) : "[-0.314; -0.198]"
 
 . 
-. eststo: pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYr
-> s0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. eststo: pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0
+>  jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -3123,8 +3114,8 @@ added macro:
 
 . 
 . *dyna fig
-. pdslasso digitborrow1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female
-> 0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso digitborrow1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 
+> akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -3480,21 +3471,21 @@ Standard errors and test statistics valid for the following variables only:
     c.tmt_all#c.round1 c.tmt_all#c.round2
 ------------------------------------------------------------------------------
 
-. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) ve
-> rtical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(whi
-> te)) ylab(, nogrid) ///
-> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2
-> ): Assignment") title("Survey-level: seek or borrow mobile credit 0-1")
+. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vert
+> ical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white))
+>  ylab(, nogrid) ///
+> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2):
+>  Assignment") title("Survey-level: seek or borrow mobile credit 0-1")
 
 . gr export "${replication_dir}/Output/Figures/figure_a6_3.eps", replace // meta_digitborrow
 file
-    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replica
-    > tion-package/Output/Figures/figure_a6_3.eps saved as EPS format
+    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replicati
+    > on-package/Output/Figures/figure_a6_3.eps saved as EPS format
 
 . 
 . *robust-indivi-level clustering?
-. pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 
-> hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso digitborrow1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hh
+> size0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -3913,8 +3904,8 @@ added macro:
           e(im_bounds) : "[-0.093; -0.015]"
 
 . 
-. eststo: pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0
->  jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. eststo: pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 j
+> hs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -3946,8 +3937,7 @@ High-dim controls (32):                1112020b.dateinterviewend 1122020.dateint
                                        28112020.dateinterviewend 29112020.dateinterviewend
                                        30112020.dateinterviewend female0 akan0 married0 ageYrs0 jhs0
                                        hhsize0 selfEmploy0 informal0 incomegrp0
-Selected controls (3):                 5122020.dateinterviewend 30112020.dateinterviewend
-                                       incomegrp0
+Selected controls (3):                 5122020.dateinterviewend 30112020.dateinterviewend incomegrp0
 Partialled-out controls (192):         101b.districtX 102.districtX 103.districtX 104.districtX
                                        105.districtX 106.districtX 107.districtX 108.districtX
                                        109.districtX 110.districtX 111.districtX 112.districtX
@@ -4292,8 +4282,8 @@ added macro:
 
 . 
 . *dyna fig
-. pdslasso digitloan1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 
-> akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso digitloan1 c.tmt_all#c.round1 c.tmt_all#c.round2 (i.districtX i.dateinterviewend female0 ak
+> an0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -4659,21 +4649,21 @@ Standard errors and test statistics valid for the following variables only:
     c.tmt_all#c.round1 c.tmt_all#c.round2
 ------------------------------------------------------------------------------
 
-. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) ve
-> rtical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(whi
-> te)) ylab(, nogrid) ///
-> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2
-> ): Assignment") title("Survey-level: seek digital loan 0-1")
+. coefplot, keep(c.tmt_all#c.round1 c.tmt_all#c.round2) yline(0, lcolor(black) lw(thin) lp(dash)) vert
+> ical xlab(, angle(45) labsize(medium)) level(90) graphregion(color(white)) plotregion(fcolor(white))
+>  ylab(, nogrid) ///
+> coeflabels(c.tmt_all#c.round1="Endline (round 1): Assignment" c.tmt_all#c.round2="Endline (round 2):
+>  Assignment") title("Survey-level: seek digital loan 0-1")
 
 . gr export "${replication_dir}/Output/Figures/figure_a6_4.eps", replace // meta_digitloan
 file
-    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replica
-    > tion-package/Output/Figures/figure_a6_4.eps saved as EPS format
+    /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-replicati
+    > on-package/Output/Figures/figure_a6_4.eps saved as EPS format
 
 .         
 . *robust-indivi-level clustering?
-. pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hh
-> size0 selfEmploy0 informal0 incomegrp0), ///
+. pdslasso digitloan1 tmt_all (i.districtX i.dateinterviewend female0 akan0 married0 ageYrs0 jhs0 hhsi
+> ze0 selfEmploy0 informal0 incomegrp0), ///
 >     partial(i.districtX) ///
 >     cluster(caseidx) ///
 >     rlasso
@@ -4705,8 +4695,7 @@ High-dim controls (32):                1112020b.dateinterviewend 1122020.dateint
                                        28112020.dateinterviewend 29112020.dateinterviewend
                                        30112020.dateinterviewend female0 akan0 married0 ageYrs0 jhs0
                                        hhsize0 selfEmploy0 informal0 incomegrp0
-Selected controls (3):                 5122020.dateinterviewend 30112020.dateinterviewend
-                                       incomegrp0
+Selected controls (3):                 5122020.dateinterviewend 30112020.dateinterviewend incomegrp0
 Partialled-out controls (192):         101b.districtX 102.districtX 103.districtX 104.districtX
                                        105.districtX 106.districtX 107.districtX 108.districtX
                                        109.districtX 110.districtX 111.districtX 112.districtX
@@ -5013,46 +5002,36 @@ Standard errors and test statistics valid for the following variables only:
 . 
 . esttab using "${replication_dir}/Output/Tables/table_2_esttab.tex", ///
 >         keep(tmt_all)                                                                   ///
->         style(tex)                                                                                
->       ///
->         nogaps                                                                                    
->       ///
->         nobaselevels                                                                            //
-> /
->         noconstant                                                                                
->       ///
->         label                                                                                   //
-> /
->         varwidth(50)                                                                            //
-> /
->         wrap                                                                                      
->       ///
->         nomtitles /// mlabels(`mylabels')                                                         
->               ///
+>         style(tex)                                                                                  
+>     ///
+>         nogaps                                                                                      
+>     ///
+>         nobaselevels                                                                            ///
+>         noconstant                                                                                  
+>     ///
+>         label                                                                                   ///
+>         varwidth(50)                                                                            ///
+>         wrap                                                                                        
+>     ///
+>         nomtitles /// mlabels(`mylabels')                                                           
+>             ///
 >         mgroups("Unable to Call, 7days 0-1" "Unable to Call, COVID19 0-1" ///
 >                         "Borrow SOS Airtime 0-1" "Seek Digital Loan 0-1", ///
 >                         pattern(1 0 1 0 1 0 1 0)                                        ///
 >                         prefix(\multicolumn{@span}{c}{)                         ///
->                         suffix(}) span                                                          //
-> /
+>                         suffix(}) span                                                          ///
 >                         erepeat(\cmidrule(lr){@span}))                          ///
 >         cells (b(fmt(3) star) se(fmt(3) par))                           ///
->         stats(N                                                                                   
->       ///
->                   district_FE                                                                   //
-> /
->                   survey_FE                                                                     //
-> /
->                   controls                                                                      //
-> /
->                   control_mean                                                                  //
-> /
->                   lee_bounds                                                                    //
-> /
->                   im_bounds                                                                     //
-> /
->                   rw_stat,                                                                        
->       ///
+>         stats(N                                                                                     
+>     ///
+>                   district_FE                                                                   ///
+>                   survey_FE                                                                     ///
+>                   controls                                                                      ///
+>                   control_mean                                                                  ///
+>                   lee_bounds                                                                    ///
+>                   im_bounds                                                                     ///
+>                   rw_stat,                                                                          
+>     ///
 >                   fmt(%9.0f %9.3f %9.3f %9.3f %9.3f %9.3f %9.3f %9.3f) ///
 >                   labels("Observations"                                                 ///
 >                                  "District FE" ///
@@ -5064,15 +5043,15 @@ Standard errors and test statistics valid for the following variables only:
 >                                  "p-value: Romano-Wolf Correction" )) ///
 >         replace
 (tabulating estimates stored by eststo; specify "." to tabulate the active results)
-(output written to /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replicat
-> ion/3-replication-package/Output/Tables/table_2_esttab.tex)
+(output written to /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replicatio
+> n/3-replication-package/Output/Tables/table_2_esttab.tex)
 
 . 
 .         
 . log close
       name:  <unnamed>
-       log:  /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-
-> replication-package/Output/table2_logfile.log
+       log:  /Users/yazenkashlan/Documents/GitHub/Annan-and-Archibong-2021/MS20211400-replication/3-re
+> plication-package/Output/table2_logfile.log
   log type:  text
- closed on:   6 Jan 2026, 16:49:43
-----------------------------------------------------------------------------------------------------
+ closed on:   1 Feb 2026, 21:17:58
+------------------------------------------------------------------------------------------------------

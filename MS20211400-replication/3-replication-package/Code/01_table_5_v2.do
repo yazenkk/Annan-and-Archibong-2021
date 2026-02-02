@@ -4,6 +4,7 @@ Figure A7, graphs 2-5
 */
 
 eststo clear
+set seed $project_seed
 
 ***********************************
 use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	

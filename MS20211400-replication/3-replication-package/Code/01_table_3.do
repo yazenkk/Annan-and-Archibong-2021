@@ -3,6 +3,7 @@ Table 3 and Figure A8
 */
 
 set graphics off
+set seed $project_seed
 
 ***********************************
 use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	

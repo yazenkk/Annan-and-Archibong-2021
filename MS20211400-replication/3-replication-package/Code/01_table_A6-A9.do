@@ -2,6 +2,7 @@
 Tables A6-A9
 */
 
+set seed $project_seed
 
 ***********************************
 use "${replication_dir}/Data/03_clean/end1_end2.dta", clear	

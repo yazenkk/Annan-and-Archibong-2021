@@ -15,7 +15,8 @@ set more off
 timer clear
 timer on 1
 version 18 // to address rwolf issue across replications. Issue was byso commands
-set seed 090725 
+global project_seed 090725
+set seed $project_seed
 
 ** initialize directory 
 if c(username) == "yazenkashlan" {
@@ -42,8 +43,8 @@ do "${replication_dir}/Code/01_table_2_v2.do"
 // do "${replication_dir}/Code/01_table_4.do"
 // do "${replication_dir}/Code/01_table_5_v2.do"
 // do "${replication_dir}/Code/01_table_6.do"
-// do "${replication_dir}/Code/01_table_7.do"
-// do "${replication_dir}/Code/01_table_8.do"
+do "${replication_dir}/Code/01_table_7.do"
+do "${replication_dir}/Code/01_table_8.do"
 // do "${replication_dir}/Code/01_table_A3.do"
 // do "${replication_dir}/Code/01_table_A4-A5.do"
 // do "${replication_dir}/Code/01_table_A6-A9.do"

@@ -76,7 +76,7 @@ sum i2 //amt received from business income-related activites (last 7days)
 pdslasso i1 tmt_all (i.districtX i.dateinterviewend i1b female0 akan0 married0 ageYrs0 jhs0 hhsize0 selfEmploy0 informal0 incomegrp0), ///
     partial(i.districtX) ///
     cluster(caseidx) ///
-    rlasso
+    rlasso 
 sum i1 if tmt_all==0
 local control_mean = string(`r(mean)', "%15.3fc")
 outreg2 using "${replication_dir}/Output/Tables/table_7.tex", keep(tmt_all) ///

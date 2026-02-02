@@ -12,7 +12,6 @@ Merge data
 
 
 ***********************************
-clear all
 use "${replication_dir}/Data/02_intermediate/End1_MobileCredit_attrition.dta", clear
 gen end=1
 gen round=3
